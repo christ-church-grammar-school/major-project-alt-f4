@@ -1,3 +1,3 @@
-hmstdve haveth pinged me
+hm'st'd've haveth pinged me
 
-I smite you with ~~lightning~~ ___ligma___
+I smite you with ~~lightning~~ ~~ligma~~ ___lettuce___
