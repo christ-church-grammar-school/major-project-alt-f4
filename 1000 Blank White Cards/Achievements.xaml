@@ -1,0 +1,14 @@
+﻿<Window x:Class="_1000_Blank_White_Cards.Achievements"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1000_Blank_White_Cards"
+        mc:Ignorable="d"
+        Title="Achievements" Height="420" Width="700">
+    <Viewbox StretchDirection="Both" Stretch="Uniform">
+        <Grid Height="450" Width="800">
+            
+        </Grid>
+    </Viewbox>
+</Window>

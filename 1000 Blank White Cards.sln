@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1000 Blank White Cards", "1000 Blank White Cards\1000 Blank White Cards.csproj", "{D7D43920-0942-46E0-AD47-A3D2023E397D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1000 Blank White Cards Server", "1000 Blank White Cards Server\1000 Blank White Cards Server.csproj", "{5ECDAC59-761C-44AB-9826-A628524BA54C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7D43920-0942-46E0-AD47-A3D2023E397D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7D43920-0942-46E0-AD47-A3D2023E397D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7D43920-0942-46E0-AD47-A3D2023E397D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7D43920-0942-46E0-AD47-A3D2023E397D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ECDAC59-761C-44AB-9826-A628524BA54C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ECDAC59-761C-44AB-9826-A628524BA54C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ECDAC59-761C-44AB-9826-A628524BA54C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ECDAC59-761C-44AB-9826-A628524BA54C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14B2718B-1496-4FCA-B2CA-5208E3E20484}
+	EndGlobalSection
+EndGlobal

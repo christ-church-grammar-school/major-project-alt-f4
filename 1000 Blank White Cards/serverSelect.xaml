@@ -1,0 +1,516 @@
+﻿<Page x:Class="_1000_Blank_White_Cards.serverSelect"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:_1000_Blank_White_Cards"
+      mc:Ignorable="d" 
+      d:DesignHeight="420" d:DesignWidth="700"
+      Title="serverSelect">
+
+    <Viewbox StretchDirection="Both" Stretch="Uniform">
+        <Grid Height="450" Width="800">
+            <Rectangle Fill="White"/>
+            <Border BorderThickness="1" BorderBrush="Black" Height="20" Margin="10,90,0,0" VerticalAlignment="Top">
+                <DockPanel Height="20">
+                    <TextBlock Width="50" Text="Join:" TextAlignment="Center"/>
+                    <TextBlock Text="Server Name:" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                    <Border BorderThickness="1" BorderBrush="Black">
+                        <TextBlock Text=" Official Status" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                    </Border>
+                    <TextBlock Text="Deck Status" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                    <Border BorderThickness="1" BorderBrush="Black">
+                        <TextBlock Text=" Copyrighted Card Status"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                    </Border>
+                    <TextBlock Text="Server Owner" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                    <Border BorderThickness="1" BorderBrush="Black">
+                        <TextBlock Text=" Server Status"  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                    </Border>
+                    <TextBlock Text="Players" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                </DockPanel>
+            </Border>
+            <ScrollViewer x:Name="ServerScroller" Margin="10,110,10,10">
+                <StackPanel x:Name="Stack">
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                    <Border BorderThickness="1" BorderBrush="Black" Height="20">
+                        <DockPanel Height="20">
+                            <Button Width="50" Content="Join" Margin="0,-1,0,0"/>
+                            <TextBlock Text="Main Server" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Official Server" Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="Official deck" Margin="10,0,0,0" Width="75" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" No Copyrighted Cards"  Width="150" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="The Epic Hamster" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                            <Border BorderThickness="1" BorderBrush="Black">
+                                <TextBlock Text=" Starting..."  Width="100" HorizontalAlignment="Left" Background="LightGray" Margin="0,-1,0,0"/>
+                            </Border>
+                            <TextBlock Text="8/8" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
+                        </DockPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+            <Rectangle Fill="White" Height="90" VerticalAlignment="Top"/>
+            <Button x:Name="backButton" Content="Back" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ClimbLadder"/>
+            <TextBlock HorizontalAlignment="Left" Grid.Column="1" Margin="10,40,0,0" TextWrapping="Wrap" Text="Sorted" VerticalAlignment="Top" FontWeight="Bold"/>
+            <ComboBox x:Name="imagesComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="780">
+                <ComboBoxItem>Alphabetical</ComboBoxItem>
+                <ComboBoxItem>Reverse Alphabetical</ComboBoxItem>
+                <ComboBoxItem>Slots Left High to Low</ComboBoxItem>
+                <ComboBoxItem>Slots Left Low to High</ComboBoxItem>
+                <ComboBoxItem>Official</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+    </Viewbox>
+</Page>
