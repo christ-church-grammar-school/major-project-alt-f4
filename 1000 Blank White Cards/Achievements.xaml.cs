@@ -17,11 +17,18 @@ namespace _1000_Blank_White_Cards
     /// <summary>
     /// Interaction logic for Achievements.xaml
     /// </summary>
-    public partial class Achievements : Window
+    public partial class Achievements : Page
     {
+        public EventHandler ladder; 
+
         public Achievements()
         {
             InitializeComponent();
+        }
+
+        public void ClimbLadder(object sender, RoutedEventArgs e)
+        {
+            ladder(this, EventArgs.Empty);
         }
     }
 }

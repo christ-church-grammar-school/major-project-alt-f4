@@ -65,7 +65,13 @@ namespace _1000_Blank_White_Cards
 
         private void Achievements(object sender, RoutedEventArgs e)
         {
-
+            Achievements page = new Achievements();
+            var contentCopy = Content;
+            Content = page;
+            page.ladder += (object sender2, EventArgs e2) =>
+            {
+                Content = contentCopy;
+            };
         }
     }
 }
