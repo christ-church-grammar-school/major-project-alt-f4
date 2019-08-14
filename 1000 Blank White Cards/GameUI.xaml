@@ -8,14 +8,29 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GameUI" Height="420" Width="700">
     <Viewbox StretchDirection="Both" Stretch="Uniform">
-        <Grid Height="450" Width="800">
+        <Grid x:Name="GameUIGrid" Height="450" Width="800">
             <Rectangle Fill="White"/>
             <Image x:Name="Background" Source="otherImages/GameUI Background.jpg" Stretch="UniformToFill"/>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ClimbLadder"/>
             <Button Name="DrawCard" Margin="650,55,43,250">
                 <Image Source="cards\cardback print.jpg"></Image>
             </Button>
-            <Image Margin="518,55,175,250" Source="cards\cardback print.jpg" Stretch="Fill"/>
+            <Image Name="DiscardPile" Margin="518,55,175,250" Source="cards\cardback print.jpg" Stretch="Fill"/>
+            <Button Name="HandCard1" Margin="80,387,670,0">
+                <Image Source="cards\cardback print.jpg"></Image>
+            </Button>
+            <Button Name="HandCard2" Margin="140,387,610,0">
+                <Image Source="cards\cardback print.jpg"></Image>
+            </Button>
+            <Button Name="HandCard3" Margin="200,387,550,0">
+                <Image Source="cards\cardback print.jpg"></Image>
+            </Button>
+            <Button Name="HandCard4" Margin="260,387,490,0">
+                <Image Source="cards\cardback print.jpg"></Image>
+            </Button>
+            <Button Name="HandCard5" Margin="320,387,430,0">
+                <Image Source="cards\cardback print.jpg"></Image>
+            </Button>
         </Grid>
     </Viewbox>
 </Page>

@@ -25,6 +25,14 @@ namespace _1000_Blank_White_Cards
         public GameUI()
         {
             InitializeComponent();
+
+            /*
+            Label newlabel = new Label();
+            newlabel.Content = "The New Element";
+            GameUIGrid.Children.Add(newlabel);
+            Grid.SetColumn(newlabel, 0);
+            Grid.SetRow(newlabel, 0);
+            */
         }
 
         public void ClimbLadder(object sender, RoutedEventArgs e)
