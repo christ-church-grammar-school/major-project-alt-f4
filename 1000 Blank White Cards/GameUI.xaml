@@ -1,4 +1,4 @@
-﻿<Page x:Class="_1000_Blank_White_Cards.Page1"
+﻿<Page x:Class="_1000_Blank_White_Cards.GameUI"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,16 @@
       xmlns:local="clr-namespace:_1000_Blank_White_Cards"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Page1">
-
-    <Grid>
-        
-    </Grid>
+      Title="GameUI" Height="420" Width="700">
+    <Viewbox StretchDirection="Both" Stretch="Uniform">
+        <Grid Height="450" Width="800">
+            <Rectangle Fill="White"/>
+            <Image x:Name="Background" Source="otherImages/GameUI Background.jpg" Stretch="UniformToFill"/>
+            <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ClimbLadder"/>
+            <Button Name="DrawCard" Margin="650,55,43,250">
+                <Image Source="cards\cardback print.jpg"></Image>
+            </Button>
+            <Image Margin="518,55,175,250" Source="cards\cardback print.jpg" Stretch="Fill"/>
+        </Grid>
+    </Viewbox>
 </Page>

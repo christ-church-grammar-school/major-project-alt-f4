@@ -73,5 +73,16 @@ namespace _1000_Blank_White_Cards
                 Content = contentCopy;
             };
         }
+
+        private void GameUI(object sender, RoutedEventArgs e)
+        {
+            GameUI page = new GameUI();
+            var contentCopy = Content;
+            Content = page;
+            page.ladder += (object sender2, EventArgs e2) =>
+            {
+                Content = contentCopy;
+            };
+        }
     }
 }

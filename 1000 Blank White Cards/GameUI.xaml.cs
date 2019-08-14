@@ -16,13 +16,21 @@ using System.Windows.Shapes;
 namespace _1000_Blank_White_Cards
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for GameUI.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class GameUI : Page
     {
-        public Page1()
+        public EventHandler ladder;
+
+        public GameUI()
         {
             InitializeComponent();
         }
+
+        public void ClimbLadder(object sender, RoutedEventArgs e)
+        {
+            ladder(this, EventArgs.Empty);
+        }
+        
     }
 }
