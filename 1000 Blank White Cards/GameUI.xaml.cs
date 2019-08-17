@@ -21,18 +21,27 @@ namespace _1000_Blank_White_Cards
     public partial class GameUI : Page
     {
         public EventHandler ladder;
+        int deckMoveCounter = 1;
 
         public GameUI()
         {
             InitializeComponent();
 
-            /*
-            Label newlabel = new Label();
-            newlabel.Content = "The New Element";
-            GameUIGrid.Children.Add(newlabel);
-            Grid.SetColumn(newlabel, 0);
-            Grid.SetRow(newlabel, 0);
-            */
+            
+            
+        }
+
+        public void summonDeckCard(object sender, RoutedEventArgs e)
+        {
+            int x = deckMoveCounter * 60;
+            Button newbutton = new Button();
+            Image image = new Image();
+            image.Source = new BitmapImage( new Uri($"cards/cardback print.jpg", UriKind.Relative));
+            newbutton.Content = image;
+            GameUIGrid.Children.Add(newbutton);
+            newbutton.Margin = new Thickness(320+x, 387, 430-x, 0);
+
+            deckMoveCounter++;
         }
 
         public void ClimbLadder(object sender, RoutedEventArgs e)
