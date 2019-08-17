@@ -25,6 +25,7 @@
                 <CheckBox x:Name="DnD" Content="DnD Edition Cards"/>
                 <CheckBox x:Name="Role" Content="Role Cards"/>
                 <CheckBox x:Name="Trap" Content="Trap Cards"/>
+                <CheckBox x:Name="PrepCards" Content="Prep Cards"/>
             </StackPanel>
         </Grid>
     </Viewbox>
