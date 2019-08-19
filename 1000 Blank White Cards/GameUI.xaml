@@ -13,7 +13,7 @@
             <Image x:Name="Background" Source="otherImages/GameUI Background.jpg" Stretch="UniformToFill"/>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ClimbLadder"/>
             <Button x:Name="playButton" Content="Play Card" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button x:Name="buttonThatMinchyWants" Content="MINCHYYYYY" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="75" Click="summonDeckCard"/>
+            <Button x:Name="newCardsButton" Content="New Card" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="75" Click="summonDeckCard"/>
             <Button Name="DrawCard" Margin="650,55,43,250">
                 <Image Source="cards\cardback print.jpg"></Image>
             </Button>
