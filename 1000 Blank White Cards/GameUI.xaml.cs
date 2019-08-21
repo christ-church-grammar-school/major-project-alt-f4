@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace _1000_Blank_White_Cards
 {
@@ -21,33 +12,62 @@ namespace _1000_Blank_White_Cards
     public partial class GameUI : Page
     {
         public EventHandler ladder;
-        int deckMoveCounter = 1;
+        List<Button> buttons = new List<Button>();
 
         public GameUI()
         {
             InitializeComponent();
+            for (var x = 0; x < 5; x++)
+            {
+                summonDeckCard(null, null);
+            }
+        }
 
-            
-            
+        private void playCard(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            buttons.Remove(button);
+            GameUIGrid.Children.Remove(button);
+            reorganiseCards();
+            Image image = (Image)button.Content;
+            discardPile.Source = image.Source;
         }
 
         public void summonDeckCard(object sender, RoutedEventArgs e)
         {
-            int x = deckMoveCounter * 60;
-            Button newbutton = new Button();
+            buttons.Add(new Button());
             Image image = new Image();
-            image.Source = new BitmapImage( new Uri($"cards/cardback print.jpg", UriKind.Relative));
-            newbutton.Content = image;
-            GameUIGrid.Children.Add(newbutton);
-            newbutton.Margin = new Thickness(320+x, 387, 430-x, 0);
-
-            deckMoveCounter++;
+            image.Source = new BitmapImage( new Uri($"cards/3 headed guard dog2 print.jpg", UriKind.Relative));
+            buttons[buttons.Count-1].Content = image;
+            GameUIGrid.Children.Add(buttons[buttons.Count-1]);
+            buttons[buttons.Count - 1].Click += playCard;
+            //Margin = "0,0"
+            buttons[buttons.Count - 1].Height = 77;
+            buttons[buttons.Count - 1].Width = 59;
+            reorganiseCards();
+        }
+        
+        private void reorganiseCards()
+        {
+            if (buttons.Count > 9)
+            {
+                for (var x = 0; x < buttons.Count; x++)
+                {
+                    buttons[x].Margin = new Thickness((x+1) * 120 * 9 / buttons.Count - 590, 270,0 , 0);
+                }
+            }
+            else
+            {
+                for (var x = 0; x < buttons.Count; x++)
+                {
+                    buttons[x].Margin = new Thickness((x+1) * 120 - 590, 270, 0, 0);
+                }
+            }
         }
 
         public void ClimbLadder(object sender, RoutedEventArgs e)
         {
             ladder(this, EventArgs.Empty);
         }
-        
     }
 }
