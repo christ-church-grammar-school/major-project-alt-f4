@@ -12,8 +12,8 @@
             <Rectangle Fill="White"/>
             <Image x:Name="Background" Source="otherImages/GameUI Background.jpg" Stretch="Fill" VerticalAlignment="Stretch" Height="420" Width="700"/>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ClimbLadder"/>
-            <Button Name="DrawCard" Margin="568,55,36,235" Click="summonDeckCard">
-                <Image Source="cards\cardback print.jpg"/>
+            <Button Name="DrawCard" Margin="568,55,36,235" Click="summonDeckCard" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130">
+                <Image x:Name="DrawDeckImage" Source="cards\cardback print.jpg"/>
             </Button>
             <Image x:Name="discardPile" Source="cards\cardback print.jpg" Margin="450,55,154,235"/>
         </Grid>
