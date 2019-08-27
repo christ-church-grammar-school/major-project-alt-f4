@@ -41,11 +41,13 @@ namespace _1000_Blank_White_Cards
             buttons[buttons.Count-1].Content = image;
             GameUIGrid.Children.Add(buttons[buttons.Count-1]);
             buttons[buttons.Count - 1].Click += playCard;
-            //Margin = "0,0"
             buttons[buttons.Count - 1].Height = 77;
             buttons[buttons.Count - 1].Width = 59;
-            
 
+            buttons[buttons.Count - 1].MouseEnter += new { 
+                Console.WriteLine("ligma ballz");
+                DrawCard.Margin = new Thickness(563, 50, 31, 230);
+            };
             
             reorganiseCards();
         }
@@ -75,20 +77,14 @@ namespace _1000_Blank_White_Cards
 
         private void DrawCard_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            /*
-            Button DrawCard = (Button)sender;
-            int width = 96;
-            int height = 130;
-            int larger = 100;
-            DrawCard.RenderSize = new Size(width + larger, height + larger);
-            */
-            /*
-            Button DrawCard = (Button)sender;
-            int width = DrawCard.RenderSize.Width;
-            int height = DrawCard.RednerSize.Height;
-            int larger = 10;
-            DrawCard.Size = new Size(width + larger, height + larger);
-            */
+            Console.WriteLine("ligma ballz");
+            DrawCard.Margin = new Thickness(563, 50, 31, 230);
+        }
+
+        private void DrawCard_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Console.WriteLine("unligma ballz");
+            DrawCard.Margin = new Thickness(568, 55, 36, 235);
         }
     }
 }
