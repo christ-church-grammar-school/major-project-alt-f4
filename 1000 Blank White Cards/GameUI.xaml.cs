@@ -101,20 +101,23 @@ namespace _1000_Blank_White_Cards
 
         private void DrawCard_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawCard.Margin = new Thickness(563, 50, 31, 230);
+            DrawCard.Margin = new Thickness(0, 50, 32, 0);
+            DrawCard.Height += 10;
+            DrawCard.Width += 8;
         }
 
         private void DrawCard_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawCard.Margin = new Thickness(568, 55, 36, 235);
+            DrawCard.Margin = new Thickness(0, 55, 36, 0);
+            DrawCard.Height -= 10;
+            DrawCard.Width -= 8;
         }
 
         private void GimmeText(object sender, RoutedEventArgs e)
         {
             TextBlock blockOfText = new TextBlock();
             blockOfText.Text = "Testing testing 123 qwertyuiopasdfghjklzxcvbnmmnbvcxzlkjhgfdsapoiuytrewq";
-            blockOfText.Margin = new Thickness(blockOfText.Margin.Left + 10, blockOfText.Margin.Top + 40, 0, 0);
-
+            
             TextScroller.Content = blockOfText;
 
 
