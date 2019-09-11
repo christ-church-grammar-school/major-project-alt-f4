@@ -6,11 +6,11 @@
       xmlns:local="clr-namespace:_1000_Blank_White_Cards"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="GameUI" Height="420" Width="700">
+      Title="GameUI">
     <Viewbox StretchDirection="Both" Stretch="Uniform">
         <Grid x:Name="GameUIGrid" Height="420" Width="700">
             <Rectangle Fill="White"/>
-            <Image x:Name="Background" Source="otherImages/GameUI Background.jpg" Stretch="Fill" VerticalAlignment="Stretch" Height="420" Width="700"/>
+            <Image x:Name="Background" Margin="0,0,0,0" Source="otherImages/GameUI Background.jpg" Stretch="Fill" Height="420" Width="700"/>
             <ScrollViewer x:Name="TextScroller" Margin="10,50,0,0" Height="200" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <StackPanel x:Name="stackTwoElectricBoogaloo">
                 </StackPanel>

@@ -117,12 +117,9 @@ namespace _1000_Blank_White_Cards
         {
             TextBlock blockOfText = new TextBlock();
             blockOfText.Text = "Testing testing 123 qwertyuiopasdfghjklzxcvbnmmnbvcxzlkjhgfdsapoiuytrewq";
-            
-            TextScroller.Content = blockOfText;
+            blockOfText.TextWrapping = TextWrapping.Wrap;
 
-
-            //stackTwoElectricBoogaloo.Children.Add = blockOfText;
-            Console.WriteLine("yeeeeeeeeeee");
+            stackTwoElectricBoogaloo.Children.Add(blockOfText);
         }
     }
 }
