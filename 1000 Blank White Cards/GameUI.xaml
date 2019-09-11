@@ -11,11 +11,16 @@
         <Grid x:Name="GameUIGrid" Height="420" Width="700">
             <Rectangle Fill="White"/>
             <Image x:Name="Background" Source="otherImages/GameUI Background.jpg" Stretch="Fill" VerticalAlignment="Stretch" Height="420" Width="700"/>
-            <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="ClimbLadder"/>
-            <Button Name="DrawCard" Margin="568,55,36,235" Click="summonDeckCard" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
+            <ScrollViewer x:Name="TextScroller" Margin="10,50,0,0" Height="200" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel x:Name="stackTwoElectricBoogaloo">
+                </StackPanel>
+            </ScrollViewer>
+            <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="ClimbLadder"/>
+            <Button Name="DrawCard" Margin="0,55,35,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="96" Height="130" Click="summonDeckCard" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
                 <Image x:Name="DrawDeckImage" Source="cards\cardback print.jpg"/>
             </Button>
-            <Image x:Name="discardPile" Source="cards\cardback print.jpg" Margin="450,55,154,235"/>
+            <Button x:Name="TextDotExe" Margin='100,10,0,0' Width='170' Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Content='Cwickwuw mewe fowor tewext' Click="GimmeText"></Button>
+            <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,154,0" Width="96" Height="130"/>
         </Grid>
     </Viewbox>
 </Page>
