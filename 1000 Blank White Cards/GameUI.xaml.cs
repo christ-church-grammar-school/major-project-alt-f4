@@ -15,6 +15,7 @@ namespace _1000_Blank_White_Cards
         List<Button> buttons = new List<Button>();
         int globalCounter = 1;
 
+
         public GameUI()
         {
             InitializeComponent();
@@ -38,19 +39,19 @@ namespace _1000_Blank_White_Cards
         {
             buttons.Add(new Button());
             Image image = new Image();
-            image.Source = new BitmapImage( new Uri($"cards/3 headed guard dog2 print.jpg", UriKind.Relative));
-            buttons[buttons.Count-1].Content = image;
-            GameUIGrid.Children.Add(buttons[buttons.Count-1]);
+            image.Source = new BitmapImage(new Uri($"cards/3 headed guard dog2 print.jpg", UriKind.Relative));
+            buttons[buttons.Count - 1].Content = image;
+            GameUIGrid.Children.Add(buttons[buttons.Count - 1]);
             buttons[buttons.Count - 1].Click += playCard;
             buttons[buttons.Count - 1].Height = 77;
             buttons[buttons.Count - 1].Width = 59;
-            buttons[buttons.Count - 1].Name = "Button"+ Convert.ToString(globalCounter);
+            buttons[buttons.Count - 1].Name = "Button" + Convert.ToString(globalCounter);
             globalCounter += 1;
             buttons[buttons.Count - 1].MouseEnter += bigg;
             buttons[buttons.Count - 1].MouseLeave += smol;
             reorganiseCards();
         }
-        
+
         private void bigg(object sender, RoutedEventArgs e)
         {
             Button card = (Button)sender;
@@ -86,7 +87,7 @@ namespace _1000_Blank_White_Cards
             {
                 for (var x = 0; x < buttons.Count; x++)
                 {
-                    buttons[x].Margin = new Thickness( (x * 120) - 450 + buttons[x].Width, 270, 0, 0);
+                    buttons[x].Margin = new Thickness((x+1) * 120 - 590, 270, 0, 0);
                     GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(buttons[x]));
                     GameUIGrid.Children.Add(buttons[x]);
                 }
@@ -100,12 +101,28 @@ namespace _1000_Blank_White_Cards
 
         private void DrawCard_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawCard.Margin = new Thickness(563, 50, 31, 230);
+            DrawCard.Margin = new Thickness(0, 50, 32, 0);
+            DrawCard.Height += 10;
+            DrawCard.Width += 8;
         }
 
         private void DrawCard_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawCard.Margin = new Thickness(568, 55, 36, 235);
+            DrawCard.Margin = new Thickness(0, 55, 36, 0);
+            DrawCard.Height -= 10;
+            DrawCard.Width -= 8;
+        }
+
+        private void GimmeText(object sender, RoutedEventArgs e)
+        {
+            TextBlock blockOfText = new TextBlock();
+            blockOfText.Text = "Testing testing 123 qwertyuiopasdfghjklzxcvbnmmnbvcxzlkjhgfdsapoiuytrewq";
+            
+            TextScroller.Content = blockOfText;
+
+
+            //stackTwoElectricBoogaloo.Children.Add = blockOfText;
+            Console.WriteLine("yeeeeeeeeeee");
         }
     }
 }
