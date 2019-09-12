@@ -118,6 +118,7 @@ namespace _1000_Blank_White_Cards
             TextBlock blockOfText = new TextBlock();
             blockOfText.Text = "Testing testing 123 qwertyuiopasdfghjklzxcvbnmmnbvcxzlkjhgfdsapoiuytrewq";
             blockOfText.TextWrapping = TextWrapping.Wrap;
+            blockOfText.FontSize = 6;
 
             stackTwoElectricBoogaloo.Children.Add(blockOfText);
 
