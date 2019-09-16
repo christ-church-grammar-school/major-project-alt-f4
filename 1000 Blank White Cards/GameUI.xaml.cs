@@ -39,12 +39,14 @@ namespace _1000_Blank_White_Cards
         {
             buttons.Add(new Button());
             Image image = new Image();
-            image.Source = new BitmapImage(new Uri($"cards/reg john wick print.jpg", UriKind.Relative));
+            image.Source = new BitmapImage(new Uri($"cards/nyan the cat print.jpg", UriKind.Relative));
             buttons[buttons.Count - 1].Content = image;
             GameUIGrid.Children.Add(buttons[buttons.Count - 1]);
             buttons[buttons.Count - 1].Click += playCard;
             buttons[buttons.Count - 1].Height = 77;
             buttons[buttons.Count - 1].Width = 59;
+            buttons[buttons.Count - 1].VerticalAlignment = VerticalAlignment.Bottom;
+            buttons[buttons.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
             buttons[buttons.Count - 1].Name = "Button" + Convert.ToString(globalCounter);
             globalCounter += 1;
             buttons[buttons.Count - 1].MouseEnter += bigg;
@@ -55,10 +57,10 @@ namespace _1000_Blank_White_Cards
         private void bigg(object sender, RoutedEventArgs e)
         {
             Button card = (Button)sender;
-            card.Margin = new Thickness(card.Margin.Left - 10, card.Margin.Top - 15, 0, 0);
-            card.Height += 60;
-            card.Width += 40;
             reorganiseCards();
+            //card.Margin = new Thickness(card.Margin.Left - 10, card.Margin.Top - 15, 0, 0);
+            card.Height += 30;
+            card.Width += 20;
             GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(card));
             GameUIGrid.Children.Add(card);
         }
@@ -66,19 +68,19 @@ namespace _1000_Blank_White_Cards
         private void smol(object sender, RoutedEventArgs e)
         {
             Button card = (Button)sender;
-            card.Margin = new Thickness(card.Margin.Left + 10, card.Margin.Top + 15, 0, 0);
-            card.Height -= 60;
-            card.Width -= 40;
+            //card.Margin = new Thickness(card.Margin.Left + 10, card.Margin.Top + 15, 0, 0);
+            card.Height -= 30;
+            card.Width -= 20;
             reorganiseCards();
         }
 
         private void reorganiseCards()
         {
-            if (buttons.Count > 8)
+            if (buttons.Count > 9)
             {
                 for (var x = 0; x < buttons.Count; x++)
                 {
-                    buttons[x].Margin = new Thickness(x * 120 * 8/buttons.Count - 450, 270, 0, 0);
+                    buttons[x].Margin = new Thickness(x * buttons[0].Width * 9/buttons.Count + 150 - buttons[x].Width, 270, 0, 0);
                     GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(buttons[x]));
                     GameUIGrid.Children.Add(buttons[x]);
                 }
@@ -87,7 +89,7 @@ namespace _1000_Blank_White_Cards
             {
                 for (var x = 0; x < buttons.Count; x++)
                 {
-                    buttons[x].Margin = new Thickness(x * 120 - 450, 270, 0, 0);
+                    buttons[x].Margin = new Thickness((x-1) * buttons[0].Width + 150, 270, 0, 0);
                     GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(buttons[x]));
                     GameUIGrid.Children.Add(buttons[x]);
                 }
