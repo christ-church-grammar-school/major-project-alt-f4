@@ -39,7 +39,7 @@ namespace _1000_Blank_White_Cards
         {
             buttons.Add(new Button());
             Image image = new Image();
-            image.Source = new BitmapImage(new Uri($"cards/3 headed guard dog2 print.jpg", UriKind.Relative));
+            image.Source = new BitmapImage(new Uri($"cards/reg john wick print.jpg", UriKind.Relative));
             buttons[buttons.Count - 1].Content = image;
             GameUIGrid.Children.Add(buttons[buttons.Count - 1]);
             buttons[buttons.Count - 1].Click += playCard;
@@ -56,8 +56,8 @@ namespace _1000_Blank_White_Cards
         {
             Button card = (Button)sender;
             card.Margin = new Thickness(card.Margin.Left - 10, card.Margin.Top - 15, 0, 0);
-            card.Height += 30;
-            card.Width += 20;
+            card.Height += 60;
+            card.Width += 40;
             reorganiseCards();
             GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(card));
             GameUIGrid.Children.Add(card);
@@ -67,8 +67,8 @@ namespace _1000_Blank_White_Cards
         {
             Button card = (Button)sender;
             card.Margin = new Thickness(card.Margin.Left + 10, card.Margin.Top + 15, 0, 0);
-            card.Height -= 30;
-            card.Width -= 20;
+            card.Height -= 60;
+            card.Width -= 40;
             reorganiseCards();
         }
 
@@ -120,6 +120,8 @@ namespace _1000_Blank_White_Cards
             blockOfText.TextWrapping = TextWrapping.Wrap;
 
             stackTwoElectricBoogaloo.Children.Add(blockOfText);
+
+            TextScroller.ScrollToBottom();
         }
     }
 }
