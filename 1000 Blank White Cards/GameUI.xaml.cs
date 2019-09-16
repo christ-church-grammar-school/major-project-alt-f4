@@ -80,7 +80,7 @@ namespace _1000_Blank_White_Cards
             {
                 for (var x = 0; x < buttons.Count; x++)
                 {
-                    buttons[x].Margin = new Thickness(x * buttons[0].Width * 9/buttons.Count + 150 - buttons[x].Width, 270, 0, 0);
+                    buttons[x].Margin = new Thickness(x * buttons[0].Width * 9/buttons.Count + TextScroller.Width + 60 - buttons[x].Width, 270, 0, 0);
                     GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(buttons[x]));
                     GameUIGrid.Children.Add(buttons[x]);
                 }
@@ -89,7 +89,7 @@ namespace _1000_Blank_White_Cards
             {
                 for (var x = 0; x < buttons.Count; x++)
                 {
-                    buttons[x].Margin = new Thickness((x-1) * buttons[0].Width + 150, 270, 0, 0);
+                    buttons[x].Margin = new Thickness((x-1) * buttons[0].Width + TextScroller.Width + 60, 270, 0, 0);
                     GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(buttons[x]));
                     GameUIGrid.Children.Add(buttons[x]);
                 }
