@@ -117,14 +117,17 @@ namespace _1000_Blank_White_Cards
 
         private void GimmeText(object sender, RoutedEventArgs e)
         {
+            
             TextBlock blockOfText = new TextBlock();
-            blockOfText.Text = "Testing testing 123, jk jk this doesn't need testing because Bennett is a god at coding and if you clicked the button you acknowledge that.";
+            blockOfText.Text = TypeText.Text;
             blockOfText.TextWrapping = TextWrapping.Wrap;
-            blockOfText.FontSize = 6;
+            blockOfText.FontSize = 6;        
 
             stackTwoElectricBoogaloo.Children.Add(blockOfText);
 
             TextScroller.ScrollToBottom();
+
+            TypeText.Text = "";
         }
     }
 }

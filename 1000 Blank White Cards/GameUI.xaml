@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:_1000_Blank_White_Cards"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="420" d:DesignWidth="700"
       Title="GameUI">
     <Viewbox StretchDirection="Both" Stretch="Uniform">
         <Grid x:Name="GameUIGrid" Height="420" Width="700">
@@ -21,6 +21,7 @@
             </Button>
             <Button x:Name="TextDotExe" Margin='100,10,0,0' Width='170' Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Content='Cwickwuw mewe fowor tewext' Click="GimmeText"></Button>
             <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,154,0" Width="96" Height="130"/>
+            <TextBox x:Name="TypeText" FontSize="6" HorizontalAlignment="Left" Height="23" Margin="0,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100"/>
         </Grid>
     </Viewbox>
 </Page>
