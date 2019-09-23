@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace _1000_Blank_White_Cards
 {
@@ -115,19 +116,42 @@ namespace _1000_Blank_White_Cards
             DrawCard.Width -= 8;
         }
 
+
         private void GimmeText(object sender, RoutedEventArgs e)
         {
-            
-            TextBlock blockOfText = new TextBlock();
-            blockOfText.Text = TypeText.Text;
-            blockOfText.TextWrapping = TextWrapping.Wrap;
-            blockOfText.FontSize = 6;        
+            if (TypeText.Text != "")
+            {
+                TextBlock blockOfText = new TextBlock();
+                blockOfText.Text = TypeText.Text;
+                blockOfText.TextWrapping = TextWrapping.Wrap;
+                blockOfText.FontSize = 6;
 
-            stackTwoElectricBoogaloo.Children.Add(blockOfText);
+                stackTwoElectricBoogaloo.Children.Add(blockOfText);
 
-            TextScroller.ScrollToBottom();
+                TextScroller.ScrollToBottom();
 
-            TypeText.Text = "";
+                TypeText.Text = "";
+            }
+        }
+
+        private void textPush(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (TypeText.Text != "")
+                {
+                    TextBlock blockOfText = new TextBlock();
+                    blockOfText.Text = TypeText.Text;
+                    blockOfText.TextWrapping = TextWrapping.Wrap;
+                    blockOfText.FontSize = 6;
+
+                    stackTwoElectricBoogaloo.Children.Add(blockOfText);
+
+                    TextScroller.ScrollToBottom();
+
+                    TypeText.Text = "";
+                }
+            }
         }
     }
 }
