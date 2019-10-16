@@ -16,11 +16,9 @@
                 </StackPanel>
             </ScrollViewer>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="ClimbLadder"/>
-            <Button Name="DrawCard" Margin="0,55,35,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="96" Height="130" Click="summonDeckCard" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
-                <Image x:Name="DrawDeckImage" Source="cards\cardback print.jpg"/>
-            </Button>
-            <Button x:Name="TextDotExe" Margin='100,10,0,0' Width='170' Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Content='Cwickwuw mewe fowor tewext' Click="GimmeText"></Button>
-            <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,154,0" Width="96" Height="130"/>
+            <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,35,0" Width="96" Height="130"/>
+            <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="278,215,0,0" TextWrapping="Wrap" Text="ghost print" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="325,185,0,0" VerticalAlignment="Top" Width="75" Click="click"/>
         </Grid>
     </Viewbox>
 </Page>
