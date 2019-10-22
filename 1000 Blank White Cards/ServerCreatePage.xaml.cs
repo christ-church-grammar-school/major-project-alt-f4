@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net;
 
 namespace _1000_Blank_White_Cards
 {
@@ -30,6 +31,26 @@ namespace _1000_Blank_White_Cards
         public void ClimbLadder(object sender, RoutedEventArgs e)
         {
             ladder(this, EventArgs.Empty);
+        }
+
+        
+        private void FindIP(object sender, RoutedEventArgs e)
+        {
+            string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
+            Console.WriteLine(hostName);
+            // Get the IP  
+            string myIP = Dns.GetHostEntry(hostName).AddressList[0].ToString();
+            Console.WriteLine("My IP Address is :" + myIP);
+
+            TextBlock IPinator = new TextBlock();
+            IPinator.Text = myIP;
+            IPinator.TextWrapping = TextWrapping.Wrap;
+            IPinator.FontSize = 12;
+
+            IPStack.Children.Add(IPinator);
+
+
+            //Console.ReadKey();
         }
     }
 }

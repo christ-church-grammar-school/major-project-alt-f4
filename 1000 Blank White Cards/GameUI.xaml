@@ -21,6 +21,7 @@
             </Button>
             <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,154,0" Width="96" Height="130"/>
             <TextBox x:Name="TypeText" FontSize="6" HorizontalAlignment="Left" Height="23" Margin="0,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" KeyDown="textPush"/>
+            <Button Content="Skip Turn" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
         </Grid>
     </Viewbox>
 </Page>
