@@ -48,6 +48,6 @@
           VerticalAlignment="Top"
           Width="479"
           Click="cmdSendMessage_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="247,16,0,0" TextWrapping="Wrap" Text="Your Name:" VerticalAlignment="Top" Height="22" Width="77"/>
+        <TextBlock HorizontalAlignment="Left" Margin="236,16,0,0" TextWrapping="Wrap" Text="IP to connect to:" VerticalAlignment="Top" Height="22" Width="88"/>
     </Grid>
 </Page>
