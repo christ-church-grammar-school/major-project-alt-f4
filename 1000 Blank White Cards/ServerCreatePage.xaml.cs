@@ -36,21 +36,16 @@ namespace _1000_Blank_White_Cards
         
         private void FindIP(object sender, RoutedEventArgs e)
         {
-            string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
-            Console.WriteLine(hostName);
-            // Get the IP  
-            string myIP = Dns.GetHostEntry(hostName).AddressList[0].ToString();
-            Console.WriteLine("My IP Address is :" + myIP);
+            String strHostName = string.Empty;
+            // Getting Ip address of local machine...
+            // First get the host name of local machine.
+            strHostName = Dns.GetHostName();
+            Console.WriteLine("Local Machine's Host Name: " + strHostName);
+            // Then using host name, get the IP address list..
+            IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
+            IPAddress[] addr = ipEntry.AddressList;
 
-            TextBlock IPinator = new TextBlock();
-            IPinator.Text = myIP;
-            IPinator.TextWrapping = TextWrapping.Wrap;
-            IPinator.FontSize = 12;
-
-            IPStack.Children.Add(IPinator);
-
-
-            //Console.ReadKey();
+            IPlable.Content = $"IP Address {addr[1]}";
         }
     }
 }
