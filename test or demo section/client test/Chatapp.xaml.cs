@@ -64,7 +64,7 @@ namespace client_test
                 {
 
                     TcpClient tcpClient = new TcpClient();
-                    tcpClient.Connect("10.60.254.175", 4000);
+                    tcpClient.Connect(txtChatName.Text, 4000);
                     serverStream = tcpClient.GetStream();
                     AddPrompt();
                     serverStream.Flush();
@@ -72,7 +72,7 @@ namespace client_test
                 }
                 else
                 {
-                    tcpClient.Connect("10.60.254.175", 4000);
+                    tcpClient.Connect(txtChatName.Text, 4000);
                     serverStream = tcpClient.GetStream();
                     AddPrompt();
                     serverStream.Flush();
