@@ -35,18 +35,18 @@
         <TextBox
           Height="36"
           HorizontalAlignment="Left"
-          Margin="12,271,0,0"
+          Margin="12,362,0,0"
           Name="txtOutMsg"
           VerticalAlignment="Top"
-          Width="477"/>
+          Width="375"/>
         <Button
           Content="Send Message"
           Height="28"
-          HorizontalAlignment="Left"
-          Margin="12,312,0,0"
+          Margin="0,362,12,0"
           Name="cmdSendMessage"
           VerticalAlignment="Top"
-          Width="479"
+          HorizontalAlignment="Right"
+          Width="375"
           Click="cmdSendMessage_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="236,16,0,0" TextWrapping="Wrap" Text="IP to connect to:" VerticalAlignment="Top" Height="22" Width="88"/>
     </Grid>
