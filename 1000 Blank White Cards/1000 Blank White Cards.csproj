@@ -549,5 +549,8 @@
   <ItemGroup>
     <Resource Include="cards\cardback print.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="otherImages\CrAb RaVe.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

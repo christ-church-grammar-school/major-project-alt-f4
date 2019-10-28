@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Windows.Input;
 
 namespace _1000_Blank_White_Cards
 {
@@ -198,16 +199,56 @@ namespace _1000_Blank_White_Cards
             ladder(this, EventArgs.Empty);
         }
 
-        private void GimmeText(string text)
+        private void DrawCard_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            TextBlock blockOfText = new TextBlock();
-            blockOfText.Text = text;
-            blockOfText.TextWrapping = TextWrapping.Wrap;
-            blockOfText.FontSize = 6;
+            DrawCard.Margin = new Thickness(0, 50, 32, 0);
+            DrawCard.Height += 10;
+            DrawCard.Width += 8;
+        }
 
-            stackTwoElectricBoogaloo.Children.Add(blockOfText);
+        private void DrawCard_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            DrawCard.Margin = new Thickness(0, 55, 36, 0);
+            DrawCard.Height -= 10;
+            DrawCard.Width -= 8;
+        }
 
-            TextScroller.ScrollToBottom();
+
+        private void GimmeText(object sender, RoutedEventArgs e)
+        {
+            if (TypeText.Text != "")
+            {
+                TextBlock blockOfText = new TextBlock();
+                blockOfText.Text = TypeText.Text;
+                blockOfText.TextWrapping = TextWrapping.Wrap;
+                blockOfText.FontSize = 6;
+
+                stackTwoElectricBoogaloo.Children.Add(blockOfText);
+
+                TextScroller.ScrollToBottom();
+
+                TypeText.Text = "";
+            }
+        }
+
+        private void textPush(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (TypeText.Text != "")
+                {
+                    TextBlock blockOfText = new TextBlock();
+                    blockOfText.Text = TypeText.Text;
+                    blockOfText.TextWrapping = TextWrapping.Wrap;
+                    blockOfText.FontSize = 6;
+
+                    stackTwoElectricBoogaloo.Children.Add(blockOfText);
+
+                    TextScroller.ScrollToBottom();
+
+                    TypeText.Text = "";
+                }
+            }
         }
 
         private void click(object sender, RoutedEventArgs e)

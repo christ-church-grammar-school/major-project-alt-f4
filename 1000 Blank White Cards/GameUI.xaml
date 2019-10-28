@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:_1000_Blank_White_Cards"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="420" d:DesignWidth="700"
       Title="GameUI">
     <Viewbox StretchDirection="Both" Stretch="Uniform">
         <Grid x:Name="GameUIGrid" Height="420" Width="700">
@@ -16,9 +16,12 @@
                 </StackPanel>
             </ScrollViewer>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="ClimbLadder"/>
-            <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,35,0" Width="96" Height="130"/>
-            <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="278,215,0,0" TextWrapping="Wrap" Text="ghost print" VerticalAlignment="Top" Width="120"/>
-            <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="325,185,0,0" VerticalAlignment="Top" Width="75" Click="click"/>
+            <Button Name="DrawCard" Margin="0,55,35,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="96" Height="130" Click="summonDeckCard" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
+                <Image x:Name="DrawDeckImage" Source="cards\cardback print.jpg"/>
+            </Button>
+            <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,154,0" Width="96" Height="130"/>
+            <TextBox x:Name="TypeText" FontSize="6" HorizontalAlignment="Left" Height="23" Margin="0,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" KeyDown="textPush"/>
+            <Button Content="Skip Turn" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
         </Grid>
     </Viewbox>
 </Page>
