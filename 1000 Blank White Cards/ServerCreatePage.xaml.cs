@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Net;
 
 namespace _1000_Blank_White_Cards
 {
@@ -25,6 +26,15 @@ namespace _1000_Blank_White_Cards
         public ServerCreatePage()
         {
             InitializeComponent();
+            // Getting Ip address of local machine...
+            // First get the host name of local machine.
+            string strHostName = Dns.GetHostName();
+            Console.WriteLine("Local Machine's Host Name: " + strHostName);
+            // Then using host name, get the IP address list..
+            IPHostEntry ipEntry = Dns.GetHostEntry(strHostName);
+            IPAddress[] addr = ipEntry.AddressList;
+            // set the text box to show your ip address
+            IPlable.Content = $"Your IP Address: {addr[1]}";
         }
 
         public void ClimbLadder(object sender, RoutedEventArgs e)
