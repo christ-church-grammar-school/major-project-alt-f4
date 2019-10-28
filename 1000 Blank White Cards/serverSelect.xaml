@@ -11,7 +11,7 @@
     <Viewbox StretchDirection="Both" Stretch="Uniform">
         <Grid Height="450" Width="800">
             <Rectangle Fill="White"/>
-            <Border BorderThickness="1" BorderBrush="Black" Height="20" Margin="10,90,0,0" VerticalAlignment="Top">
+            <Border BorderThickness="1" BorderBrush="Black" Height="20" Margin="10,130,0,0" VerticalAlignment="Top">
                 <DockPanel Height="20">
                     <TextBlock Width="50" Text="Join:" TextAlignment="Center"/>
                     <TextBlock Text="Server Name:" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
@@ -29,7 +29,7 @@
                     <TextBlock Text="Players" Margin="10,0,0,0" Width="100" HorizontalAlignment="Left"/>
                 </DockPanel>
             </Border>
-            <ScrollViewer x:Name="ServerScroller" Margin="10,110,10,10">
+            <ScrollViewer x:Name="ServerScroller" Margin="10,150,10,10">
                 <StackPanel x:Name="Stack">
                     <Border BorderThickness="1" BorderBrush="Black" Height="20">
                         <DockPanel Height="20">
@@ -511,6 +511,8 @@
                 <ComboBoxItem>Slots Left Low to High</ComboBoxItem>
                 <ComboBoxItem>Official</ComboBoxItem>
             </ComboBox>
+            <TextBox HorizontalAlignment="Left" Height="20" Margin="171,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="629"/>
+            <TextBlock HorizontalAlignment="Left" Margin="72,110,0,0" TextWrapping="Wrap" Text="Enter Server IP" VerticalAlignment="Top" Height="20" Width="100"/>
         </Grid>
     </Viewbox>
 </Page>

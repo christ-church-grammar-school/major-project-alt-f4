@@ -17,3 +17,5 @@ The *1000 Blank White Cards Server* file is the file containing the server
 The *1000 Blank White Cards.sln* file is the Visual Studio project
 
 To download or clone the repository use *https://github.com/ccgs-10asd-2019/major-project-alt-f4.git*
+
+![ay yo hol' up](https://media.giphy.com/media/MuuYIotTu3GG4/giphy.gif)
