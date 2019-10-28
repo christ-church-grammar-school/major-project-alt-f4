@@ -70,19 +70,23 @@ namespace client_test
 
                 }
                 else
-                {
+                {                    
+                    // connect it to your IP and port 4000
                     tcpClient.Connect(txtChatName.Text, 4000);
+                    // get the stream from that TCP client
                     serverStream = tcpClient.GetStream();
                     AddPrompt();
+                    // clear the server stream
                     serverStream.Flush();
                 }
             }
             catch (Exception)
             {
+                // error message in the chat
                 this.txtConversation.Text += "Can't connect. Reason can be :\r\n1.Server is down.\r\n2.You lost internet connection\n";
                 return;
             }
-            // upload as javascript blob
+            // open a new task
             Task taskOpenEndpoint = Task.Factory.StartNew(() =>
             {
                 while (true)
@@ -100,13 +104,14 @@ namespace client_test
                     }
                     catch
                     {
-                        /*a socket error has occured*/
+                        // a socket error has occurred
                     }
 
-                    //We have rad the message.
+                    // we have read the message.
                     ASCIIEncoding encoder = new ASCIIEncoding();
                     // Update main window
                     AddMessage(encoder.GetString(message, 0, bytesRead));
+                    // wait half a second to update again to reduce lag
                     Thread.Sleep(500);
                 }
             });
