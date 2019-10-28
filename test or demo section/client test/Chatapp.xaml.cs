@@ -42,14 +42,15 @@ namespace client_test
         }
 
 
-        // Purpose:     Connect to node.js application (lamechat.js)
+        // Purpose:     Connect to node.js application
         // End Result:  node.js app now has a socket open that can send
         //              messages back to this tcp client application
         private void cmdConnect_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtChatName.Text))
             {
-                txtConversation.Text += "Please input your name.\n";
+                // tell them to put in an IP if they haven't
+                txtConversation.Text += "Please input your IP.\n";
                 return;
             }
 
@@ -57,11 +58,14 @@ namespace client_test
             {
                 if (tcpClient.Connected == true)
                 {
-
+                    // create a new TCP client
                     TcpClient tcpClient = new TcpClient();
+                    // connect it to your IP and port 4000
                     tcpClient.Connect(txtChatName.Text, 4000);
+                    // get the stream from that TCP client
                     serverStream = tcpClient.GetStream();
                     AddPrompt();
+                    // clear the server stream
                     serverStream.Flush();
 
                 }
