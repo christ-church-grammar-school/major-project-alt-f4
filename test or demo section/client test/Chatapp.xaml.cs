@@ -36,14 +36,9 @@ namespace client_test
             InitializeComponent();
         }
 
-        public void ClimbLadder()
-        {
-            ladder(this, EventArgs.Empty);
-        }
-
         private void Chatapp_Return(object sender, RoutedEventArgs e)
         {
-            ClimbLadder();
+            ladder(this, EventArgs.Empty);
         }
 
 
