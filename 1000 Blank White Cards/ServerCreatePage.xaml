@@ -27,11 +27,7 @@
                 <CheckBox x:Name="Trap" Content="Trap Cards"/>
                 <CheckBox x:Name="PrepCards" Content="Prep Cards"/>
             </StackPanel>
-            <Button x:Name="IPbutton" Content="Find IP" HorizontalAlignment="Left" Margin="10,285,0,0" VerticalAlignment="Top" Width="75" Click="FindIP"/>
-            <StackPanel x:Name="IPStack" HorizontalAlignment="Left" Height="18" Margin="120,285,0,0" VerticalAlignment="Top" Width="200">
-                <Label x:Name="IPlable"  Content=""/>
-            </StackPanel>
-
+            <Label x:Name="IPlable" Content="" HorizontalAlignment="Left" Height="28" Margin="110,12,0,0" VerticalAlignment="Top" Width="200"/>
         </Grid>
     </Viewbox>
 </Page>
