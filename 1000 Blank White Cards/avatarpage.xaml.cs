@@ -16,13 +16,13 @@ using System.Windows.Shapes;
 namespace _1000_Blank_White_Cards
 {
     /// <summary>
-    /// Interaction logic for SettingsPage.xaml
+    /// Interaction logic for avatarpage.xaml
     /// </summary>
-    public partial class SettingsPage : Page
+    public partial class avatarpage : Page
     {
         public EventHandler ladder;
 
-        public SettingsPage()
+        public avatarpage()
         {
             InitializeComponent();
         }
@@ -31,12 +31,13 @@ namespace _1000_Blank_White_Cards
         {
             ladder(this, EventArgs.Empty);
         }
-
-        private void Avatars(object sender, RoutedEventArgs e)
+        
+        private void Settings(object sender, RoutedEventArgs e)
         {
-            AvatarWindow window = new AvatarWindow();
+            SettingsPage page = new SettingsPage();
             var contentCopy = Content;
-            Content = window;
+            Content = page;
+            page.ladder += (object sender2, EventArgs e2) =>
             {
                 Content = contentCopy;
             };

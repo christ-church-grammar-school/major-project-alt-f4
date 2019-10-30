@@ -58,8 +58,17 @@
     <Compile Include="Achievements.xaml.cs">
       <DependentUpon>Achievements.xaml</DependentUpon>
     </Compile>
+    <Compile Include="avatarpage.xaml.cs">
+      <DependentUpon>avatarpage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AvatarWindow.xaml.cs">
+      <DependentUpon>AvatarWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameUI.xaml.cs">
       <DependentUpon>GameUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page2.xaml.cs">
+      <DependentUpon>Page2.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServerCreatePage.xaml.cs">
       <DependentUpon>ServerCreatePage.xaml</DependentUpon>
@@ -71,6 +80,14 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Achievements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="avatarpage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AvatarWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -87,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="GameUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Page2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
