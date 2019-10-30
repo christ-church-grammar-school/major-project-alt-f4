@@ -16,10 +16,10 @@
                 </StackPanel>
             </ScrollViewer>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="ClimbLadder"/>
-            <Button Name="DrawCard" Margin="50,0,0,0" Width="48" Height="65" Click="pushButton" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
+            <Button Name="DrawCard" Margin="65,0,0,0" Width="48" Height="65" Click="pushButton" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
                 <Image x:Name="DrawDeckImage" Source="cards\cardback print.jpg"/>
             </Button>
-            <Image x:Name="discardPile" Source="cards\cardback print.jpg" Margin="0,0,50,0" Width="48" Height="65"/>
+            <Image x:Name="discardPile" Margin="0,0,65,0" Width="48" Height="65"/>
             <TextBox x:Name="TypeText" FontSize="6" HorizontalAlignment="Left" Height="23" Margin="0,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" KeyDown="textPush"/>
             <Button Content="Skip Turn" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
         </Grid>
