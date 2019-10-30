@@ -29,7 +29,7 @@ namespace _1000_Blank_White_Cards
     public partial class GameUI : Page
     {
         public EventHandler ladder;
-        List<Button> buttons = new List<Button>();
+        List<Button> hand = new List<Button>();
         IPAddress ip;
 
         Socket sender = new Socket(Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -101,15 +101,15 @@ namespace _1000_Blank_White_Cards
             } else if (reply.StartsWith("removeHand "))
             {
                 Button button = new Button();
-                for (var i = 0; i <buttons.Count; i++)
+                for (var i = 0; i <hand.Count; i++)
                 {
-                    Image hrrr = (Image)buttons[i].Content;
+                    Image hrrr = (Image)hand[i].Content;
                     if (hrrr.Source == new BitmapImage(new Uri($"cards/{reply.Substring(11, reply.Length - 11)}.jpg", UriKind.Relative)) )
                     {
-                        button = buttons[i];
+                        button = hand[i];
                     }
                 }
-                buttons.Remove(button);
+                hand.Remove(button);
                 GameUIGrid.Children.Remove(button);
                 reorganiseCards();
             }
@@ -140,7 +140,7 @@ namespace _1000_Blank_White_Cards
         private void playCard(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            buttons.Remove(button);
+            hand.Remove(button);
             GameUIGrid.Children.Remove(button);
             reorganiseCards();
             Image image = (Image)button.Content;
@@ -154,18 +154,18 @@ namespace _1000_Blank_White_Cards
 
         public void summonDeckCard(string card)
         {
-            buttons.Add(new Button());
+            hand.Add(new Button());
             Image image = new Image();
             image.Source = new BitmapImage(new Uri($"cards/{card}.jpg", UriKind.Relative));
-            buttons[buttons.Count - 1].Content = image;
-            GameUIGrid.Children.Add(buttons[buttons.Count - 1]);
-            buttons[buttons.Count - 1].Click += playCard;
-            buttons[buttons.Count - 1].Height = 77;
-            buttons[buttons.Count - 1].Width = 59;
-            buttons[buttons.Count - 1].VerticalAlignment = VerticalAlignment.Bottom;
-            buttons[buttons.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
-            buttons[buttons.Count - 1].MouseEnter += bigg;
-            buttons[buttons.Count - 1].MouseLeave += smol;
+            hand[hand.Count - 1].Content = image;
+            GameUIGrid.Children.Add(hand[hand.Count - 1]);
+            hand[hand.Count - 1].Click += playCard;
+            hand[hand.Count - 1].Height = 77;
+            hand[hand.Count - 1].Width = 59;
+            hand[hand.Count - 1].VerticalAlignment = VerticalAlignment.Bottom;
+            hand[hand.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
+            hand[hand.Count - 1].MouseEnter += bigg;
+            hand[hand.Count - 1].MouseLeave += smol;
             reorganiseCards();
         }
 
@@ -191,22 +191,22 @@ namespace _1000_Blank_White_Cards
 
         private void reorganiseCards()
         {
-            if (buttons.Count > 9)
+            if (hand.Count > 9)
             {
-                for (var x = 0; x < buttons.Count; x++)
+                for (var x = 0; x < hand.Count; x++)
                 {
-                    buttons[x].Margin = new Thickness(x * buttons[0].Width * 9/buttons.Count + TextScroller.Width + 60 - buttons[x].Width, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(buttons[x]));
-                    GameUIGrid.Children.Add(buttons[x]);
+                    hand[x].Margin = new Thickness(x * hand[0].Width * 9/hand.Count + TextScroller.Width + 60 - hand[x].Width, 270, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
+                    GameUIGrid.Children.Add(hand[x]);
                 }
             }
             else
             {
-                for (var x = 0; x < buttons.Count; x++)
+                for (var x = 0; x < hand.Count; x++)
                 {
-                    buttons[x].Margin = new Thickness((x-1) * buttons[0].Width + TextScroller.Width + 60, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(buttons[x]));
-                    GameUIGrid.Children.Add(buttons[x]);
+                    hand[x].Margin = new Thickness((x-1) * hand[0].Width + TextScroller.Width + 60, 270, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
+                    GameUIGrid.Children.Add(hand[x]);
                 }
             }
         }
