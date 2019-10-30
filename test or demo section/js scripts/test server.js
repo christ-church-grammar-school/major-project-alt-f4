@@ -7,22 +7,25 @@ var deck1 =["ghost print","pot of gold print", "piggy power print","pig man prin
 var fillDeck=[];
 var cards = [];
 var playerCounter = 0;
+var playTurn = 0;
 const users = [];
-var turnNum = 1;
+var gameRun = "Not";
 
 function Player(name, ip) {
     this.name = name;
+    this.prefixes = [];
+    this.ip = ip;
+    this.order = name.replace("Player","");
+    this.job = "Player";
     this.score = 0;
     this.cards = [];
-    this.prefixes = [];
+    this.TurnRun = "no";
+    this.cardsToPlay = 1;
+    this.actionsInTurn = 0;
     this.scoreMultiplier = 1;
     this.incrementMultiplier = 1;
     this.decrementMultiplier = 1;
-    this.ip = ip;
-    this.cardsToPlay = 1;
-    this.order = name.replace("Player","");
-    this.job = "Player";
-  
+
     this.givePrefix = function(prefix) {
         if (!this.prefixes.hasOwnProperty(prefix)) {
             this.prefixes.push(prefix);
@@ -49,18 +52,27 @@ function Player(name, ip) {
     }
   
     this.playCard = function(name, use) {
-        if (this.cards.includes(name)) {
-            cards[name].ability(use);
-            discardPile.push(name);
-            this.cards.splice(name);
-        } 
-        else {
-            console.error(`No card of name ${name} available!`);
+        if (this.actionsInTurn>0){
+            if (this.cards.includes(name)) {
+                cards[name].ability(use);
+                discardPile.push(name);
+                this.cards.splice(name);
+                this.actionsInTurn--;
+            } 
+            else {
+                console.error(`No card of name ${name} available!`);
+            }
+            //add into discard
         }
-        //add into discard
+        else{
+            //ends turn
+            this.TurnRun = "No";
+            users[playTurn].startTurn();
+
+        }
     }
     this.getCrd = function(amount){
-            for (numCardsGet=0;numCardsGet<amount;numCardsGet++)
+            for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
             {
                 console.log(deck1[0]);
                 //draws the first card from the draw pile
@@ -70,6 +82,14 @@ function Player(name, ip) {
             }
         //add things for stuff when you get cards------||  e.g get points
     }
+    this.startTurn = function(playingPLayer){
+        //add things that activate at the start of a turn
+        this.getCrd(1);
+        console.log(this.cards);//remove later -------------------------------------------------------------------------------------------------------------
+        this.actionsInTurn = this.cardsToPlay;
+        this.TurnRun = "Yes";
+    }
+    
 }
 
 //deck shuffle
@@ -97,16 +117,123 @@ function findPlayer(IP){
     }
 }
 
+function Card(author, tags, functionality, ability) {
+    this.author = author;
+    this.parent = 'deck';
+    this.ability = ability;
+    this.functionality = functionality;
+    this.tags = tags;
+}
 
-
-
-
-
-
-
-
-
-
+cards = {
+    'ghost print': new Card('Deck', ['easy'], [], function(functionality) {
+        console.log('spooky')
+    }),
+    'pot of gold print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(50);   
+                users[this.parent].getCrd(1);
+        }
+    }),
+    'piggy power print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(30);   
+                users[this.parent].getCrd(1);
+        }
+    }),
+    'pig man print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].decrementPoints(30);   
+                users[this.parent].getCrd(3);
+        }
+    }),
+    'more I want more print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].decrementPoints(20);   
+                users[this.parent].getCrd(4);
+        }
+    }),
+    'happy bunny print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(50); 
+        }
+    }),
+    '2012 print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(50); 
+        }
+    }),
+    'spareChange print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(1); 
+        }
+    }),
+    'reg neanderthal from the future print': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(25); 
+        }
+    }),
+    //still need to do----------------------------------------------------------------------------------------------------------------------------------------
+    'catGotTheYarn': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(25); 
+        }
+    }),
+    'rebel': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(51); 
+        }
+    }),
+    'potatoOfFun': new Card('Deck','',['action'],function(functionality){console.log("Look how much fun it is.")}),
+    'pluto': new Card('Deck','',['action'],function(functionality){
+        console.log("Not a planet anymore.")
+        console.log("No effect.")
+        console.log("Because life is tough.")
+    }),
+    'nessie': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(25); 
+        }
+    }),
+    "it'sChristmas": new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(50); 
+        }
+    }),
+    'emoji': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(50); 
+        }
+    }),
+    'derpasaurusRex': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(30); 
+        }
+    }),
+    'cookie': new Card('Deck','',['action'],function(functionality){
+        console.log("a cookie")
+    }),
+    'chezburger': new Card('Deck','',['action'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(50); 
+        }
+    }),
+}
 
 
 
@@ -143,27 +270,49 @@ net.createServer(function(sock) {
         }
         //start game
         else if (str.substr(0,5) == 'start'){
-            console.log([sock.remoteAddress,sock.remotePort]);
-            if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
-                shuffleDeck()
-                sock.write("game started");
+            if (gameRun != "running"){
+                if (users.length>=2){
+                    if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
+                        //game starts
+                        gameRun = "running";
+                        //shuffleDeck()
+                        for (players in users){
+                            console.log("y");
+                            users[players].getCrd(5);
+                        }
+                        users[playTurn].startTurn();
+                    }
+                    else{
+                        sock.write("you don't have the power to start the game.");
+                    }
+                }
+                else{
+                    sock.write("You need at least 2 players to start");
+                }
             }
             else{
-                sock.write("you don't have the power to start the game.");
+                sock.write("game already running.");
             }
         }
         //playing cards
         else if (str.substr(0,2) == 'p '){
-            users[`Player${turnNum}`].playCard(str.substr(2,str.length),"general");
+            /*
+            if (cards[str.substr(2,str.length)].functionality == "play at any time"){                   add for must plays*/
+            if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
+                users[`Player${findPlayer([sock.remoteAddress,sock.remotePort])}`].actionsInTurn--;
+                users[`Player${findPlayer([sock.remoteAddress,sock.remotePort])}`].playCard(str.substr(2,str.length),"general");
+            }
+            else{
+                sock.log("Wait for your turn");
+            }
         }
         //getting things funcion
         else if (str.substr(0,4) == 'get '){//get c 8
             //get cards
-            console.log("worked")
             if (str.substr(4,1)=='c'){
                 for (numCardsGet = 0;numCardsGet<(str.substr(5,6));numCardsGet++)
                 {
-                    users[`Players${turnNum}`].getCrd();
+                    users[`Players${findPlayer([sock.remoteAddress,sock.remotePort])}`].getCrd();
                 }
             }
             else if (str.substr(4,1) == 'p'){
@@ -171,11 +320,11 @@ net.createServer(function(sock) {
                 console.log("got points");
                 if(str.substr(6,1) == '-'){
                     //neg points for str.substr(8,9)
-                    users[`Players${turnNum}`].decrementPoints(str.substr(8,9));
+                    users[`Players${findPlayer([sock.remoteAddress,sock.remotePort])}`].decrementPoints(str.substr(8,9));
                 }
                 else{
                     //add get points for a user
-                    users[`Players${turnNum}`].incrementPoints(str.substr(8,9));
+                    users[`Players${findPlayer([sock.remoteAddress,sock.remotePort])}`].incrementPoints(str.substr(8,9));
                 }
             }
             else{

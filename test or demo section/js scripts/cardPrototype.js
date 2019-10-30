@@ -204,7 +204,7 @@ cards = {
                 users[this.parent].incrementPoints(50); 
         }
     }),
-}
+}//
 
 function startTurn(playingPLayer){
     //add things that activate at the start of a turn
