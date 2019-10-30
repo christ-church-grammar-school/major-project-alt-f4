@@ -16,7 +16,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
@@ -148,6 +147,11 @@ namespace _1000_Blank_White_Cards
             discardPile.Source = image.Source;
         }
 
+        private void pushButton(object sender, RoutedEventArgs e)
+        {
+            summonDeckCard("3 headed guard dog2 print");
+        }
+
         public void summonDeckCard(string card)
         {
             buttons.Add(new Button());
@@ -262,11 +266,6 @@ namespace _1000_Blank_White_Cards
                     TypeText.Text = "";
                 }
             }
-        }
-
-        private void click(object sender, RoutedEventArgs e)
-        {
-            summonDeckCard(textBox.Text);
         }
     }
 }
