@@ -1,10 +1,19 @@
-function Card(author, functionality, tags, ability) {
+function Card(author, tags, functionality, ability) {
     this.author = author;
     this.parent = null;
     this.ability = ability;
     this.functionality = functionality;
     this.tags = tags;
 }
+
+
+/* section for demonstration 
+    users[this.parent].incrementPoints(x); gives the player who has this card 50 points
+    users[this.parent].decrementPoints(x); takes 50 points from the player who has this card 
+    users[this.parent].getCrd(x); gives the player who has this card x more cards
+
+
+*/
 
 module.exports = {
     "3 HEADED GUARD DOG!": new Card("Mr Milton", ['living'], ['Play'], function(functionality) {
