@@ -196,39 +196,39 @@ namespace _1000_Blank_White_Cards
 
         public void summonFieldCard(string card)
         {
-            hand.Add(new Button());
+            field.Add(new Button());
             Image image = new Image();
             image.Source = new BitmapImage(new Uri($"cards/{card}.jpg", UriKind.Relative));
-            hand[hand.Count - 1].Content = image;
-            GameUIGrid.Children.Add(hand[hand.Count - 1]);
-            hand[hand.Count - 1].Click += playCard;
-            hand[hand.Count - 1].Height = 77;
-            hand[hand.Count - 1].Width = 59;
-            hand[hand.Count - 1].VerticalAlignment = VerticalAlignment.Bottom;
-            hand[hand.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
-            hand[hand.Count - 1].MouseEnter += bigg;
-            hand[hand.Count - 1].MouseLeave += smol;
+            field[field.Count - 1].Content = image;
+            GameUIGrid.Children.Add(field[field.Count - 1]);
+            field[field.Count - 1].Click += playCard;
+            field[field.Count - 1].Height = 65;
+            field[field.Count - 1].Width = 48;
+            field[field.Count - 1].VerticalAlignment = VerticalAlignment.Bottom;
+            field[field.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
+            field[field.Count - 1].MouseEnter += bigg;
+            field[field.Count - 1].MouseLeave += smol;
             reorganiseField();
         }
 
         private void reorganiseField()
         {
-            if (hand.Count > 9)
+            if (field.Count > 9)
             {
-                for (var x = 0; x < hand.Count; x++)
+                for (var x = 0; x < field.Count; x++)
                 {
-                    hand[x].Margin = new Thickness(x * hand[0].Width * 9 / hand.Count + TextScroller.Width + 60 - hand[x].Width, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
-                    GameUIGrid.Children.Add(hand[x]);
+                    field[x].Margin = new Thickness(x * field[0].Width * 9 / field.Count + TextScroller.Width + 60 - field[x].Width, 270, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(field[x]));
+                    GameUIGrid.Children.Add(field[x]);
                 }
             }
             else
             {
-                for (var x = 0; x < hand.Count; x++)
+                for (var x = 0; x < field.Count; x++)
                 {
-                    hand[x].Margin = new Thickness((x - 1) * hand[0].Width + TextScroller.Width + 60, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
-                    GameUIGrid.Children.Add(hand[x]);
+                    field[x].Margin = new Thickness((x - 1) * field[0].Width + TextScroller.Width + 60, 270, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(field[x]));
+                    GameUIGrid.Children.Add(field[x]);
                 }
             }
         }
