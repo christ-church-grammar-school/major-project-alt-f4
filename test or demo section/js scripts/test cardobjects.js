@@ -11,8 +11,6 @@ function Card(author, tags, functionality, ability) {
     users[this.parent].incrementPoints(x); gives the player who has this card 50 points
     users[this.parent].decrementPoints(x); takes 50 points from the player who has this card 
     users[this.parent].getCrd(x); gives the player who has this card x more cards
-
-
 */
 
 module.exports = {
