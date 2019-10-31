@@ -21,10 +21,13 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+
+    //Gives the person who played it 50 points
     "2012": new Card("Oscar McMath", ['Water'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
+            default:
+                users[this.parent].incrementPoints(50)
             
         }
       }),
@@ -33,11 +36,15 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+
+    //Gives the person who played it and one other person 50 points (code only works for 2 players)
     "A LOT OF HELP": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[0].incrementPoints(50);
+                users[1].incrementPoints(50);
+
         }
       }),
     "ADD MONKEYS": new Card("Ms O'Neill", ['living'], ['Play'], function(functionality) {

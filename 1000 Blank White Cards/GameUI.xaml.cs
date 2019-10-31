@@ -137,6 +137,7 @@ namespace _1000_Blank_White_Cards
             sender = new Socket(Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
 
+        //Play the card and add its image to the discard pile
         private void playCard(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
@@ -147,11 +148,13 @@ namespace _1000_Blank_White_Cards
             discardPile.Source = image.Source;
         }
 
+
         private void pushButton(object sender, RoutedEventArgs e)
         {
             summonDeckCard("3 headed guard dog2 print");
         }
 
+        //Add a card to your deck and then
         public void summonDeckCard(string card)
         {
             buttons.Add(new Button());
