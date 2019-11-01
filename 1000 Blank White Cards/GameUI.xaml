@@ -12,8 +12,7 @@
             <Rectangle Fill="White"/>
             <Image x:Name="Background" Margin="0,0,0,0" Source="otherImages/GameUI Background.jpg" Stretch="Fill" Height="420" Width="700"/>
             <ScrollViewer x:Name="TextScroller" Height="150" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                <StackPanel x:Name="stackTwoElectricBoogaloo">
-                </StackPanel>
+                <StackPanel x:Name="stackTwoElectricBoogaloo"/>
             </ScrollViewer>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="ClimbLadder"/>
             <Button Name="DrawCard" Margin="65,0,0,0" Width="48" Height="65" Click="pushButton" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
