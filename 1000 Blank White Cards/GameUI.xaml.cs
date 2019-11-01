@@ -173,11 +173,6 @@ namespace _1000_Blank_White_Cards
             discardPile.Source = image.Source;
         }
 
-        private void lmao(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
-        }
-
         private void pushButton(object sender, RoutedEventArgs e)
         {
             summonHandCard("3 headed guard dog2 print");
