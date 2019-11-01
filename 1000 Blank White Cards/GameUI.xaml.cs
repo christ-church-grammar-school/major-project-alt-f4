@@ -143,16 +143,47 @@ namespace _1000_Blank_White_Cards
         private void playCard(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            hand.Remove(button);
+            Console.WriteLine("lmao");
+            if (hand.Contains(button))
+            {
+                Console.WriteLine("hand");
+                hand.Remove(button);
+                reorganiseHand();
+            }
+            else if (field.Contains(button))
+            {
+                Console.WriteLine("field");
+                field.Remove(button);
+                reorganiseField();
+            }
+            else if (oponentsHand.Contains(button))
+            {
+                Console.WriteLine("oponentsHand");
+                oponentsHand.Remove(button);
+                reorganiseOponentHand();
+            }
+            else if (oponentsField.Contains(button))
+            {
+                Console.WriteLine("oponentsField");
+                oponentsField.Remove(button);
+                reorganiseOponentField();
+            }
             GameUIGrid.Children.Remove(button);
-            reorganiseHand();
             Image image = (Image)button.Content;
             discardPile.Source = image.Source;
+        }
+
+        private void lmao(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
 
         private void pushButton(object sender, RoutedEventArgs e)
         {
             summonHandCard("3 headed guard dog2 print");
+            summonFieldCard("3 headed guard dog2 print");
+            summonOponentHandCard("3 headed guard dog2 print");
+            summonOponentFieldCard("3 headed guard dog2 print");
         }
 
         public void summonHandCard(string card)
@@ -213,11 +244,11 @@ namespace _1000_Blank_White_Cards
 
         private void reorganiseField()
         {
-            if (field.Count > 9)
+            if (field.Count > 11)
             {
                 for (var x = 0; x < field.Count; x++)
                 {
-                    field[x].Margin = new Thickness(x * field[0].Width * 9 / field.Count + TextScroller.Width + 60 - field[x].Width, 270, 0, 0);
+                    field[x].Margin = new Thickness(x * field[0].Width * 11 / field.Count + TextScroller.Width + 60 - field[x].Width, 0, 0, 80);
                     GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(field[x]));
                     GameUIGrid.Children.Add(field[x]);
                 }
@@ -226,7 +257,7 @@ namespace _1000_Blank_White_Cards
             {
                 for (var x = 0; x < field.Count; x++)
                 {
-                    field[x].Margin = new Thickness((x - 1) * field[0].Width + TextScroller.Width + 60, 270, 0, 0);
+                    field[x].Margin = new Thickness((x - 1) * field[0].Width + TextScroller.Width + 60, 0, 0, 80);
                     GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(field[x]));
                     GameUIGrid.Children.Add(field[x]);
                 }
@@ -235,78 +266,78 @@ namespace _1000_Blank_White_Cards
 
         public void summonOponentHandCard(string card)
         {
-            hand.Add(new Button());
+            oponentsHand.Add(new Button());
             Image image = new Image();
             image.Source = new BitmapImage(new Uri($"cards/{card}.jpg", UriKind.Relative));
-            hand[hand.Count - 1].Content = image;
-            GameUIGrid.Children.Add(hand[hand.Count - 1]);
-            hand[hand.Count - 1].Click += playCard;
-            hand[hand.Count - 1].Height = 77;
-            hand[hand.Count - 1].Width = 59;
-            hand[hand.Count - 1].VerticalAlignment = VerticalAlignment.Bottom;
-            hand[hand.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
-            hand[hand.Count - 1].MouseEnter += bigg;
-            hand[hand.Count - 1].MouseLeave += smol;
+            oponentsHand[oponentsHand.Count - 1].Content = image;
+            GameUIGrid.Children.Add(oponentsHand[oponentsHand.Count - 1]);
+            oponentsHand[oponentsHand.Count - 1].Click += playCard;
+            oponentsHand[oponentsHand.Count - 1].Height = 77;
+            oponentsHand[oponentsHand.Count - 1].Width = 59;
+            oponentsHand[oponentsHand.Count - 1].VerticalAlignment = VerticalAlignment.Top;
+            oponentsHand[oponentsHand.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
+            oponentsHand[oponentsHand.Count - 1].MouseEnter += bigg;
+            oponentsHand[oponentsHand.Count - 1].MouseLeave += smol;
             reorganiseOponentHand();
         }
 
         private void reorganiseOponentHand()
         {
-            if (hand.Count > 9)
+            if (oponentsHand.Count > 9)
             {
-                for (var x = 0; x < hand.Count; x++)
+                for (var x = 0; x < oponentsHand.Count; x++)
                 {
-                    hand[x].Margin = new Thickness(x * hand[0].Width * 9 / hand.Count + TextScroller.Width + 60 - hand[x].Width, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
-                    GameUIGrid.Children.Add(hand[x]);
+                    oponentsHand[x].Margin = new Thickness(x * oponentsHand[0].Width * 9 / oponentsHand.Count + TextScroller.Width + 60 - oponentsHand[x].Width, 0, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(oponentsHand[x]));
+                    GameUIGrid.Children.Add(oponentsHand[x]);
                 }
             }
             else
             {
-                for (var x = 0; x < hand.Count; x++)
+                for (var x = 0; x < oponentsHand.Count; x++)
                 {
-                    hand[x].Margin = new Thickness((x - 1) * hand[0].Width + TextScroller.Width + 60, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
-                    GameUIGrid.Children.Add(hand[x]);
+                    oponentsHand[x].Margin = new Thickness((x - 1) * oponentsHand[0].Width + TextScroller.Width + 60, 0, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(oponentsHand[x]));
+                    GameUIGrid.Children.Add(oponentsHand[x]);
                 }
             }
         }
 
         public void summonOponentFieldCard(string card)
         {
-            hand.Add(new Button());
+            oponentsField.Add(new Button());
             Image image = new Image();
             image.Source = new BitmapImage(new Uri($"cards/{card}.jpg", UriKind.Relative));
-            hand[hand.Count - 1].Content = image;
-            GameUIGrid.Children.Add(hand[hand.Count - 1]);
-            hand[hand.Count - 1].Click += playCard;
-            hand[hand.Count - 1].Height = 77;
-            hand[hand.Count - 1].Width = 59;
-            hand[hand.Count - 1].VerticalAlignment = VerticalAlignment.Bottom;
-            hand[hand.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
-            hand[hand.Count - 1].MouseEnter += bigg;
-            hand[hand.Count - 1].MouseLeave += smol;
+            oponentsField[oponentsField.Count - 1].Content = image;
+            GameUIGrid.Children.Add(oponentsField[oponentsField.Count - 1]);
+            oponentsField[oponentsField.Count - 1].Click += playCard;
+            oponentsField[oponentsField.Count - 1].Height = 65;
+            oponentsField[oponentsField.Count - 1].Width = 48;
+            oponentsField[oponentsField.Count - 1].VerticalAlignment = VerticalAlignment.Top;
+            oponentsField[oponentsField.Count - 1].HorizontalAlignment = HorizontalAlignment.Left;
+            oponentsField[oponentsField.Count - 1].MouseEnter += bigg;
+            oponentsField[oponentsField.Count - 1].MouseLeave += smol;
             reorganiseOponentField();
         }
 
         private void reorganiseOponentField()
         {
-            if (hand.Count > 9)
+            if (oponentsField.Count > 11)
             {
-                for (var x = 0; x < hand.Count; x++)
+                for (var x = 0; x < oponentsField.Count; x++)
                 {
-                    hand[x].Margin = new Thickness(x * hand[0].Width * 9 / hand.Count + TextScroller.Width + 60 - hand[x].Width, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
-                    GameUIGrid.Children.Add(hand[x]);
+                    oponentsField[x].Margin = new Thickness(x * oponentsField[0].Width * 11 / oponentsField.Count + TextScroller.Width + 60 - oponentsField[x].Width, 80, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(oponentsField[x]));
+                    GameUIGrid.Children.Add(oponentsField[x]);
                 }
             }
             else
             {
-                for (var x = 0; x < hand.Count; x++)
+                for (var x = 0; x < oponentsField.Count; x++)
                 {
-                    hand[x].Margin = new Thickness((x - 1) * hand[0].Width + TextScroller.Width + 60, 270, 0, 0);
-                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(hand[x]));
-                    GameUIGrid.Children.Add(hand[x]);
+                    oponentsField[x].Margin = new Thickness((x - 1) * oponentsField[0].Width + TextScroller.Width + 60, 80, 0, 0);
+                    GameUIGrid.Children.RemoveAt((int)GameUIGrid.Children.IndexOf(oponentsField[x]));
+                    GameUIGrid.Children.Add(oponentsField[x]);
                 }
             }
         }
@@ -315,6 +346,9 @@ namespace _1000_Blank_White_Cards
         {
             Button card = (Button)sender;
             reorganiseHand();
+            reorganiseField();
+            reorganiseOponentHand();
+            reorganiseOponentField();
             //card.Margin = new Thickness(card.Margin.Left - 10, card.Margin.Top - 15, 0, 0);
             card.Height += 60;
             card.Width += 40;
@@ -329,6 +363,9 @@ namespace _1000_Blank_White_Cards
             card.Height -= 60;
             card.Width -= 40;
             reorganiseHand();
+            reorganiseField();
+            reorganiseOponentHand();
+            reorganiseOponentField();
         }
 
         public void ClimbLadder(object sender, RoutedEventArgs e)
@@ -339,14 +376,14 @@ namespace _1000_Blank_White_Cards
 
         private void DrawCard_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawCard.Margin = new Thickness(0, 50, 32, 0);
+            DrawCard.Margin = new Thickness(60, -4, 0, 0);
             DrawCard.Height += 10;
             DrawCard.Width += 8;
         }
 
         private void DrawCard_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            DrawCard.Margin = new Thickness(0, 55, 36, 0);
+            DrawCard.Margin = new Thickness(65, 0, 0, 0);
             DrawCard.Height -= 10;
             DrawCard.Width -= 8;
         }
