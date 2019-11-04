@@ -1839,10 +1839,11 @@ module.exports = {
             
         }
       }),
+    //Gives the player 20 points
     "TDOGGYREX": new Card("Michael Calarese", ['rex', 'dinosaur', 'Cool'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(20);
         }
       }),
     "TEA ATTACK": new Card("Will Taylor", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -1953,10 +1954,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 20 points
     "THEY'RE TAKING THE HOBBITS TO ISENGARD": new Card("Harry Trumble", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(20);
         }
       }),
     "THIEF CITY": new Card("Charles Worthington-O'Leary", ['living', 'Ninja'], ['Play'], function(functionality) {
