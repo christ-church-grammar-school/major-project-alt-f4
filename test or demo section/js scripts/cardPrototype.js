@@ -1,3 +1,5 @@
+var deck = require('./test cardobjects.js'); //all of the cards
+
 var deck1 =["points","losePoints","ghost","potOfGold", "piggyPower","pigMan","moreIWantMore","happyBunny","2012","spareChange","neanderthalFromTheFuture","catGotTheYarn","rebel","potatoOfFun","pluto","nessie","it'sChristmas","emoji","derpasaurusRex","cookie","chezburger","cards"];
 var fillDeck = [];
 var discardPile = [];
@@ -87,7 +89,7 @@ cards = {
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
-    }
+        }
     }),
     'cards': new Card('Deck', ['points', 'score', 'easy'], [], function(functionality) {
         users[this.parent].getCrd(1);

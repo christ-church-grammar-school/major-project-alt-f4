@@ -12,16 +12,16 @@
             <Rectangle Fill="White"/>
             <Image x:Name="Background" Margin="0,0,0,0" Source="otherImages/GameUI Background.jpg" Stretch="Fill" Height="420" Width="700"/>
             <ScrollViewer x:Name="TextScroller" Height="150" Width="100" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                <StackPanel x:Name="stackTwoElectricBoogaloo">
-                </StackPanel>
+                <StackPanel x:Name="stackTwoElectricBoogaloo"/>
             </ScrollViewer>
             <Button x:Name="backButton" Content="Leave Game" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Height="20" Click="ClimbLadder"/>
-            <Button Name="DrawCard" Margin="0,55,35,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="96" Height="130" Click="pushButton" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
+            <Button Name="DrawCard" Margin="65,0,0,0" Width="48" Height="65" Click="pushButton" MouseEnter="DrawCard_MouseEnter" RenderSize="96,130" MouseLeave="DrawCard_MouseLeave">
                 <Image x:Name="DrawDeckImage" Source="cards\cardback print.jpg"/>
             </Button>
-            <Image x:Name="discardPile" Source="cards\cardback print.jpg" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,55,154,0" Width="96" Height="130"/>
+            <Border Margin="0,0,65,0" Width="48" Height="65" BorderBrush="Black" BorderThickness="1"/>
+            <Image x:Name="discardPile" Margin="0,0,65,0" Width="48" Height="65"/>
             <TextBox x:Name="TypeText" FontSize="6" HorizontalAlignment="Left" Height="23" Margin="0,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" KeyDown="textPush"/>
-            <Button Content="Skip Turn" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
+            <Button Content="Skip Turn" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
         </Grid>
     </Viewbox>
 </Page>
