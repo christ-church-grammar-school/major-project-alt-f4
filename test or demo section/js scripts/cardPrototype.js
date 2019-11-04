@@ -12,7 +12,7 @@ var users = { 'bill':new Player("bill"),'ben':new Player("ben")}
 
 
 
-function Card(author, functionality, tags, ability) {
+function Card(author,tags ,functionality, ability) {
     this.author = author;
     this.parent = 'deck';
     this.ability = ability;
