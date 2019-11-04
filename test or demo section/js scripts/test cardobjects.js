@@ -26,7 +26,7 @@ module.exports = {
     "2012": new Card("Oscar McMath", ['Water'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.parent].incrementPoints(50)
+                users[this.parent].incrementPoints(50);
             
         }
       }),
@@ -2076,10 +2076,12 @@ module.exports = {
             
         }
       }),
+    //Takes 30 points from opponent gives player 20 points (only works 2 players)
     "VAMPIRE BAT": new Card("Tristan Porter", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+          users[0].incrementPoints(20);
+          users[1].decrementPoints(30);
         }
       }),
     "WAAAHMBULANCE": new Card("Lachie Henderson", ['living', 'Medical'], ['Play'], function(functionality) {
@@ -2112,16 +2114,19 @@ module.exports = {
             
         }
       }),
+    //Gives both players in game 2 cards (only works with 2 players)
     "WINTER IS COMING": new Card("Ms O'Neill", ['living', ' Winter'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+          users[0].getCrd(2);
+          users[1].getCrd(2);
         }
       }),
+    //Gives person who played 50 points
     "X-WING": new Card("Adam Di Tullio", ['star wars'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50);
         }
       }),
     "YEAR 12 EXAM": new Card("Ben Richardson", ['living', 'Medical'], ['Play'], function(functionality) {
