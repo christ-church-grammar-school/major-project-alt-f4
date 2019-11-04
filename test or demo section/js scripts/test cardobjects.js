@@ -2115,10 +2115,11 @@ module.exports = {
             
         }
       }),
+    //Gives person who played 50 points
     "X-WING": new Card("Adam Di Tullio", ['star wars'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50)
         }
       }),
     "YEAR 12 EXAM": new Card("Ben Richardson", ['living', 'Medical'], ['Play'], function(functionality) {
