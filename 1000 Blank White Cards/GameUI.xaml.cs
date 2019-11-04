@@ -290,7 +290,6 @@ namespace _1000_Blank_White_Cards
 
         public void ClimbLadder(object sender, RoutedEventArgs e)
         {
-            Disconnect();
             ladder(this, EventArgs.Empty);
         }
 
