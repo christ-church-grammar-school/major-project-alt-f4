@@ -25,7 +25,7 @@ module.exports = {
     "2012": new Card("Oscar McMath", ['Water'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.parent].incrementPoints(50)
+                users[this.parent].incrementPoints(50);
             
         }
       }),
@@ -2109,17 +2109,19 @@ module.exports = {
             
         }
       }),
+    //Gives both players in game 2 cards (only works with 2 players)
     "WINTER IS COMING": new Card("Ms O'Neill", ['living', ' Winter'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+          users[0].getCrd(2);
+          users[1].getCrd(2);
         }
       }),
     //Gives person who played 50 points
     "X-WING": new Card("Adam Di Tullio", ['star wars'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            users[this.parent].incrementPoints(50)
+            users[this.parent].incrementPoints(50);
         }
       }),
     "YEAR 12 EXAM": new Card("Ben Richardson", ['living', 'Medical'], ['Play'], function(functionality) {
