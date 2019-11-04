@@ -14,6 +14,7 @@ function Card(author, tags, functionality, ability) {
 */
 
 module.exports = {
+
     "3 HEADED GUARD DOG!": new Card("Mr Milton", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -155,8 +156,8 @@ module.exports = {
       }),
     "BACK TO THE FUTURE CARD": new Card("Lachie Jones", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].score += user[this.parent].score;
         }
       }),
     "BAD NIGHTMARE": new Card("Jacob Marsh", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -194,7 +195,9 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+
+    //
     "BB8": new Card("Mr Milton", ['star wars'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -287,8 +290,8 @@ module.exports = {
       }),
     "CCGS BOY": new Card("Luke Simmons", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[1].decrementPoints(50);
         }
       }),
     "CENTRELINK": new Card("Adam Di Tullio", [], ['Play'], function(functionality) {
