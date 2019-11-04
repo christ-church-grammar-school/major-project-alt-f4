@@ -40,59 +40,6 @@ namespace _1000_Blank_White_Cards
         public GameUI()
         {
             InitializeComponent();
-            Connect(127,0,0,1,4000);
-        }
-
-        private void Connect(int a, int b, int c, int d, int port)
-        {
-            IPEndPoint localEndPoint = new IPEndPoint(new IPAddress(new byte[] { Convert.ToByte(a), Convert.ToByte(b), Convert.ToByte(c), Convert.ToByte(d) }), port);
-            Console.WriteLine(Dns.GetHostName());
-            Console.WriteLine(ip);
-            try
-            {
-                sender.Connect(localEndPoint);
-
-                Console.WriteLine("Socket connected -> {0} ", sender.RemoteEndPoint.ToString());
-            }
-            catch (ArgumentNullException ane)
-            {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-            }
-            catch (SocketException se)
-            {
-                Console.WriteLine("SocketException : {0}", se.ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            }
-        }
-
-        private void send(string text)
-        {
-            try
-            {
-                byte[] messageSent = Encoding.ASCII.GetBytes(text);
-                int byteSent = sender.Send(messageSent);
-
-                byte[] messageRecieved = new byte[1024];
-
-                int byteRecv = sender.Receive(messageRecieved);
-                Console.WriteLine("hrrrrr" + Encoding.ASCII.GetString(messageRecieved, 0, byteRecv));
-                handler(Encoding.ASCII.GetString(messageRecieved, 0, byteRecv));
-            }
-            catch (ArgumentNullException ane)
-            {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-            }
-            catch (SocketException se)
-            {
-                Console.WriteLine("SocketException : {0}", se.ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            }
         }
         
         private void handler(string reply)
@@ -116,28 +63,6 @@ namespace _1000_Blank_White_Cards
                 GameUIGrid.Children.Remove(button);
                 reorganiseHand();
             }
-        }
-
-        private void Disconnect()
-        {
-            try
-            {
-                sender.Shutdown(SocketShutdown.Both);
-                sender.Close();
-            }
-            catch (ArgumentNullException ane)
-            {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-            }
-            catch (SocketException se)
-            {
-                Console.WriteLine("SocketException : {0}", se.ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            }
-            sender = new Socket(Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
 
         private void playCard(object sender, RoutedEventArgs e)
