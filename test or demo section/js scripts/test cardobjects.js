@@ -2073,10 +2073,12 @@ module.exports = {
             
         }
       }),
+    //Takes 30 points from opponent gives player 20 points (only works 2 players)
     "VAMPIRE BAT": new Card("Tristan Porter", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+          users[0].incrementPoints(20);
+          users[1].decrementPoints(30);
         }
       }),
     "WAAAHMBULANCE": new Card("Lachie Henderson", ['living', 'Medical'], ['Play'], function(functionality) {
