@@ -1644,16 +1644,19 @@ module.exports = {
             
         }
       }),
+    //Gives player 50 points
     "REX WILL RULE": new Card("Michael Calarese", ['living', 'rex', 'dinosaur'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50);
         }
       }),
+    //Gives player 30 and takes 10 from opponent (only works with 2 players)
     "RICHIE RICH": new Card("Oliver Mitteregger", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[0].incrementPoints(30);
+            users[1].decrementPoints(10);
         }
       }),
     "ROBIN HOOD": new Card("???", ['living'], ['Play'], function(functionality) {
@@ -1734,10 +1737,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 10 points
     "SMALL CHILD": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(10);
         }
       }),
     "SMEXY REX": new Card("Michael Calarese", ['living', 'dinosaur', 'rex'], ['Play'], function(functionality) {
@@ -1776,10 +1780,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 1 point
     "SPARE CHANGE": new Card("Harry Trumble", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(1);
         }
       }),
     "SPEED UP THE PACE": new Card("Timothy Chapman", [], ['Play'], function(functionality) {
