@@ -2158,13 +2158,13 @@ module.exports = {
     "ZEUS POTATO": new Card("Tam Seton-Browne", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+                users[this.parent].incrementPoints(50);
         }
       }),
     "ZEUS": new Card("Ben Richardson", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            user[this.parent].
         }
       }),
     "ZOMBIE APOCALYPSE": new Card("Oscar Lewis", ['living'], ['Play'], function(functionality) {
