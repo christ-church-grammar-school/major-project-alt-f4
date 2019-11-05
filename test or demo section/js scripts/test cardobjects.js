@@ -1344,10 +1344,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 51 points
     "REBEL": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(51);
         }
       }),
     "RECRUIT! NICK FURY": new Card("Mr Milton", ['living', 'avengers', 'Marvel'], ['Play'], function(functionality) {
@@ -1392,16 +1393,17 @@ module.exports = {
             
         }
       }),
-    "CAN'T GET THE BUCHER BACK": new Card("Cameron Minchin", ['living'], ['Play'], function(functionality) {
+    "CAN'T GET THE BUTCHER BACK": new Card("Cameron Minchin", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+        
         }
       }),
+    //Gives player 25 points
     "CAT GOT THE YARN": new Card("Ryan Cowan", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(25);
         }
       }),
     "CHICKEN ON A RAFT": new Card("Lachlan Murphy", ['living', 'Water'], ['Play'], function(functionality) {
@@ -1416,10 +1418,12 @@ module.exports = {
             
         }
       }),
+    //Gives player 50 points and takes 20 points from other player (only works with 2 players)
     "COWBOY CAT WITH GOLDEN GUNS RIDING A UNICORN": new Card("Lachlan Murphy", ['living', 'Rainbow'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[0].incrementPoints(50);
+            users[1].decrementPoints(20);
         }
       }),
     "COWS": new Card("Pat?", ['living'], ['Play'], function(functionality) {
@@ -1512,10 +1516,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 100 points
     "NEADERTHAL FROM THE FUTURE": new Card("James Lee", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(100);
         }
       }),
     "PACIFISM": new Card("Lachlan Murphy", ['living', 'Rainbow', 'blank white man'], ['Play'], function(functionality) {
@@ -1566,10 +1571,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 90 points
     "STOP BE HUMBLE": new Card("Lachlan Murphy", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(90);
         }
       }),
     "SWIPER NO SWIPING": new Card("Lachlan Murphy", ['living'], ['Play'], function(functionality) {
