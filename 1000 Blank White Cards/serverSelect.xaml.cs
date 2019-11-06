@@ -22,6 +22,8 @@ namespace _1000_Blank_White_Cards
     {
         public EventHandler ladder;
 
+        public String IP = "";
+
         public serverSelect()
         {
             InitializeComponent();
@@ -29,6 +31,13 @@ namespace _1000_Blank_White_Cards
 
         public void ClimbLadder(object sender, RoutedEventArgs e)
         {
+            IP = "";
+            ladder(this, EventArgs.Empty);
+        }
+
+        private void Join(object sender, RoutedEventArgs e)
+        {
+            IP = IPBox.Text;
             ladder(this, EventArgs.Empty);
         }
     }

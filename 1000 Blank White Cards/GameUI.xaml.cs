@@ -34,14 +34,134 @@ namespace _1000_Blank_White_Cards
         List<Button> field = new List<Button>();
         List<Button> oponentsField = new List<Button>();
         IPAddress ip;
+        TcpClient tcpClient = new TcpClient();
+        NetworkStream serverStream = default(NetworkStream);
+        string readData = string.Empty;
 
-        Socket sender = new Socket(Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        
         public GameUI()
         {
             InitializeComponent();
+            cmdConnect_Click();
         }
-        
+
+        private void cmdConnect_Click()
+        {
+            try
+            {
+                if (tcpClient.Connected == true)
+                {
+                    // create a new TCP client
+                    TcpClient tcpClient = new TcpClient();
+                    // connect it to your ip and port 4000
+                    tcpClient.Connect(ip, 4000);
+                    // get the stream from that TCP client
+                    serverStream = tcpClient.GetStream();
+                    // clear the server stream
+                    serverStream.Flush();
+
+                }
+                else
+                {
+                    // connect it to your ip and port 4000
+                    tcpClient.Connect(ip, 4000);
+                    // get the stream from that TCP client
+                    serverStream = tcpClient.GetStream();
+                    // clear the server stream
+                    serverStream.Flush();
+                }
+            }
+            catch (Exception)
+            {
+                // error
+                Console.WriteLine("lmao it errored");
+                return;
+            }
+            // open a new task
+            Task taskOpenEndpoint = Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
+                    // Read bytes
+                    serverStream = tcpClient.GetStream();
+                    byte[] message = new byte[4096];
+                    int bytesRead;
+                    bytesRead = 0;
+
+                    try
+                    {
+                        // Read up to 4096 bytes
+                        bytesRead = serverStream.Read(message, 0, 4096);
+                    }
+                    catch
+                    {
+                        // a socket error has occurred
+                    }
+
+                    // we have read the message.
+                    ASCIIEncoding encoder = new ASCIIEncoding();
+                    // Update main window
+                    AddMessage(encoder.GetString(message, 0, bytesRead));
+                    // wait half a second to update again to reduce lag
+                    Thread.Sleep(500);
+                }
+            });
+
+
+
+        }
+
+        // Purpose:     Updates the window with the newest message received
+        // End Result:  Will display the message received to this tcp based client
+        private void AddMessage(string msg)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, (ThreadStart)(
+             () =>
+             {
+                 handler(msg);
+                 Thread.Sleep(10);
+
+             }));
+        }
+
+        // Purpose:     Send the text in typed by the user (stored in
+        //              txtOutMsg)
+        // End Result:  Sends text message to node.js (lamechat.js)
+        private void cmdSendMessage_Click(string msg)
+        {
+
+            if (tcpClient.Connected == true)
+            {
+                if (!string.IsNullOrEmpty(msg))
+                {
+                    byte[] outStream = Encoding.ASCII.GetBytes(msg);
+                    serverStream.Write(outStream, 0, outStream.Length);
+                    serverStream.Flush();
+                }
+            }
+
+            else
+            {
+                this.TypeText.Text += "You are not connected to a server. Please connect to one before sending a message.\n";
+                return;
+            }
+            TypeText.Text = String.Empty;
+
+        }
+
+        private void lmao(string chat)
+        {
+            TextBlock blockOfText = new TextBlock();
+            blockOfText.Text = TypeText.Text;
+            blockOfText.TextWrapping = TextWrapping.Wrap;
+            blockOfText.FontSize = 6;
+
+            stackTwoElectricBoogaloo.Children.Add(blockOfText);
+
+            TextScroller.ScrollToBottom();
+
+            TypeText.Text = "";
+        }
+
         private void handler(string reply)
         {
             Console.WriteLine(reply);
@@ -104,6 +224,7 @@ namespace _1000_Blank_White_Cards
             summonFieldCard("3 headed guard dog2 print");
             summonOponentHandCard("3 headed guard dog2 print");
             summonOponentFieldCard("3 headed guard dog2 print");
+            //Console.WriteLine(((MainWindow)Window.GetWindow(this)).IPToJoin);
         }
 
         public void summonHandCard(string card)
@@ -307,39 +428,13 @@ namespace _1000_Blank_White_Cards
             DrawCard.Width -= 8;
         }
 
-        private void GimmeText(object sender, RoutedEventArgs e)
-        {
-            if (TypeText.Text != "")
-            {
-                TextBlock blockOfText = new TextBlock();
-                blockOfText.Text = TypeText.Text;
-                blockOfText.TextWrapping = TextWrapping.Wrap;
-                blockOfText.FontSize = 6;
-
-                stackTwoElectricBoogaloo.Children.Add(blockOfText);
-
-                TextScroller.ScrollToBottom();
-
-                TypeText.Text = "";
-            }
-        }
-
         private void textPush(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 if (TypeText.Text != "")
                 {
-                    TextBlock blockOfText = new TextBlock();
-                    blockOfText.Text = TypeText.Text;
-                    blockOfText.TextWrapping = TextWrapping.Wrap;
-                    blockOfText.FontSize = 6;
-
-                    stackTwoElectricBoogaloo.Children.Add(blockOfText);
-
-                    TextScroller.ScrollToBottom();
-
-                    TypeText.Text = "";
+                    cmdSendMessage_Click(TypeText.Text);
                 }
             }
         }
