@@ -1,7 +1,7 @@
 var net = require('net');
 const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf-8');
-var HOST = '10.60.253.99';
+var HOST = '';
 var PORT = 4000;
 var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print'];
 var discardPile = [];
