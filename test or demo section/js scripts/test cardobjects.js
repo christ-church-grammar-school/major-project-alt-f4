@@ -242,8 +242,8 @@ module.exports = {
       }),
     "BUNGEE!": new Card("Ms O'Neill", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].getCrd(discardPile.pop(-1));
         }
       }),
     "IT'S A BUTTER FLY!": new Card("Orlando Phillips", [], ['Play'], function(functionality) {
@@ -272,8 +272,9 @@ module.exports = {
       }),
     "CARROT OF SURRENDER": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                //user[1].yeetcards(entirehand)
+                users[this.parent].incrementPoints(20);
         }
       }),
     "CAT TRAIN": new Card("Monte McGrath", ['living'], ['Play'], function(functionality) {
@@ -301,9 +302,9 @@ module.exports = {
         }
       }),
     "CHEZBURGER": new Card("Mr Milton", ['living', 'creature'], ['Play'], function(functionality) {
-        switch(functionality) {
-          default:
-            
+        switch (functionality) {
+            default:
+                users[this.parent].incrementPoints(50);
         }
       }),
     "CIVIL WAR": new Card("Nick Hamdorf", ['America', 'Marvel'], ['Play'], function(functionality) {
@@ -315,7 +316,8 @@ module.exports = {
     "COFFEE BREAK": new Card("Will Taylor", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            //On field every time you draw gain 10 points
+            //Counters tea attack
         }
       }),
     "COLOURFUL CARD": new Card("Jordan Davies", ['Rainbow'], ['Play'], function(functionality) {
@@ -381,7 +383,8 @@ module.exports = {
     "CREEPER!": new Card("Harry Trumble", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            //play immediately
+            //lose 4 cards
         }
       }),
     "CUTE PENGUIN": new Card("Jordan Davies", ['living', 'Winter', '  Useless'], ['Play'], function(functionality) {
@@ -438,10 +441,12 @@ module.exports = {
             
         }
       }),
+    //Gives player 30 points
     "DERPASAURUS REX": new Card("Sam Gillard", ['dinosaur', 'rex', 'living', 'creature'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(30);
+
         }
       }),
     "DETECTIVE REX": new Card("Ashtin Belyea", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
@@ -510,10 +515,12 @@ module.exports = {
             
         }
       }),
+    //Takes 30 points from other player (only works 2 player)
     "DRAGON NOT A REX": new Card("Michael Calarese", ['dinosaur', 'rex', 'living', 'dragon'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[1].decrementPoints(30);
+          
         }
       }),
     "DROSTE EFFECT": new Card("Jordan Davies", [], ['Play'], function(functionality) {
