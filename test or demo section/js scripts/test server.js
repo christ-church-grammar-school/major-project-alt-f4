@@ -2,7 +2,7 @@ var net = require('net');
 
 const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf-8');
-var HOST = '10.60.253.99';
+var HOST = '';
 var PORT = 4000;
 var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print'];
 var discardPile = [];
@@ -135,12 +135,13 @@ function findPlayer(IP){
 
 function findTypePlayer(IP){
     for (People in users){
-        if (users[p].ip[0] == IP[0] && users[p].ip[1] == IP[1]){
+        if (users[People].ip[0] == IP[0] && users[People].ip[1] == IP[1]){
             return "Player";
         }
     }
     for (people in spectator){
-        if (spectator[p].ip[0] == IP[0] && spectator[p].ip[1] == IP[1]){
+        console.log(people);
+        if (spectator[people].ip[0] == IP[0] && spectator[people].ip[1] == IP[1]){
             return "Spectator";
         }
     }
@@ -294,7 +295,7 @@ net.createServer(function(sock) {
         }
         //start game
         else if (str.substr(0,5) == 'start'){
-            if (findTypePlayer([sock.remoteAddress,sock.remotePort]=="Player")){
+            if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
                 if (gameRun != "running"){
                     if (playerCounter>=2){
                         if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
@@ -324,7 +325,7 @@ net.createServer(function(sock) {
         }
         //end game
         else if (str.substr(0,7) == 'endGame'){
-            if (findTypePlayer([sock.remoteAddress,sock.remotePort]=="Player")){
+            if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
                 if (gameRun == "running"){
                     if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
                         console.log("game will finnish in one turn");
@@ -339,7 +340,7 @@ net.createServer(function(sock) {
         }
         //playing cards
         else if (str.substr(0,2) == 'p '){
-            if (findTypePlayer([sock.remoteAddress,sock.remotePort]=="Player")){
+            if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
                 if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
                     if (users[findPlayer([sock.remoteAddress,sock.remotePort])].cards.includes(str.substr(2,str.length))) {
                         users[findPlayer([sock.remoteAddress,sock.remotePort])].playCard(str.substr(2,str.length),"general");
@@ -357,7 +358,7 @@ net.createServer(function(sock) {
             }
         }
         else if (str.substr(0,4) == 'pass'){
-            if (findTypePlayer([sock.remoteAddress,sock.remotePort]=="Player")){
+            if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
                 if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
                     users[findPlayer([sock.remoteAddress,sock.remotePort])].endTurn();
                 }
