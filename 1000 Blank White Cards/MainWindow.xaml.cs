@@ -20,6 +20,8 @@ namespace _1000_Blank_White_Cards
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string IPToJoin;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -37,7 +39,11 @@ namespace _1000_Blank_White_Cards
             Content = page;
             page.ladder += (object sender2, EventArgs e2) =>
             {
+                IPToJoin = page.IP;
                 Content = contentCopy;
+                Console.WriteLine($"'{IPToJoin}'");
+                Game.IsEnabled = IPToJoin != string.Empty;
+                GameUI(null,null);
             };
         }
 
