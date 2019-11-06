@@ -441,10 +441,12 @@ module.exports = {
             
         }
       }),
+    //Gives player 30 points
     "DERPASAURUS REX": new Card("Sam Gillard", ['dinosaur', 'rex', 'living', 'creature'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(30);
+
         }
       }),
     "DETECTIVE REX": new Card("Ashtin Belyea", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
@@ -513,10 +515,12 @@ module.exports = {
             
         }
       }),
+    //Takes 30 points from other player (only works 2 player)
     "DRAGON NOT A REX": new Card("Michael Calarese", ['dinosaur', 'rex', 'living', 'dragon'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[1].decrementPoints(30);
+          
         }
       }),
     "DROSTE EFFECT": new Card("Jordan Davies", [], ['Play'], function(functionality) {
@@ -549,10 +553,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 50 points
     "EMOJI": new Card("??", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50);
         }
       }),
     "EMP": new Card("Matthew Darley", ['living'], ['Play'], function(functionality) {
@@ -663,6 +668,7 @@ module.exports = {
             
         }
       }),
+    //No effects
     "GHOST": new Card("Ben Richardson", ['Useless'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -747,10 +753,12 @@ module.exports = {
             
         }
       }),
+    //Gives player 50 points
     "HAPPY SNOWMAN": new Card("Jordan Davies", ['living', ' Winter'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50);
+
         }
       }),
     "HATS": new Card("Oscar McMath", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -861,16 +869,20 @@ module.exports = {
             
         }
       }),
+    //Gives player 50 points
     "IT'S CHRISMAS": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50);
+
         }
       }),
+    //Gives player 0.9000 points
     "IT'S OVER 9000": new Card("Jamie Bougher", ['living', 'blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(0.9000);
+
         }
       }),
     "JESASE": new Card("Joshua Jones", ['living'], ['Play'], function(functionality) {
@@ -1065,10 +1077,12 @@ module.exports = {
             
         }
       }),
+    //Gives player 30 points
     "MICHAEL JORDAN CARD!": new Card("Jordan Davies", ['Cool'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(30);
+
         }
       }),
     "MINE TURTLE": new Card("Jamie Bougher", ['living'], ['Play'], function(functionality) {
@@ -1149,10 +1163,11 @@ module.exports = {
             
         }
       }),
+    //Gives player 25 points
     "NESSIE": new Card("Harry Trumble", ['living', 'Water', 'creature'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(25);
         }
       }),
     "NINJA": new Card("Lachlan Henderson", ['living', 'ninja'], ['Play'], function(functionality) {
@@ -1275,10 +1290,12 @@ module.exports = {
             
         }
       }),
+    //Gives player 50 points
     "PORTAL": new Card("Lachlan Murphy", ['living', 'blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50);
+
         }
       }),
     "Pot of gold": new Card("Jordan Davies", ['Rainbow'], ['Play'], function(functionality) {
