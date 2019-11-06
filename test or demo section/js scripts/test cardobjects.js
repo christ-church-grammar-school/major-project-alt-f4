@@ -46,10 +46,13 @@ module.exports = {
 
         }
       }),
+    
+    //Gives player 20 points
     "ADD MONKEYS": new Card("Ms O'Neill", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(20);
+
         }
       }),
     "ADDLEPUSS": new Card("Jamie Bougher", ['living', 'snagglepuss'], ['Play'], function(functionality) {
@@ -154,10 +157,13 @@ module.exports = {
             
         }
       }),
+
+    //Doubles players score
     "BACK TO THE FUTURE CARD": new Card("Lachie Jones", [], ['Play'], function(functionality) {
         switch(functionality) {
             default:
                 users[this.parent].score += user[this.parent].score;
+
         }
       }),
     "BAD NIGHTMARE": new Card("Jacob Marsh", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -288,10 +294,13 @@ module.exports = {
             
         }
       }),
+
+    //Takes 50 points from other player (only works 2 players)
     "CCGS BOY": new Card("Luke Simmons", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
                 users[1].decrementPoints(50);
+
         }
       }),
     "CENTRELINK": new Card("Adam Di Tullio", [], ['Play'], function(functionality) {
@@ -300,9 +309,12 @@ module.exports = {
             
         }
       }),
+
+    //Gives player 50 points
     "CHEZBURGER": new Card("Mr Milton", ['living', 'creature'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
+            users[this.parent].incrementPoints(50);
             
         }
       }),
@@ -336,6 +348,8 @@ module.exports = {
             
         }
       }),
+
+    //No funtions required
     "COOKIE": new Card("Adam Di Tullio", ['Useless'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -348,10 +362,13 @@ module.exports = {
             
         }
       }),
+
+    //Gives player 50 points
     "COOLEST CARD EVER": new Card("Jordan Davies", ['living', 'Cool', ' Useless'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(50);
+
         }
       }),
     "COPY THE COPY CAT": new Card("Lachie Jones", [], ['Play'], function(functionality) {
@@ -384,6 +401,8 @@ module.exports = {
             
         }
       }),
+
+    //No funtions required
     "CUTE PENGUIN": new Card("Jordan Davies", ['living', 'Winter', '  Useless'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -396,9 +415,12 @@ module.exports = {
             
         }
       }),
+
+    //Takes 50 points from other player (only works for 2 players)
     "DAT CARD": new Card("Jack Reynolds", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
+            users[1].decrementPoints(50);
             
         }
       }),
@@ -438,6 +460,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 30 points
     "DERPASAURUS REX": new Card("Sam Gillard", ['dinosaur', 'rex', 'living', 'creature'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -512,6 +535,7 @@ module.exports = {
             
         }
       }),
+
     //Takes 30 points from other player (only works 2 player)
     "DRAGON NOT A REX": new Card("Michael Calarese", ['dinosaur', 'rex', 'living', 'dragon'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -550,6 +574,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 50 points
     "EMOJI": new Card("??", [], ['Play'], function(functionality) {
         switch(functionality) {
@@ -665,6 +690,7 @@ module.exports = {
             
         }
       }),
+
     //No effects
     "GHOST": new Card("Ben Richardson", ['Useless'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -750,6 +776,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 50 points
     "HAPPY SNOWMAN": new Card("Jordan Davies", ['living', ' Winter'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -866,6 +893,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 50 points
     "IT'S CHRISMAS": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -874,6 +902,7 @@ module.exports = {
 
         }
       }),
+
     //Gives player 0.9000 points
     "IT'S OVER 9000": new Card("Jamie Bougher", ['living', 'blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1074,6 +1103,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 30 points
     "MICHAEL JORDAN CARD!": new Card("Jordan Davies", ['Cool'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1160,6 +1190,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 25 points
     "NESSIE": new Card("Harry Trumble", ['living', 'Water', 'creature'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1287,6 +1318,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 50 points
     "PORTAL": new Card("Lachlan Murphy", ['living', 'blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1361,6 +1393,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 51 points
     "REBEL": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1416,6 +1449,7 @@ module.exports = {
         
         }
       }),
+
     //Gives player 25 points
     "CAT GOT THE YARN": new Card("Ryan Cowan", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1435,6 +1469,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 50 points and takes 20 points from other player (only works with 2 players)
     "COWBOY CAT WITH GOLDEN GUNS RIDING A UNICORN": new Card("Lachlan Murphy", ['living', 'Rainbow'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1533,6 +1568,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 100 points
     "NEADERTHAL FROM THE FUTURE": new Card("James Lee", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1588,6 +1624,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 90 points
     "STOP BE HUMBLE": new Card("Lachlan Murphy", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1667,6 +1704,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 50 points
     "REX WILL RULE": new Card("Michael Calarese", ['living', 'rex', 'dinosaur'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1674,6 +1712,7 @@ module.exports = {
             users[this.parent].incrementPoints(50);
         }
       }),
+
     //Gives player 30 and takes 10 from opponent (only works with 2 players)
     "RICHIE RICH": new Card("Oliver Mitteregger", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1760,6 +1799,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 10 points
     "SMALL CHILD": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1803,6 +1843,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 1 point
     "SPARE CHANGE": new Card("Harry Trumble", [], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1870,6 +1911,7 @@ module.exports = {
             
         }
       }),
+
     //Gives the player 20 points
     "TDOGGYREX": new Card("Michael Calarese", ['rex', 'dinosaur', 'Cool'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1985,6 +2027,7 @@ module.exports = {
             
         }
       }),
+
     //Gives player 20 points
     "THEY'RE TAKING THE HOBBITS TO ISENGARD": new Card("Harry Trumble", [], ['Play'], function(functionality) {
         switch(functionality) {
@@ -2106,6 +2149,7 @@ module.exports = {
             
         }
       }),
+
     //Takes 30 points from opponent gives player 20 points (only works 2 players)
     "VAMPIRE BAT": new Card("Tristan Porter", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -2144,6 +2188,7 @@ module.exports = {
             
         }
       }),
+
     //Gives both players in game 2 cards (only works with 2 players)
     "WINTER IS COMING": new Card("Ms O'Neill", ['living', ' Winter'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -2152,6 +2197,7 @@ module.exports = {
           users[1].getCrd(2);
         }
       }),
+      
     //Gives person who played 50 points
     "X-WING": new Card("Adam Di Tullio", ['star wars'], ['Play'], function(functionality) {
         switch(functionality) {
