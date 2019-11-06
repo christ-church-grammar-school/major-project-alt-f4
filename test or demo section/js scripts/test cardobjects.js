@@ -438,10 +438,12 @@ module.exports = {
             
         }
       }),
+    //Gives player 30 points
     "DERPASAURUS REX": new Card("Sam Gillard", ['dinosaur', 'rex', 'living', 'creature'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].incrementPoints(30);
+
         }
       }),
     "DETECTIVE REX": new Card("Ashtin Belyea", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
@@ -510,10 +512,12 @@ module.exports = {
             
         }
       }),
+    //Takes 30 points from other player (only works 2 player)
     "DRAGON NOT A REX": new Card("Michael Calarese", ['dinosaur', 'rex', 'living', 'dragon'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[1].decrementPoints(30);
+          
         }
       }),
     "DROSTE EFFECT": new Card("Jordan Davies", [], ['Play'], function(functionality) {
