@@ -452,13 +452,15 @@ module.exports = {
     "DETECTIVE REX": new Card("Ashtin Belyea", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+
         }
-      }),
+    }),
+    //gives you 20 points and gives the other player 5 cards
     "DEVIL'S PARTY": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].incrementPoints(20);
+                users[1].getCrd(5);
         }
       }),
     "Diamond sword": new Card("Lachie Jones", [], ['Play'], function(functionality) {
@@ -499,8 +501,8 @@ module.exports = {
       }),
     "DOUBLE CARD USE": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].
         }
       }),
     "DR REX": new Card("Michael Calarese", ['rex', 'dinosaur', 'living', 'Medical'], ['Play'], function(functionality) {
@@ -565,11 +567,13 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //give you and the persoon to your left 50 points (only works 2 players)
     "ERMAHGERD 50": new Card("Rishi Dhakshinamoorthy", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[0].incrementPoints(50);
+                users[1].incrementPoints(50);
         }
       }),
     "EVERYTHING IS AWESOME": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
@@ -677,8 +681,8 @@ module.exports = {
       }),
     "GLORIOUS BOUNTY": new Card("Mr Milton", ['living', 'star wars'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].getCrd(3);
         }
       }),
     "GO TO JAIL": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
@@ -748,9 +752,9 @@ module.exports = {
         }
       }),
     "HAPPY BUNNY": new Card("??", ['living', 'Rabbit', 'creature'], ['Play'], function(functionality) {
-        switch(functionality) {
-          default:
-            
+        switch (functionality) {
+            default:
+                users[this.parents].incrementPoints(50);
         }
       }),
     //Gives player 50 points
