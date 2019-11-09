@@ -4,7 +4,7 @@ const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf-8');
 var HOST = '';
 var PORT = 4000;
-var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print'];
+var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print','Discard pele'];
 var discardPile = [];
 var fillDeck = [];
 var cards = [];
@@ -77,14 +77,14 @@ function Player(name, ip, sock) {
             discardPile.push(name);
             this.cards.splice((this.findCard(name)),1);
             this.actionsInTurn--;
+            updateCards(this.cards);
         }
         if(this.actionsInTurn<=0){
             this.endTurn();
         }
-        
     }
     this.endTurn = function(){
-        if(gameRun=="Not"){
+        if(gameRun=="ending"){
             gameEnded();
         } 
         else{
@@ -100,37 +100,68 @@ function Player(name, ip, sock) {
             }
         }
     }
-    this.getCrd = function(amount){
-            for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
-            {
-                //draws the first card from the draw pile
-                cards[deck1[0]].parent = this.name;
-                this.cards.push(deck1[0]);
-                deck1.splice(0, 1);
+    this.removeCards = function(amount,special = null){ // users[this.parent].removeCards)(1[, card]);
+        if (amount == "hand"){
+            for (handCards in this.cards){
+                discardPile.push(handCards);
             }
-        //add things for stuff when you get cards------||  e.g get points
+            this.cards = [];
+            // updateCards(this.name,this.cards);
+        }
+        else if (special == null){
+            if (this.cards.length<amount){
+                console.error("amount of cards to remove to many");
+            }
+            else{
+                for (var cardsToRemove = 0 ; cardsToRemove < amount;cardsToRemove++ ){
+                    var ranNum = Math.floor(Math.random() * this.cards.length);
+                    discardPile.push(this.cards.splice(ranNum,1));
+                    this.cards.splice(ranNum,1);
+                    // updateCards(this.name,this.cards);
+                }
+            }
+        }
+        else{
+            //add extra else if's to only remove must plays,neggs,which cards
+        }
+    }
+    this.getCrd = function(amount){
+        if(deck1.length < amount){
+            refillDeck();
+        }
+        for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
+        {
+            //draws the first card from the draw pile
+            cards[deck1[0]].parent = this.name;
+            this.cards.push(deck1[0]);
+            deck1.splice(0, 1);
+            // updateCards(this.name,this.cards);//uc cards 
+        }
+    //add things for stuff when you get cards------||  e.g get points
     }
     this.startTurn = function(playingPLayer){
         if (this.TurnRun == "No"){
             //add things that activate at the start of a turn
             this.getCrd(1);
-            console.log(this.cards);//remove later -------------------------------------------------------------------------------------------------------------
             this.actionsInTurn = this.cardsToPlay;
             this.TurnRun = "Yes";
+            updateCards(this.cards);
         }
     }
     
 }
 //does everything to end game
 function gameEnded(){
+    gameRun = "Not";
     if (users["Player1"].score == users["Player2"].score){
-        console.log("Tie");
+        sendText("all", "The game was a Tie");
+        //update score and print
     }
     else if(users["Player1"].score > users["Player2"].score){
-        console.log("Player 1 wins!");
+        sendText("all", "Player 1 wins!");
     }
     else if(users["Player1"].score < users["Player2"].score){
-        console.log("Player 2 wins!");
+        sendText("all", "Player 2 wins!");
     }
     else{
         console.error("No one won???");
@@ -144,6 +175,20 @@ function shuffleDeck() {
         var ranNum = Math.floor(Math.random() * deck1.length);
         fillDeck.push(deck1[ranNum]);
         deck1.splice(ranNum, 1);
+    }
+    while (0<fillDeck.length)
+    {
+        deck1.push(fillDeck[0]);
+        fillDeck.splice(0, 1);
+    }
+}
+//discards shuffle
+function refillDeck() {
+    while (0<discardPile.length)
+    {
+        var ranNum = Math.floor(Math.random() * discardPile.length);
+        fillDeck.push(discardPile[ranNum]);
+        discardPile.splice(ranNum, 1);
     }
     while (0<fillDeck.length)
     {
@@ -168,10 +213,25 @@ function findTypePlayer(IP){
         }
     }
     for (people in spectator){
-        console.log(people);
         if (spectator[people].ip[0] == IP[0] && spectator[people].ip[1] == IP[1]){
             return "Spectator";
         }
+    }
+}
+
+function updateCards(){
+    sendText(users["Player1"],`uc cards [${users["Player1"].cards.join()}] [${users["Player1"].field.join()}] [${users["Player2"].field.join()}] ${users["Player2"].cards.length}`);
+    sendText(users["Player2"],`uc cards [${users["Player2"].cards.join()}] [${users["Player2"].field.join()}] [${users["Player1"].field.join()}] ${users["Player1"].cards.length}`);
+}
+
+function sendText(player, msg){
+    if (player == "all"){
+        for (people in users){
+            users[people].sock.write(msg+"\n");
+        }
+    }
+    else{
+        player.sock.write(msg+"\n");
     }
 }
 
@@ -185,7 +245,7 @@ function Card(author, tags, functionality, ability) {
 
 cards = {
     'ghost print': new Card('Deck',[], [], function(functionality) {
-        console.log('spooky')
+        sendText(users[this.parent], "Spooky");
     }),
     'pot of gold print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
@@ -201,11 +261,11 @@ cards = {
                 users[this.parent].getCrd(1);
         }
     }),
-    'pig man print': new Card('Deck',[],['action'],function(functionality){
+    'pig man print': new Card('Deck',[],['action'],function(functionality){// dfkdjfklsdjfldskjflmvg jmoerkiujcgxhiec fix later if don't have 3 cards can't play
         switch(functionality) {
             default:
-                users[this.parent].decrementPoints(30);   
-                users[this.parent].getCrd(3);
+                users[this.parent].incrementPoints(30);   
+                users[this.parent].removeCards(3);
         }
     }),
     'more I want more print': new Card('Deck',[],['action'],function(functionality){
@@ -236,7 +296,7 @@ cards = {
     'reg neanderthal from the future print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
-                users[this.parent].incrementPoints(25); 
+                users[this.parent].incrementPoints(100); 
         }
     }),
     'reg cat got the yarn print': new Card('Deck',[],['action'],function(functionality){
@@ -253,9 +313,9 @@ cards = {
     }),
     'potato of fun print': new Card('Deck',[],['action'],function(functionality){console.log("Look how much fun it is.")}),
     'pluto print': new Card('Deck',[],['action'],function(functionality){
-        console.log("Not a planet anymore.")
-        console.log("No effect.")
-        console.log("Because life is tough.")
+        sendText(users[this.parent],"Not a planet anymore.")
+        sendText(users[this.parent],"No effect.")
+        sendText(users[this.parent],"Because life is tough.\n")
     }),
     'nessie print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
@@ -282,7 +342,7 @@ cards = {
         }
     }),
     'cookie print': new Card('Deck',[],['action'],function(functionality){
-        console.log("a cookie")
+        sendText(users[this.parent],"a cookie\n")
     }),
     'chezburger print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
@@ -290,6 +350,13 @@ cards = {
                 users[this.parent].incrementPoints(50); 
         }
     }),
+    'Discard pele': new Card('???',[],['Play'],function(functionality){
+        switch(functionality) {
+            default:
+                users[this.parent].incrementPoints(50); 
+                users[this.parent].removeCards("hand","none");
+        }
+    })
 }
 
 
@@ -320,6 +387,8 @@ net.createServer(function(sock) {
         }
         if (str.substr(0,6) == "#chat "){
             console.log("[CHAT]: " + str.substr(6,str.length));
+            sendText(users["Player1"],str.substr(6,str.length)+"\n");
+            sendText(users["Player2"],str.substr(6,str.length)+"\n");
         }
         //start game
         else if (str.substr(0,5) == 'start'){
@@ -332,28 +401,29 @@ net.createServer(function(sock) {
                                 gameRun = "running";
                                 shuffleDeck()
                                 for (players in users){
-                                    (users[players]).getCrd(5);
+                                    users[players].getCrd(5);
+                                    updateCards(users[players].cards);
                                 }
                                 users[`Player${Turn}`].startTurn();
                             }
                             else{
-                                sock.write("you don't have the power to start the game.");
+                                sock.write("you don't have the power to start the game."+"\n");
                             }
                         }
                         else{
-                            sock.write("You need at least 2 players to start");
+                            sock.write("You need at least 2 players to start"+"\n");
                         }
                     }
                     else{
-                        sock.write("game already running.");
+                        sock.write("game already running."+"\n");
                     }
                 }
                 else{
-                    sock.write("You cannot participate in game");
+                    sock.write("You cannot participate in game"+"\n");
                 }
             }
             else{
-                sock.write("Exit and start a new Game to play again");
+                sock.write("Exit and start a new Game to play again"+"\n");
             }
         }
         //end game
@@ -361,18 +431,18 @@ net.createServer(function(sock) {
             if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
                 if (gameRun == "running"){
                     if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
-                        console.log("game will finnish in one turn");
-                        gameRun = "Not"
+                        sendText("all","game will finnish in one turn");
+                        gameRun = "ending";
                     }
                 }
             }
             else{
-                sock.write("You cannot participate in game");
+                sock.write("You cannot participate in game"+"\n");
             }
         }
         //playing cards
         else if (str.substr(0,2) == 'p '){
-            if (gameRun == "running"){
+            if (gameRun == "running"|| gameRun == "ending"){
                 if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
                     if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
                         if (users[findPlayer([sock.remoteAddress,sock.remotePort])].cards.includes(str.substr(2,str.length))) {
@@ -383,15 +453,15 @@ net.createServer(function(sock) {
                         }
                     } 
                     else{
-                        sock.write("Wait for your turn");
+                        sock.write("Wait for your turn"+"\n");
                     }
                 }
                 else{
-                    sock.write("You cannot participate in game");
+                    sock.write("You cannot participate in game"+"\n");
                 }
             }
             else{
-                console.log("Game is not running");
+                sock.log("Game is not running"+"\n");
             }
         }
         else if (str.substr(0,4) == 'pass'){
@@ -402,11 +472,11 @@ net.createServer(function(sock) {
                     }
                 }
                 else{
-                    sock.write("You cannot participate in game");
+                    sock.write("You cannot participate in game"+"\n");
                 }
             }
             else{
-                console.log("Game is not running");
+                sock.log("Game is not running"+"\n");
             }
         }
         else {
