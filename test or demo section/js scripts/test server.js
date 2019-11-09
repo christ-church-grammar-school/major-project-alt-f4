@@ -227,6 +227,7 @@ function findOpponent(parentName){
 function gameEnded(){
     this.checkField("gameEnded",null);
     gameRun = "Not";
+    gameFinnished = "Yes";
     if (users["Player1"].score == users["Player2"].score){
         sendText("all", "The game was a Tie");
         //update score and print
@@ -315,7 +316,7 @@ function sendText(player, msg){
 }
 
 function Card(author, tags, functionality, ability) {
-    this.author = author;
+    this.author = author;   
     this.parent = 'deck';
     this.ability = ability;
     this.functionality = functionality;
@@ -433,7 +434,7 @@ cards = {
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
-                users[this.parent].removeCards("hand",null);
+                users[this.parent].removeCards("hand","none");
         }
     })
 }
@@ -456,6 +457,26 @@ net.createServer(function(sock) {
         users[`Player${playerCounter}`] = new Player(`Player${playerCounter}`, [sock.remoteAddress,sock.remotePort],sock);
         //gives rights to start
         users['Player1'].job = "host"; 
+        if (playerCounter==2){
+            if (gameFinnished != "Yes"){
+                if (gameRun != "running"){
+                    //game starts
+                    gameRun = "running";
+                    shuffleDeck()
+                    for (players in users){
+                        users[players].getCrd(5);
+                        updateCards(users[players].cards);
+                    }
+                    users[`Player${Turn}`].startTurn();
+                }
+                else{
+                    console.error("game already running.");
+                }
+            }
+            else{
+                console.error("game has finnished");
+            }
+        }
     }
     
     // Add a 'data' event handler to this instance of socket
@@ -468,42 +489,6 @@ net.createServer(function(sock) {
             console.log("[CHAT]: " + str.substr(6,str.length));
             sendText(`chat ${users["Player1"],str.substr(6,str.length)}\n`);
             sendText(`chat ${users["Player2"],str.substr(6,str.length)}\n`);
-        }
-        //start game
-        else if (str.substr(0,5) == 'start'){
-            if (gameFinnished == "No"){
-                if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
-                    if (gameRun != "running"){
-                        if (playerCounter>=2){
-                            if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
-                                //game starts
-                                gameRun = "running";
-                                shuffleDeck()
-                                for (players in users){
-                                    users[players].getCrd(5);
-                                    updateCards(users[players].cards);
-                                }
-                                users[`Player${Turn}`].startTurn();
-                            }
-                            else{
-                                sock.write("you don't have the power to start the game."+"\n");
-                            }
-                        }
-                        else{
-                            sock.write("You need at least 2 players to start"+"\n");
-                        }
-                    }
-                    else{
-                        sock.write("game already running."+"\n");
-                    }
-                }
-                else{
-                    sock.write("You cannot participate in game"+"\n");
-                }
-            }
-            else{
-                sock.write("Exit and start a new Game to play again"+"\n");
-            }
         }
         //end game
         else if (str.substr(0,7) == 'endGame'){
