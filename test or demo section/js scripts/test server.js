@@ -53,7 +53,6 @@ function Player(name, ip, sock) {
         this.score += (amount * this.incrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
-        console.log(this.name+"'s new  score: "+users[this.name].score);//change to an update score later
     }
 
     this.decrementPoints = function(amount) {
@@ -61,7 +60,6 @@ function Player(name, ip, sock) {
         this.score -= (amount * this.decrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.decrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
-        console.log(this.name+"'s new  score: "+users[this.name].score);//change to an update score later
     }
     this.findCard = function(findCrd){
         for (handCards in this.cards){
@@ -78,6 +76,7 @@ function Player(name, ip, sock) {
             this.cards.splice((this.findCard(name)),1);
             this.actionsInTurn--;
             updateCards(this.cards);
+            updateScore();
         }
         if(this.actionsInTurn<=0){
             this.endTurn();
@@ -100,13 +99,12 @@ function Player(name, ip, sock) {
             }
         }
     }
-    this.removeCards = function(amount,special = null){ // users[this.parent].removeCards)(1[, card]);
+    this.removeCards = function(amount,special = null){ 
         if (amount == "hand"){
             for (handCards in this.cards){
                 discardPile.push(handCards);
             }
             this.cards = [];
-            // updateCards(this.name,this.cards);
         }
         else if (special == null){
             if (this.cards.length<amount){
@@ -117,7 +115,6 @@ function Player(name, ip, sock) {
                     var ranNum = Math.floor(Math.random() * this.cards.length);
                     discardPile.push(this.cards.splice(ranNum,1));
                     this.cards.splice(ranNum,1);
-                    // updateCards(this.name,this.cards);
                 }
             }
         }
@@ -219,9 +216,13 @@ function findTypePlayer(IP){
     }
 }
 
+function updateScore(){
+    sendText("all",`sc ${users["Player1"].score} ${users["Player2"].score}`);
+}
+
 function updateCards(){
-    sendText(users["Player1"],`uc cards [${users["Player1"].cards.join()}] [${users["Player1"].field.join()}] [${users["Player2"].field.join()}] ${users["Player2"].cards.length}`);
-    sendText(users["Player2"],`uc cards [${users["Player2"].cards.join()}] [${users["Player2"].field.join()}] [${users["Player1"].field.join()}] ${users["Player1"].cards.length}`);
+    sendText(users["Player1"],`uc [${users["Player1"].cards.join()}] [${users["Player1"].field.join()}] [${users["Player2"].field.join()}] ${users["Player2"].cards.length}`);
+    sendText(users["Player2"],`uc [${users["Player2"].cards.join()}] [${users["Player2"].field.join()}] [${users["Player1"].field.join()}] ${users["Player1"].cards.length}`);
 }
 
 function sendText(player, msg){
