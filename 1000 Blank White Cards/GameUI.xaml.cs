@@ -8,13 +8,9 @@ using System.Net;
 using System.Text;
 using System.Windows.Input;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -33,7 +29,7 @@ namespace _1000_Blank_White_Cards
         List<Button> oponentsHand = new List<Button>();
         List<Button> field = new List<Button>();
         List<Button> oponentsField = new List<Button>();
-        IPAddress ip;
+        string ip;
         TcpClient tcpClient = new TcpClient();
         NetworkStream serverStream = default(NetworkStream);
         string readData = string.Empty;
@@ -41,13 +37,14 @@ namespace _1000_Blank_White_Cards
         public GameUI()
         {
             InitializeComponent();
-            cmdConnect_Click();
         }
 
         private void cmdConnect_Click()
         {
             try
             {
+                Console.WriteLine(((MainWindow)Window.GetWindow(this)).IPToJoin);
+                ip = ((MainWindow)Window.GetWindow(this)).IPToJoin;
                 if (tcpClient.Connected == true)
                 {
                     // create a new TCP client
@@ -70,10 +67,12 @@ namespace _1000_Blank_White_Cards
                     serverStream.Flush();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // error
                 Console.WriteLine("lmao it errored");
+                Console.WriteLine(e.ToString());
+                Console.WriteLine(ip);
                 return;
             }
             // open a new task
@@ -105,9 +104,6 @@ namespace _1000_Blank_White_Cards
                     Thread.Sleep(500);
                 }
             });
-
-
-
         }
 
         // Purpose:     Updates the window with the newest message received
@@ -164,58 +160,67 @@ namespace _1000_Blank_White_Cards
 
         private void handler(string reply)
         {
-            Console.WriteLine(reply);
-            if (reply.StartsWith("draw "))
+            Console.WriteLine("Sent: " + reply);
+            if (reply.StartsWith("chat "))
             {
-                summonHandCard(reply.Substring(5,reply.Length-5));
-            } else if (reply.StartsWith("removeHand "))
+                lmao(reply.Substring(5, reply.Length));
+            }
+            else if (reply.StartsWith("sc "))
             {
-                Button button = new Button();
-                for (var i = 0; i <hand.Count; i++)
+                string[] x = reply.Substring(3, reply.Length).Split(' ');
+                scoreBox.Text = $"Score:\nYou: {x[0]}\nPlayer 2: {x[1]}";
+            }
+            else if (reply.StartsWith("uc "))
+            {
+                foreach (Button card in hand)
                 {
-                    Image hrrr = (Image)hand[i].Content;
-                    if (hrrr.Source == new BitmapImage(new Uri($"cards/{reply.Substring(11, reply.Length - 11)}.jpg", UriKind.Relative)) )
-                    {
-                        button = hand[i];
-                    }
+                    GameUIGrid.Children.Remove(card);
+                    hand.Remove(card);
                 }
-                hand.Remove(button);
-                GameUIGrid.Children.Remove(button);
-                reorganiseHand();
+                foreach (Button card in field)
+                {
+                    GameUIGrid.Children.Remove(card);
+                    hand.Remove(card);
+                }
+                foreach (Button card in oponentsHand)
+                {
+                    GameUIGrid.Children.Remove(card);
+                    hand.Remove(card);
+                }
+                foreach (Button card in oponentsField)
+                {
+                    GameUIGrid.Children.Remove(card);
+                    hand.Remove(card);
+                }
+                string[] x = reply.Substring(3, reply.Length).Split(' ');
+                foreach (String card in x[0].Split(','))
+                {
+                    summonHandCard(card);
+                }
+                foreach (String card in x[1].Split(','))
+                {
+                    summonFieldCard(card);
+                }
+                foreach (String card in x[2].Split(','))
+                {
+                    summonOponentFieldCard(card);
+                }
+                for (int i = 0; i < Convert.ToInt32(x[3]); i++)
+                {
+                    summonOponentHandCard("cardback print");
+                }
+                discardPile.Source = new BitmapImage(new Uri($"cards/{x[4]}.jpg", UriKind.Relative));
             }
         }
 
         private void playCard(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            Console.WriteLine("lmao");
-            if (hand.Contains(button))
-            {
-                Console.WriteLine("hand");
-                hand.Remove(button);
-                reorganiseHand();
-            }
-            else if (field.Contains(button))
-            {
-                Console.WriteLine("field");
-                field.Remove(button);
-                reorganiseField();
-            }
-            else if (oponentsHand.Contains(button))
-            {
-                Console.WriteLine("oponentsHand");
-                oponentsHand.Remove(button);
-                reorganiseOponentHand();
-            }
-            else if (oponentsField.Contains(button))
-            {
-                Console.WriteLine("oponentsField");
-                oponentsField.Remove(button);
-                reorganiseOponentField();
-            }
-            GameUIGrid.Children.Remove(button);
-            Image image = (Image)button.Content;
-            discardPile.Source = image.Source;
+            String x = ((Image)button.Content).Source.ToString();
+            Console.WriteLine(x.Length);
+            Console.WriteLine(x);
+            String y = x.Substring(61, x.Length - 65);
+            Console.WriteLine(y.Substring(1));
         }
 
         private void pushButton(object sender, RoutedEventArgs e)
@@ -224,7 +229,7 @@ namespace _1000_Blank_White_Cards
             summonFieldCard("3 headed guard dog2 print");
             summonOponentHandCard("3 headed guard dog2 print");
             summonOponentFieldCard("3 headed guard dog2 print");
-            //Console.WriteLine(((MainWindow)Window.GetWindow(this)).IPToJoin);
+            Console.WriteLine(((MainWindow)Window.GetWindow(this)).IPToJoin);
         }
 
         public void summonHandCard(string card)
@@ -434,9 +439,14 @@ namespace _1000_Blank_White_Cards
             {
                 if (TypeText.Text != "")
                 {
-                    cmdSendMessage_Click(TypeText.Text);
+                    cmdSendMessage_Click("#chat " + TypeText.Text);
                 }
             }
+        }
+
+        private void connect(object sender, RoutedEventArgs e)
+        {
+            cmdConnect_Click();
         }
     }
 }
