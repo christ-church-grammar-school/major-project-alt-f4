@@ -273,7 +273,7 @@ module.exports = {
     "CARROT OF SURRENDER": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                //user[1].yeetcards(entirehand)
+                //user[1].removeCards("hand",null);
                 users[this.parent].incrementPoints(20);
         }
       }),
@@ -349,7 +349,8 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //Does nothing
     "COOLEST CARD EVER": new Card("Jordan Davies", ['living', 'Cool', ' Useless'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -379,12 +380,13 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+
     "CREEPER!": new Card("Harry Trumble", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
             //play immediately
-            //lose 4 cards
+            //user[this.parent].removeCards(4,null);
         }
       }),
     "CUTE PENGUIN": new Card("Jordan Davies", ['living', 'Winter', '  Useless'], ['Play'], function(functionality) {
@@ -404,11 +406,12 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //remove 50 points from the other player (only 2 player)
     "DEATH BY UNICORN": new Card("Gilbert Porter", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[1].decrementPoints(50);
         }
       }),
     "DEATH STAR": new Card("Adam Di Tullio", ['star wars'], ['Play'], function(functionality) {
@@ -452,13 +455,15 @@ module.exports = {
     "DETECTIVE REX": new Card("Ashtin Belyea", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+
         }
-      }),
+    }),
+    //gives you 20 points and gives the other player 5 cards
     "DEVIL'S PARTY": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].incrementPoints(20);
+                users[1].getCrd(5);
         }
       }),
     "Diamond sword": new Card("Lachie Jones", [], ['Play'], function(functionality) {
@@ -499,8 +504,8 @@ module.exports = {
       }),
     "DOUBLE CARD USE": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].
         }
       }),
     "DR REX": new Card("Michael Calarese", ['rex', 'dinosaur', 'living', 'Medical'], ['Play'], function(functionality) {
@@ -565,11 +570,13 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //give you and the persoon to your left 50 points (only works 2 players)
     "ERMAHGERD 50": new Card("Rishi Dhakshinamoorthy", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[0].incrementPoints(50);
+                users[1].incrementPoints(50);
         }
       }),
     "EVERYTHING IS AWESOME": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
@@ -674,11 +681,12 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //pick up three cards from the deck
     "GLORIOUS BOUNTY": new Card("Mr Milton", ['living', 'star wars'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].getCrd(3);
         }
       }),
     "GO TO JAIL": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
@@ -746,11 +754,12 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //get 50 points
     "HAPPY BUNNY": new Card("??", ['living', 'Rabbit', 'creature'], ['Play'], function(functionality) {
-        switch(functionality) {
-          default:
-            
+        switch (functionality) {
+            default:
+                users[this.parents].incrementPoints(50);
         }
       }),
     //Gives player 50 points
@@ -905,8 +914,8 @@ module.exports = {
       }),
     "JUST DO IT": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.player].getCrd(2);
         }
       }),
     "KIDNAP THE COOKIE MONSTER": new Card("Cody Stump", ['living'], ['Play'], function(functionality) {
@@ -944,11 +953,12 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //takes 70 points off the other person (completely wrong with more than 2 people)
     "KYLO RENS LIGHTSABER": new Card("Jamie Bougher", ['living', 'star wars'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[1].decrementPoints(70);
         }
       }),
     "LEAGUE OF NINJAS": new Card("Charles Worthington-O'Leary", ['living', 'ninja', 'dragon', 'creature'], ['Play'], function(functionality) {
@@ -960,7 +970,8 @@ module.exports = {
     "LEGO BUILD": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            //shuffle discard pile into deck
+            //refillDeck();
         }
       }),
     "LET THERE BE REX": new Card("Micheal Calarese", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
@@ -1105,8 +1116,9 @@ module.exports = {
       }),
     "MORE I WANT MORE": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.player].decrementPoints(20);
+                users[this.player].getCrd(4);
         }
       }),
     "MOST USELESS CARD EVER": new Card("Jordan Davies", [], ['Play'], function(functionality) {
@@ -1150,11 +1162,13 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //gives you 50 points and takes 50 points off another player (only works with 2 players)
     "NECROMANCER": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.player].incrementPoints(50);
+                users[1].decrementPoints(50);
         }
       }),
     "NEIL DE GRASSE TYSON": new Card("Andy Jian", ['living'], ['Play'], function(functionality) {
@@ -1256,8 +1270,9 @@ module.exports = {
       }),
     "PIGGY POWER": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.player].incrementPoints(30);
+                users[this.player].getCrd(1);
         }
       }),
     "PINAPPLE POWER": new Card("Ms Auld", ['living'], ['Play'], function(functionality) {
