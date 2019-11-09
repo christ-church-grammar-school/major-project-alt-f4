@@ -367,7 +367,7 @@ cards = {
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
-                users[this.parent].removeCards("hand","none");
+                users[this.parent].removeCards("hand",null);
         }
     })
 }

@@ -476,11 +476,12 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //remove opponents hand and attain 20 points
     "CARROT OF SURRENDER": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                //user[1].removeCards("hand",null);
+                users[findOpponent(this.parent)].removeCards("hand",null);
                 users[this.parent].incrementPoints(20);
         }
       }),
@@ -593,7 +594,7 @@ module.exports = {
         switch(functionality) {
           default:
             //play immediately
-            //user[this.parent].removeCards(4,null);
+            user[this.parent].removeCards(4,null);
         }
       }),
     "CUTE PENGUIN": new Card("Jordan Davies", ['living', 'Winter', '  Useless'], ['Play'], function(functionality) {
@@ -682,7 +683,8 @@ module.exports = {
     "Discard pele": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+                users[this.parent].incrementPoints(50);
+                users[this.parent].removeCards("hand", null);
         }
       }),
     "Donald trump": new Card("Ben Main", ['living', ' America'], ['Play'], function(functionality) {
@@ -1472,7 +1474,7 @@ module.exports = {
     "PIG MAN": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                //users[this.parent].removeCards(3,null);
+                users[this.parent].removeCards(3,null);
                 users[this.parent].incrementPoints(30);
         }
       }),
@@ -1965,11 +1967,14 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //steal a card from a player and get 25 points
+    //PROBABLY DOESN'T WORK
     "SKY DIVE": new Card("Lachlan Woodall", ['living', 'blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
                 users[findOpponent(this.parent)].cards[0].parent = this.parent;
+                users[this.parent].incrementPoints(25);
         }
       }),
     "SLAUGHTERHOUSE": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
@@ -2110,7 +2115,8 @@ module.exports = {
     "TDOGGYREX": new Card("Michael Calarese", ['rex', 'dinosaur', 'Cool'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            users[this.parent].incrementPoints(20);
+                users[this.parent].incrementPoints(20);
+                //makes the cool
         }
       }),
     "TEA ATTACK": new Card("Will Taylor", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -2127,8 +2133,9 @@ module.exports = {
       }),
     "TERRIAN FALCON": new Card("Tommy Andrews", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[findOpponent(this.parent)].removeCards(3);
+                users[findOpponent(this.parent)].incrementPoints(20);
         }
       }),
     "THA COOL CARD": new Card("Lachie Jones", ['living', 'Cool'], ['Play'], function(functionality) {
@@ -2172,11 +2179,15 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //Divides everyones score by 10 (only works with 2 players)
     "THE GREAT DIVIDE": new Card("Jordan Davies", ['blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                for (user in users) {
+                    users[this.parent].score /= 10;
+                    users[findOpponent(this.parent)].score /= 10;
+                }
         }
       }),
     "THE NUKE": new Card("Tristan Porter", [], ['Play'], function(functionality) {
@@ -2217,8 +2228,8 @@ module.exports = {
       }),
     "THERE CAN BE ONLY ONE": new Card("Josh Gilbert", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].removeCards(users[this.parent].card.length - 1, null);
         }
       }),
     //Gives player 20 points
@@ -2423,6 +2434,7 @@ module.exports = {
         switch(functionality) {
           default:
                 users[this.parent].incrementPoints(50);
+                //doubles for each potato
         }
       }),
     "ZEUS": new Card("Ben Richardson", ['living'], ['Play'], function(functionality) {
@@ -2438,4 +2450,3 @@ module.exports = {
         }
       })
 };
-
