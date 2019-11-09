@@ -155,7 +155,7 @@ function findOpponent(parentName){
         return "Player1";
     }
     else{
-
+        console.error("no opponent found");
     }
 }
 
