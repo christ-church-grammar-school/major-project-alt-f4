@@ -145,8 +145,20 @@ function Player(name, ip, sock) {
             updateCards(this.cards);
         }
     }
-    
 }
+/*targets other player*/
+function findOpponent(parentName){
+    if (users[parentName].order == "1"){
+        return "Player2";
+    }
+    else if (users[parentName].order == "2"){
+        return "Player1";
+    }
+    else{
+
+    }
+}
+
 //does everything to end game
 function gameEnded(){
     gameRun = "Not";
