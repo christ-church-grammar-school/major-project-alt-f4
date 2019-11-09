@@ -48,7 +48,7 @@ function Player(name, ip, sock) {
             console.error('User already has that prefix!');
         }
     }
-    this.incrementPoints = function(amount) {
+    this.incrementPoints = function(amount) {//sc [your score] [their score]
         //increases the person's score by amount while adding any additional things to take into acount
         this.score += (amount * this.incrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
@@ -387,8 +387,8 @@ net.createServer(function(sock) {
         }
         if (str.substr(0,6) == "#chat "){
             console.log("[CHAT]: " + str.substr(6,str.length));
-            sendText(users["Player1"],str.substr(6,str.length)+"\n");
-            sendText(users["Player2"],str.substr(6,str.length)+"\n");
+            sendText(`chat ${users["Player1"],str.substr(6,str.length)}\n`);
+            sendText(`chat ${users["Player2"],str.substr(6,str.length)}\n`);
         }
         //start game
         else if (str.substr(0,5) == 'start'){
