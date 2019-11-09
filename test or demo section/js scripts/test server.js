@@ -48,11 +48,13 @@ function Player(name, ip, sock) {
             console.error('User already has that prefix!');
         }
     }
-    this.incrementPoints = function(amount) {//sc [your score] [their score]
+
+    this.incrementPoints = function(amount) {
         //increases the person's score by amount while adding any additional things to take into acount
         this.score += (amount * this.incrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
+        this.checkField("incrementPoints",amount);
     }
 
     this.decrementPoints = function(amount) {
@@ -60,7 +62,9 @@ function Player(name, ip, sock) {
         this.score -= (amount * this.decrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.decrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
+        this.checkField("decrementPoints",amount);
     }
+
     this.findCard = function(findCrd){
         for (handCards in this.cards){
             if (this.cards[handCards] == findCrd){
@@ -69,6 +73,7 @@ function Player(name, ip, sock) {
         }
         console.error("no card found");
     }
+    
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
             cards[name].ability(use);
@@ -82,6 +87,7 @@ function Player(name, ip, sock) {
             this.endTurn();
         }
     }
+
     this.endTurn = function(){
         if(gameRun=="ending"){
             gameEnded();
@@ -90,6 +96,7 @@ function Player(name, ip, sock) {
             if (this.TurnRun == "Yes"){
                 //ends turn
                 this.TurnRun = "No";
+                this.checkField("endTurn",null);
                 this.actionsInTurn = 0;
                 if (Turn == playerCounter){Turn = 1;}
                 else{Turn ++;} 
@@ -99,8 +106,10 @@ function Player(name, ip, sock) {
             }
         }
     }
+
     this.removeCards = function(amount,special = null){ 
         if (amount == "hand"){
+            this.checkField("removeCards",this.cards.length);
             for (handCards in this.cards){
                 discardPile.push(handCards);
             }
@@ -115,6 +124,7 @@ function Player(name, ip, sock) {
                     var ranNum = Math.floor(Math.random() * this.cards.length);
                     discardPile.push(this.cards.splice(ranNum,1));
                     this.cards.splice(ranNum,1);
+                    this.checkField("removeCards",amount);
                 }
             }
         }
@@ -122,6 +132,26 @@ function Player(name, ip, sock) {
             //add extra else if's to only remove must plays,neggs,which cards
         }
     }
+
+    this.destroyCard = function(cardToDestroy){
+        //destroy card on feild
+        if (cardToDestroy == "feildWipe"){
+            //add stuff to check for resistent cards
+            for (fieldCards in this.field){
+                discardPile.push(fieldCards);
+            }
+            this.field = [];
+            this.checkField("cardDestroyed","all");
+        }
+        else{
+            for (card in cardToDestroy){
+                this.field.splice(this.findCard(card),1);
+                this.checkField("cardDestroyed",card);
+            }
+        }
+        this.checkField("cardDestroyed",null);
+    }
+
     this.getCrd = function(amount){
         if(deck1.length < amount){
             refillDeck();
@@ -132,20 +162,54 @@ function Player(name, ip, sock) {
             cards[deck1[0]].parent = this.name;
             this.cards.push(deck1[0]);
             deck1.splice(0, 1);
+            this.checkField("getCards",amount);
             // updateCards(this.name,this.cards);//uc cards 
         }
     //add things for stuff when you get cards------||  e.g get points
     }
+
+    this.checkField = function(typeCheck,extraInfo){
+        if (typeCheck == "startTurn"){
+
+        }
+        else if(typeCheck == "endTurn"){
+
+        }
+        else if(typeCheck == "decrementPoints"){
+
+        }
+        else if(typeCheck == "incrementPoints"){
+
+        }
+        else if(typeCheck == "getCards"){
+            //extra info gives how many cards
+        }
+        else if(typeCheck == "removeCards"){
+
+        }
+        else if(typeCheck == "cardDestroyed"){
+            //remove passive effects e.g. cash cow
+        }
+        else if(typeCheck == "gameEnded"){
+            //add stuff like goal after siren
+        }
+        else{
+            
+        }
+    }
+
     this.startTurn = function(playingPLayer){
         if (this.TurnRun == "No"){
             //add things that activate at the start of a turn
             this.getCrd(1);
             this.actionsInTurn = this.cardsToPlay;
             this.TurnRun = "Yes";
+            this.checkField("startTurn",null);
             updateCards(this.cards);
         }
     }
 }
+
 /*targets other player*/
 function findOpponent(parentName){
     if (users[parentName].order == "1"){
@@ -155,12 +219,13 @@ function findOpponent(parentName){
         return "Player1";
     }
     else{
-
+        console.error("no opponent found");
     }
 }
 
 //does everything to end game
 function gameEnded(){
+    this.checkField("gameEnded",null);
     gameRun = "Not";
     if (users["Player1"].score == users["Player2"].score){
         sendText("all", "The game was a Tie");
@@ -191,6 +256,7 @@ function shuffleDeck() {
         fillDeck.splice(0, 1);
     }
 }
+
 //discards shuffle
 function refillDeck() {
     while (0<discardPile.length)
@@ -233,8 +299,8 @@ function updateScore(){
 }
 
 function updateCards(){
-    sendText(users["Player1"],`uc [${users["Player1"].cards.join()}] [${users["Player1"].field.join()}] [${users["Player2"].field.join()}] ${users["Player2"].cards.length}`);
-    sendText(users["Player2"],`uc [${users["Player2"].cards.join()}] [${users["Player2"].field.join()}] [${users["Player1"].field.join()}] ${users["Player1"].cards.length}`);
+    sendText(users["Player1"],`uc ${users["Player1"].cards.join()} ${users["Player1"].field.join()} ${users["Player2"].field.join()} ${users["Player2"].cards.length} ${discardPile[discardPile.length-1]}`);
+    sendText(users["Player2"],`uc ${users["Player2"].cards.join()} ${users["Player2"].field.join()} ${users["Player1"].field.join()} ${users["Player1"].cards.length} ${discardPile[discardPile.length-1]}`);
 }
 
 function sendText(player, msg){
@@ -477,6 +543,7 @@ net.createServer(function(sock) {
                 sock.log("Game is not running"+"\n");
             }
         }
+        //passes player turn
         else if (str.substr(0,4) == 'pass'){
             if (gameRun == "running"){
                 if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
