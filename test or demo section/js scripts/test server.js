@@ -1,27 +1,39 @@
 var net = require('net');
+
 const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf-8');
-var HOST = '10.60.253.99';
+var HOST = '';
 var PORT = 4000;
 var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print'];
 var discardPile = [];
 var fillDeck = [];
 var cards = [];
 var playerCounter = 0;
+var spectatorCounter = 0;
 const users = {};
+const spectators = {};
 var gameRun = "Not";
+var gameFinnished = "No";
 var Turn = 1;
 
+function spectator(name, ip, sock){
+    this.name = name;
+    this.ip = ip;
+    this.sock = sock;
+    this.job = null;
+}
 
-function Player(name, ip, IDNum) {
+function Player(name, ip, sock) {
     this.name = name;
     this.prefixes = [];
     this.ip = ip;
+    this.sock = sock;
     this.order = name.replace("Player","");
     this.job = "Player";
     this.score = 0;
     this.cards = [];
-    this.TurnRun = "no";
+    this.field = [];
+    this.TurnRun = "No";
     this.cardsToPlay = 1;
     this.actionsInTurn = 0;
     this.scoreMultiplier = 1;
@@ -37,44 +49,56 @@ function Player(name, ip, IDNum) {
         }
     }
     this.incrementPoints = function(amount) {
-        console.log(this.name+"-increment points by "+amount)
         //increases the person's score by amount while adding any additional things to take into acount
         this.score += (amount * this.incrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
-        console.log(this.name+"'s new  score: "+users[this.name].score);
+        console.log(this.name+"'s new  score: "+users[this.name].score);//change to an update score later
     }
 
     this.decrementPoints = function(amount) {
-        console.log(this.name+"-decrement points by "+amount)
         //decreases the person's score by amount while adding any additional things to take into acount
         this.score -= (amount * this.decrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.decrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
-        console.log(this.name+"'s new  score: "+users[this.name].score);
+        console.log(this.name+"'s new  score: "+users[this.name].score);//change to an update score later
     }
-  
+    this.findCard = function(findCrd){
+        for (handCards in this.cards){
+            if (this.cards[handCards] == findCrd){
+                return handCards;
+            }
+        }
+        console.error("no card found");
+    }
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
-            if (this.cards.includes(name)) {
-                cards[name].ability(use);
-                discardPile.push(name);
-                this.cards.splice(name,1);
-                this.actionsInTurn--;
-            } 
-            else {
-                console.error(`No card of name ${name} available!`);
-            }
-            //add into discard
+            cards[name].ability(use);
+            discardPile.push(name);
+            this.cards.splice((this.findCard(name)),1);
+            this.actionsInTurn--;
         }
         if(this.actionsInTurn<=0){
-            //ends turn
-            this.TurnRun = "No";
-            if (Turn == playerCounter){Turn=1;}
-            else{Turn++;}      
-            users[`Player${Turn}`].startTurn();
+            this.endTurn();
         }
         
+    }
+    this.endTurn = function(){
+        if(gameRun=="Not"){
+            gameEnded();
+        } 
+        else{
+            if (this.TurnRun == "Yes"){
+                //ends turn
+                this.TurnRun = "No";
+                this.actionsInTurn = 0;
+                if (Turn == playerCounter){Turn = 1;}
+                else{Turn ++;} 
+                if (gameRun == "running"){
+                    users[`Player${Turn}`].startTurn();
+                }
+            }
+        }
     }
     this.getCrd = function(amount){
             for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
@@ -87,13 +111,30 @@ function Player(name, ip, IDNum) {
         //add things for stuff when you get cards------||  e.g get points
     }
     this.startTurn = function(playingPLayer){
-        //add things that activate at the start of a turn
-        this.getCrd(1);
-        console.log(this.cards);//remove later -------------------------------------------------------------------------------------------------------------
-        this.actionsInTurn = this.cardsToPlay;
-        this.TurnRun = "Yes";
+        if (this.TurnRun == "No"){
+            //add things that activate at the start of a turn
+            this.getCrd(1);
+            console.log(this.cards);//remove later -------------------------------------------------------------------------------------------------------------
+            this.actionsInTurn = this.cardsToPlay;
+            this.TurnRun = "Yes";
+        }
     }
     
+}
+//does everything to end game
+function gameEnded(){
+    if (users["Player1"].score == users["Player2"].score){
+        console.log("Tie");
+    }
+    else if(users["Player1"].score > users["Player2"].score){
+        console.log("Player 1 wins!");
+    }
+    else if(users["Player1"].score < users["Player2"].score){
+        console.log("Player 2 wins!");
+    }
+    else{
+        console.error("No one won???");
+    }
 }
 
 //deck shuffle
@@ -118,11 +159,18 @@ function findPlayer(IP){
             return p;
         }
     }
-    //
-    for (var i=0;i<users.length;i++){
-        if (users[`Player${i}`].ip[0] == IP[0] && users[`Player${i}`].ip[1] == IP[1]){
-            console.log(i);
-            return `Player${i}`;
+}
+
+function findTypePlayer(IP){
+    for (People in users){
+        if (users[People].ip[0] == IP[0] && users[People].ip[1] == IP[1]){
+            return "Player";
+        }
+    }
+    for (people in spectator){
+        console.log(people);
+        if (spectator[people].ip[0] == IP[0] && spectator[people].ip[1] == IP[1]){
+            return "Spectator";
         }
     }
 }
@@ -136,107 +184,107 @@ function Card(author, tags, functionality, ability) {
 }
 
 cards = {
-    'ghost print': new Card('Deck', ['easy'], [], function(functionality) {
+    'ghost print': new Card('Deck',[], [], function(functionality) {
         console.log('spooky')
     }),
-    'pot of gold print': new Card('Deck','',['action'],function(functionality){
+    'pot of gold print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50);   
                 users[this.parent].getCrd(1);
         }
     }),
-    'piggy power print': new Card('Deck','',['action'],function(functionality){
+    'piggy power print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(30);   
                 users[this.parent].getCrd(1);
         }
     }),
-    'pig man print': new Card('Deck','',['action'],function(functionality){
+    'pig man print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].decrementPoints(30);   
                 users[this.parent].getCrd(3);
         }
     }),
-    'more I want more print': new Card('Deck','',['action'],function(functionality){
+    'more I want more print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].decrementPoints(20);   
                 users[this.parent].getCrd(4);
         }
     }),
-    'happy bunny print': new Card('Deck','',['action'],function(functionality){
+    'happy bunny print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
         }
     }),
-    '2012 print': new Card('Deck','',['action'],function(functionality){
+    '2012 print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
         }
     }),
-    'spareChange print': new Card('Deck','',['action'],function(functionality){
+    'spareChange print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(1); 
         }
     }),
-    'reg neanderthal from the future print': new Card('Deck','',['action'],function(functionality){
+    'reg neanderthal from the future print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(25); 
         }
     }),
-    'reg cat got the yarn print': new Card('Deck','',['action'],function(functionality){
+    'reg cat got the yarn print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(25); 
         }
     }),
-    'rebel print': new Card('Deck','',['action'],function(functionality){
+    'rebel print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(51); 
         }
     }),
-    'potato of fun print': new Card('Deck','',['action'],function(functionality){console.log("Look how much fun it is.")}),
-    'pluto print': new Card('Deck','',['action'],function(functionality){
+    'potato of fun print': new Card('Deck',[],['action'],function(functionality){console.log("Look how much fun it is.")}),
+    'pluto print': new Card('Deck',[],['action'],function(functionality){
         console.log("Not a planet anymore.")
         console.log("No effect.")
         console.log("Because life is tough.")
     }),
-    'nessie print': new Card('Deck','',['action'],function(functionality){
+    'nessie print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(25); 
         }
     }),
-    "its christmas print": new Card('Deck','',['action'],function(functionality){
+    "its christmas print": new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
         }
     }),
-    'emoji print': new Card('Deck','',['action'],function(functionality){
+    'emoji print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
         }
     }),
-    'derpasaurus rex print': new Card('Deck','',['action'],function(functionality){
+    'derpasaurus rex print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(30); 
         }
     }),
-    'cookie print': new Card('Deck','',['action'],function(functionality){
+    'cookie print': new Card('Deck',[],['action'],function(functionality){
         console.log("a cookie")
     }),
-    'chezburger print': new Card('Deck','',['action'],function(functionality){
+    'chezburger print': new Card('Deck',[],['action'],function(functionality){
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(50); 
@@ -250,12 +298,20 @@ cards = {
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
 // The sock object the callback function receives UNIQUE for each connection
 net.createServer(function(sock) {
-    // We have a connection - a socket object is assigned to the connection automatically
     console.log(`CONNECTED: ${sock.remoteAddress}:${sock.remotePort}`);
-    playerCounter++;
-    users[`Player${playerCounter}`] = new Player(`Player${playerCounter}`, [sock.remoteAddress,sock.remotePort]);
-    //gives rights to start
-    users['Player1'].job = "host"; 
+    if (playerCounter > 1){
+        //adds them as spectators
+        spectatorCounter++;
+        spectators[`Player${spectatorCounter}`] = new spectator(`Spectator${spectatorCounter}`, [sock.remoteAddress,sock.remotePort],sock);
+    }
+    else{
+        // We have a connection - a socket object is assigned to the connection automatically
+        playerCounter++;
+        users[`Player${playerCounter}`] = new Player(`Player${playerCounter}`, [sock.remoteAddress,sock.remotePort],sock);
+        //gives rights to start
+        users['Player1'].job = "host"; 
+    }
+    
     // Add a 'data' event handler to this instance of socket
     sock.on('data', function(data) {
         var str = decoder.write(data);
@@ -264,70 +320,96 @@ net.createServer(function(sock) {
         }
         if (str.substr(0,6) == "#chat "){
             console.log("[CHAT]: " + str.substr(6,str.length));
-            for (var i = 0; i < users.length; i++) {
-                sock.write("hello")
-            }
         }
         //start game
         else if (str.substr(0,5) == 'start'){
-            if (gameRun != "running"){
-                if (playerCounter>=2){
-                    if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
-                        //game starts
-                        gameRun = "running";
-                        shuffleDeck()
-                        for (players in users){
-                            (users[players]).getCrd(5);
+            if (gameFinnished == "No"){
+                if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
+                    if (gameRun != "running"){
+                        if (playerCounter>=2){
+                            if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
+                                //game starts
+                                gameRun = "running";
+                                shuffleDeck()
+                                for (players in users){
+                                    (users[players]).getCrd(5);
+                                }
+                                users[`Player${Turn}`].startTurn();
+                            }
+                            else{
+                                sock.write("you don't have the power to start the game.");
+                            }
                         }
-                        users[`Player${Turn}`].startTurn();
+                        else{
+                            sock.write("You need at least 2 players to start");
+                        }
                     }
                     else{
-                        sock.write("you don't have the power to start the game.");
+                        sock.write("game already running.");
                     }
                 }
                 else{
-                    sock.write("You need at least 2 players to start");
+                    sock.write("You cannot participate in game");
                 }
             }
             else{
-                sock.write("game already running.");
+                sock.write("Exit and start a new Game to play again");
+            }
+        }
+        //end game
+        else if (str.substr(0,7) == 'endGame'){
+            if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
+                if (gameRun == "running"){
+                    if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
+                        console.log("game will finnish in one turn");
+                        gameRun = "Not"
+                    }
+                }
+            }
+            else{
+                sock.write("You cannot participate in game");
             }
         }
         //playing cards
         else if (str.substr(0,2) == 'p '){
-            /*
-            if (cards[str.substr(2,str.length)].functionality == "play at any time"){                   add for must plays*/
-            if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
-                users[findPlayer([sock.remoteAddress,sock.remotePort])].playCard(str.substr(2,str.length),"general");
-            } 
-            else{
-                sock.write("Wait for your turn");
-            }
-        }
-        //getting things funcion
-        else if (str.substr(0,4) == 'get '){//get c 8
-            //get cards
-            if (str.substr(4,1)=='c'){
-                for (numCardsGet = 0;numCardsGet<(str.substr(5,6));numCardsGet++)
-                {
-                    users[findPlayer([sock.remoteAddress,sock.remotePort])].getCrd();
-                }
-            }
-            else if (str.substr(4,1) == 'p'){
-                //e.g. get p - 50
-                if(str.substr(6,1) == '-'){
-                    //neg points for str.substr(8,9)
-                    users[findPlayer([sock.remoteAddress,sock.remotePort])].decrementPoints(str.substr(8,9));
+            if (gameRun == "running"){
+                if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
+                    if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
+                        if (users[findPlayer([sock.remoteAddress,sock.remotePort])].cards.includes(str.substr(2,str.length))) {
+                            users[findPlayer([sock.remoteAddress,sock.remotePort])].playCard(str.substr(2,str.length),"general");
+                        }
+                        else {
+                            console.error(`No card of name ${str.substr(2,str.length)} available!`);
+                        }
+                    } 
+                    else{
+                        sock.write("Wait for your turn");
+                    }
                 }
                 else{
-                    //add get points for a user
-                    users[findPlayer([sock.remoteAddress,sock.remotePort])].incrementPoints(str.substr(8,9));
+                    sock.write("You cannot participate in game");
                 }
             }
             else{
-                console.log("[error]: " + str.substr(4,1));
+                console.log("Game is not running");
             }
-        } else {
+        }
+        else if (str.substr(0,4) == 'pass'){
+            if (gameRun == "running"){
+                if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
+                    if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
+                        users[findPlayer([sock.remoteAddress,sock.remotePort])].endTurn();
+                    }
+                }
+                else{
+                    sock.write("You cannot participate in game");
+                }
+            }
+            else{
+                console.log("Game is not running");
+            }
+        }
+        else {
             console.log(`[DATA ${sock.remoteAddress}:${sock.remotePort}]: ${str}`);
             // Write the data back to the socket, the client will receive it as data from the server
             sock.write(`You said "${str}"\n`);
