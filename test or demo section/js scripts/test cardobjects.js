@@ -514,8 +514,10 @@ module.exports = {
                 users[findOpponent(this.parent)].decrementPoints(50);
         }
       }),
-    "CENTRELINK": new Card("Adam Di Tullio", [], ['Play'], function(functionality) {
+    "CENTRELINK": new Card("Adam Di Tullio", [], ['Field'], function(functionality) {
         switch(functionality) {
+          case "startTurn":
+              users[this.parent].incrementPoints(2);
           default:
             
         }
@@ -554,10 +556,18 @@ module.exports = {
     "COOKIE MONSTER": new Card("Adam Di Tullio", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var cookieInPlay = 1;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("cookie")){
+                  cookieInPlay++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25*cookieInPlay);
         }
       }),
-    "COOKIE": new Card("Adam Di Tullio", ['Useless'], ['Field'], function(functionality) {
+    "COOKIE": new Card("Adam Di Tullio", ['Useless',"cookie"], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -608,7 +618,6 @@ module.exports = {
             users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
     }),
-
     "CREEPER!": new Card("Harry Trumble", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -1227,6 +1236,7 @@ module.exports = {
             
         }
     }),
+    //change for more than 2 palyers
     //takes 70 points off the other person (completely wrong with more than 2 people)
     "KYLO RENS LIGHTSABER": new Card("Jamie Bougher", ['living', 'star wars'], ['Play'], function(functionality) {
         switch(functionality) {
@@ -1613,7 +1623,7 @@ module.exports = {
                 users[this.parent].getCrd(1);
         }
       }),
-    "Potato of fun": new Card("Michael Calarese", ['living', ' Useless'], ['Field'], function(functionality) {
+    "Potato of fun": new Card("Michael Calarese", ['living', ' Useless','potato'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
