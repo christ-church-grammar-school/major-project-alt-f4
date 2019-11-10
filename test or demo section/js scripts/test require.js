@@ -1,6 +1,6 @@
 var msg = require('./test cardobjects.js');
-
-console.log(msg);
+var msg2 = require('./test server.js');
+console.log(msg2);
 
 /*Old cards Just in case*/
 var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print','Discard pele'];

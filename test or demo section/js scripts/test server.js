@@ -32,6 +32,7 @@ function Player(name, ip, sock) {
     this.order = name.replace("Player","");
     this.job = "Player";
     this.score = 0;
+    this.cool = 0;
     this.cards = [];
     this.field = [];
     this.TurnRun = "No";
@@ -78,10 +79,10 @@ function Player(name, ip, sock) {
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
             cards[name].ability(use);
-            if (cards[name].functionality == "Field"){
+            if (cards[name].functionality.includes("Field")){
                 this.field.push(name);
             }
-            else if (cards[name].functionality == "Play"){
+            else if (cards[name].functionality.includes("Play")){
                 discardPile.push(name);
             }
             else{
@@ -146,19 +147,21 @@ function Player(name, ip, sock) {
         //destroy card on feild
         if (cardToDestroy == "feildWipe"){
             //add stuff to check for resistent cards
-            for (fieldCards in this.field){
-                discardPile.push(fieldCards);
+            for (people in users){
+                for (fieldCards in users[people].field){
+                    discardPile.push(fieldCards);
+                }
+                users[people].field = [];
+                users[people].checkField("cardDestroyed","all");
             }
-            this.field = [];
-            this.checkField("cardDestroyed","all");
         }
         else{
             for (card in cardToDestroy){
                 this.field.splice(this.findCard(card),1);
                 this.checkField("cardDestroyed",card);
+                discardPile.push(card);
             }
         }
-        this.checkField("cardDestroyed",null);
     }
 
     this.getCrd = function(amount){
@@ -347,7 +350,7 @@ net.createServer(function(sock) {
                 if (gameRun != "running"){
                     //game starts
                     gameRun = "running";
-                    //shuffleDeck()
+                    shuffleDeck()
                     for (players in users){
                         users[players].getCrd(5);
                         updateCards(users[players].cards);
