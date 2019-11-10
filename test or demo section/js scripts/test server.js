@@ -78,7 +78,15 @@ function Player(name, ip, sock) {
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
             cards[name].ability(use);
-            discardPile.push(name);
+            if (cards[name].functionality == "Field"){
+                this.field.push(name);
+            }
+            else if (cards[name].functionality == "Play"){
+                discardPile.push(name);
+            }
+            else{
+                console.error(`No functionality of ${functionality} avalible`);
+            }
             this.cards.splice((this.findCard(name)),1);
             this.actionsInTurn--;
             updateCards(this.cards);

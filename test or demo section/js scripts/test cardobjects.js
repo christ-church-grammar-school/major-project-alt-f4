@@ -263,10 +263,18 @@ module.exports = {
             
         }
       }),
-    "ANGRY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "ANGRY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "AROUND THE WORLD": new Card("Aidan Drangi", ['living', 'Water'], ['Play'], function(functionality) {
@@ -457,10 +465,18 @@ module.exports = {
             
         }
       }),
-    "CALM RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "CALM RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "CARMEN SANDIEGO": new Card("Ben Richardson", ['living', 'Water'], ['Play'], function(functionality) {
@@ -575,10 +591,18 @@ module.exports = {
             
         }
       }),
-    "CRAZY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "CRAZY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
     }),
 
@@ -735,10 +759,18 @@ module.exports = {
             
         }
       }),
-    "DUMB RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "DUMB RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "EDGAR": new Card("Andre Nikolich", ['living'], ['Play'], function(functionality) {
@@ -957,7 +989,7 @@ module.exports = {
         }
     }),
     //get 50 points
-    "HAPPY BUNNY": new Card("??", ['living', 'Rabbit', 'creature'], ['Play'], function(functionality) {
+    "HAPPY BUNNY": new Card("??", ['living', 'Rabbit', 'creature'], ['Field'], function(functionality) {
         switch (functionality) {
             default:
                 users[this.parents].incrementPoints(50);
@@ -1433,10 +1465,18 @@ module.exports = {
             
         }
       }),
-    "PARTY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "PARTY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "PAUSE REWIND": new Card("Cameron Carr", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -1519,6 +1559,8 @@ module.exports = {
     "Pot of gold": new Card("Jordan Davies", ['Rainbow'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
+                console.log(users);
+                console.log(gameRun);
                 users[this.parent].incrementPoints(50);
                 users[this.parent].getCrd(1);
         }
@@ -2030,7 +2072,7 @@ module.exports = {
             
         }
       }),
-    "SPACE JAMS": new Card("Mr Milton", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "SPACE JAMS": new Card("Mr Milton", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -2297,7 +2339,7 @@ module.exports = {
             
         }
       }),
-    "TURTLE BUNNY": new Card("Jordan Davies", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "TURTLE BUNNY": new Card("Jordan Davies", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -2333,10 +2375,18 @@ module.exports = {
             
         }
       }),
-    "UNICORN RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit', 'Rainbow'], ['Play'], function(functionality) {
+    "UNICORN RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit', 'Rainbow'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "UPGRADE IT": new Card("Lachie Jones", ['Rainbow'], ['Play'], function(functionality) {
