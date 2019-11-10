@@ -90,7 +90,7 @@ function Player(name, ip, sock) {
             }
             this.cards.splice((this.findCard(name)),1);
             this.actionsInTurn--;
-            updateCards(this.cards);
+            updateCards()
             updateScore();
         }
         if(this.actionsInTurn<=0){

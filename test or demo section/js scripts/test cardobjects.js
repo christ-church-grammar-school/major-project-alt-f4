@@ -51,7 +51,7 @@ function Player(name, ip, sock) {
             discardPile.push(name);
             this.cards.splice((this.findCard(name)), 1);
             this.actionsInTurn--;
-            updateCards(this.cards);
+            updateCards(;
         }
         if (this.actionsInTurn <= 0) {
             this.endTurn();
@@ -118,7 +118,7 @@ function Player(name, ip, sock) {
             this.getCrd(1);
             this.actionsInTurn = this.cardsToPlay;
             this.TurnRun = "Yes";
-            updateCards(this.cards);
+            updateCards();
         }
     }
 
@@ -2092,7 +2092,8 @@ module.exports = {
     "SKY DIVE": new Card("Lachlan Woodall", ['living', 'blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[findOpponent(this.parent)].cards[0].parent = this.parent;
+                users[findOpponent(this.parent)].removeCards(1,null);
+                users[this.parent].cards.push(discardPile.pop())
                 users[this.parent].incrementPoints(25);
         }
       }),
@@ -2246,11 +2247,11 @@ module.exports = {
     "SWITCHEROO": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            if (users[this.parent].score < 0){
-              users[this.parent].score *= -1;
+            if (users[findOpponent(this.parent)].score < 0){
+              users[findOpponent(this.parent)].score *= -1;
             }
-            else if(users[this.parent].score > 0){
-              users[this.parent].score *= -1;
+            else if(users[findOpponent(this.parent)].score > 0){
+              users[findOpponent(this.parent)].score *= -1;
             }
         }
       }),
@@ -2490,7 +2491,6 @@ module.exports = {
               users[this.parent].cards.push(crds);
             }
             users[findOpponent[this.parent]].cards = [];
-            updateCards();
         }
       }),
     "ULTIMMATE PIKA": new Card("Zach Templeman", ['living'], ['Play'], function(functionality) {
@@ -2630,11 +2630,12 @@ module.exports = {
     "ZEUS POTATO": new Card("Tam Seton-Browne", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            for (people in users){
-              //doubles for each potato
-              var potatoInPlay = 0;
-              if(users[people].field.includes("Potato of fun")){
-                potatoInPlay++;
+            var potatoInPlay;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("potato")){
+                  potatoInPlay++;
+                }
               }
             }
             users[this.parent].incrementPoints(50*(potatoInPlay+1));
