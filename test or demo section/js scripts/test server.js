@@ -145,7 +145,7 @@ function Player(name, ip, sock) {
 
     this.destroyCard = function(cardToDestroy){
         //destroy card on feild
-        if (cardToDestroy == "feildWipe"){
+        if (cardToDestroy == "fieldWipe"){
             //add stuff to check for resistent cards
             for (people in users){
                 for (fieldCards in users[people].field){
@@ -174,7 +174,7 @@ function Player(name, ip, sock) {
             cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
             this.cards.push(deck1[0]);
             deck1.splice(0, 1);
-            this.checkField("getCards",amount);
+            this.checkField("getCards",[amount,this.name]);
             // updateCards(this.name,this.cards);//uc cards 
         }
     //add things for stuff when you get cards------||  e.g get points
@@ -194,7 +194,7 @@ function Player(name, ip, sock) {
 
         }
         else if(typeCheck == "getCards"){
-            //extra info gives how many cards
+            //extra info gives how many cards and name of player
         }
         else if(typeCheck == "removeCards"){
 
