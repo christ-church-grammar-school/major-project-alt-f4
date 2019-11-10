@@ -1,13 +1,14 @@
 var net = require('net');
+var msg = require('./test cardobjects.js');
 
 const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf-8');
 var HOST = '';
 var PORT = 4000;
-var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print','Discard pele'];
+var deck1 =["GHOST","Pot of gold", "PIGGY POWER","PIG MAN","MORE I WANT MORE","HAPPY BUNNY","2012","SPARE CHANGE","NEADERTHAL FROM THE FUTURE","GHOST","Pot of gold", "PIGGY POWER","PIG MAN","MORE I WANT MORE","HAPPY BUNNY","2012","SPARE CHANGE","NEADERTHAL FROM THE FUTURE","GHOST","Pot of gold", "PIGGY POWER","PIG MAN","MORE I WANT MORE","HAPPY BUNNY","2012","SPARE CHANGE","NEADERTHAL FROM THE FUTURE","GHOST","Pot of gold", "PIGGY POWER","PIG MAN","MORE I WANT MORE","HAPPY BUNNY","2012","SPARE CHANGE","NEADERTHAL FROM THE FUTURE"];
 var discardPile = [];
 var fillDeck = [];
-var cards = [];
+var cards = msg;
 var playerCounter = 0;
 var spectatorCounter = 0;
 const users = {};
@@ -159,7 +160,7 @@ function Player(name, ip, sock) {
         for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
         {
             //draws the first card from the draw pile
-            cards[deck1[0]].parent = this.name;
+            cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
             this.cards.push(deck1[0]);
             deck1.splice(0, 1);
             this.checkField("getCards",amount);
@@ -229,14 +230,14 @@ function gameEnded(){
     gameRun = "Not";
     gameFinnished = "Yes";
     if (users["Player1"].score == users["Player2"].score){
-        sendText("all", "The game was a Tie");
+        console.log("The game was a Tie");
         //update score and print
     }
     else if(users["Player1"].score > users["Player2"].score){
-        sendText("all", "Player 1 wins!");
+        console.log("Player 1 wins!");
     }
     else if(users["Player1"].score < users["Player2"].score){
-        sendText("all", "Player 2 wins!");
+        console.log("Player 2 wins!");
     }
     else{
         console.error("No one won???");
@@ -315,130 +316,6 @@ function sendText(player, msg){
     }
 }
 
-function Card(author, tags, functionality, ability) {
-    this.author = author;   
-    this.parent = 'deck';
-    this.ability = ability;
-    this.functionality = functionality;
-    this.tags = tags;
-}
-
-cards = {
-    'ghost print': new Card('Deck',[], [], function(functionality) {
-        sendText(users[this.parent], "Spooky");
-    }),
-    'pot of gold print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50);   
-                users[this.parent].getCrd(1);
-        }
-    }),
-    'piggy power print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(30);   
-                users[this.parent].getCrd(1);
-        }
-    }),
-    'pig man print': new Card('Deck',[],['action'],function(functionality){// dfkdjfklsdjfldskjflmvg jmoerkiujcgxhiec fix later if don't have 3 cards can't play
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(30);   
-                users[this.parent].removeCards(3);
-        }
-    }),
-    'more I want more print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].decrementPoints(20);   
-                users[this.parent].getCrd(4);
-        }
-    }),
-    'happy bunny print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    '2012 print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'spareChange print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(1); 
-        }
-    }),
-    'reg neanderthal from the future print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(100); 
-        }
-    }),
-    'reg cat got the yarn print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(25); 
-        }
-    }),
-    'rebel print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(51); 
-        }
-    }),
-    'potato of fun print': new Card('Deck',[],['action'],function(functionality){console.log("Look how much fun it is.")}),
-    'pluto print': new Card('Deck',[],['action'],function(functionality){
-        sendText(users[this.parent],"Not a planet anymore.")
-        sendText(users[this.parent],"No effect.")
-        sendText(users[this.parent],"Because life is tough.\n")
-    }),
-    'nessie print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(25); 
-        }
-    }),
-    "its christmas print": new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'emoji print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'derpasaurus rex print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(30); 
-        }
-    }),
-    'cookie print': new Card('Deck',[],['action'],function(functionality){
-        sendText(users[this.parent],"a cookie\n")
-    }),
-    'chezburger print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'Discard pele': new Card('???',[],['Play'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-                users[this.parent].removeCards("hand","none");
-        }
-    })
-}
-
 
 
 // Create a server instance, and chain the listen function to it
@@ -462,7 +339,7 @@ net.createServer(function(sock) {
                 if (gameRun != "running"){
                     //game starts
                     gameRun = "running";
-                    shuffleDeck()
+                    //shuffleDeck()
                     for (players in users){
                         users[players].getCrd(5);
                         updateCards(users[players].cards);

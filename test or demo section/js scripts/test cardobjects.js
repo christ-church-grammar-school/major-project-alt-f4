@@ -212,14 +212,6 @@ function Card(author, tags, functionality, ability) {
     this.functionality = functionality;
     this.tags = tags;
 }
-
-
-/* section for demonstration 
-    users[this.parent].incrementPoints(x); gives the player who has this card 50 points
-    users[this.parent].decrementPoints(x); takes 50 points from the player who has this card 
-    users[this.parent].getCrd(x); gives the player who has this card x more cards
-*/
-
 module.exports = {
 
     "3 HEADED GUARD DOG!": new Card("Mr Milton", ['living'], ['Play'], function(functionality) {
@@ -714,7 +706,7 @@ module.exports = {
     "DOUBLE CARD USE": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.parent].
+                users[this.parent].actionsInTurn = 2;
         }
       }),
     "DR REX": new Card("Michael Calarese", ['rex', 'dinosaur', 'living', 'Medical'], ['Play'], function(functionality) {
@@ -888,7 +880,7 @@ module.exports = {
     "GHOST": new Card("Ben Richardson", ['Useless'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            //spooky
         }
     }),
     //pick up three cards from the deck
@@ -2433,14 +2425,20 @@ module.exports = {
     "ZEUS POTATO": new Card("Tam Seton-Browne", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-                users[this.parent].incrementPoints(50);
-                //doubles for each potato
+            for (people in users){
+              //doubles for each potato
+              var potatoInPlay = 0;
+              if(users[people].field.includes("Potato of fun")){
+                potatoInPlay++;
+              }
+            }
+            users[this.parent].incrementPoints(50*(potatoInPlay+1));
         }
       }),
     "ZEUS": new Card("Ben Richardson", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            user[this.parent].
+            //zap zap
         }
       }),
     "ZOMBIE APOCALYPSE": new Card("Oscar Lewis", ['living'], ['Play'], function(functionality) {
