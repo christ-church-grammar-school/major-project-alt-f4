@@ -153,16 +153,16 @@ function Player(name, ip, sock) {
             for (people in users){
                 for (fieldCards in users[people].field){
                     discardPile.push(fieldCards);
-                    users[people].checkField("cardDestroyed",this.name);
                 }
                 users[people].field = [];
+                users[people].checkField("cardDestroyed",[this.name,"all"]);
             }
         }
         else{
             for (card in cardToDestroy){
                 this.field.splice(this.findCard(card),1);
-                this.checkField("cardDestroyed",this.name);
-                discardPile.push(card);
+                this.checkField("cardDestroyed",[this.name,card]);
+                discardPile.push(card);// change if tag == return to hand or other special
             }
         }
     }
@@ -186,18 +186,18 @@ function Player(name, ip, sock) {
 
     this.checkField = function(typeCheck,extraInfo){
         if (typeCheck == "startTurn"){
-            //check FieldStartTurn
-            if(users[extraInfo].field != undefined){
-                for (fieldCard in users[extraInfo].field){
-                    if (users[fieldCard] != undefined){
-                        if(users[fieldCard].tags != undefined){
-                            if (users[fieldCard].tags.includes("FieldStartTurn")){
-                                users[extraInfo].playCard(fieldCard,"startTurn");
-                            }
-                        }
-                    }
+          //check FieldStartTurn
+          if(users[extraInfo].field != undefined){
+            for (fieldCard in users[extraInfo].field){
+              if (cards[fieldCard] != undefined){
+                if (cards[fieldCard].tags != undefined){
+                  if (cards[fieldCard].tags.includes("FieldStartTurn")){
+                      users[extraInfo].playCard(fieldCard,"startTurn");
+                  }
                 }
+              }
             }
+          }
         }
         else if(typeCheck == "endTurn"){
             //check FieldEndTurn
@@ -206,56 +206,85 @@ function Player(name, ip, sock) {
             //check FieldDecrementPoints
         }
         else if(typeCheck == "incrementPoints"){
-            //check FieldIncrementPoints
-            if(users[extraInfo].field != undefined){
-                for (fieldCard in users[extraInfo].field){
-                    if (users[fieldCard] != undefined){
-                        if(users[fieldCard].tags != undefined){
-                            if (users[fieldCard].tags.includes("FieldIncrementPoints")){
-                                users[extraInfo].playCard(fieldCard,"incrementPoints");
-                            }
-                        }
-                    }
+          //check FieldIncrementPoints
+        if(users[extraInfo].field != undefined){
+            for (fieldCard in users[extraInfo].field){
+              if (cards[fieldCard] != undefined){
+                if (cards[fieldCard].tags != undefined){
+                  if (cards[fieldCard].tags.includes("FieldIncrementPoints")){
+                      users[extraInfo].playCard(fieldCard,"incrementPoints");
+                  }
                 }
+              }
             }
+          }
         }
         else if(typeCheck == "getCards"){
-            //check FieldGetCards
-            if(users[extraInfo].field != undefined){
-                for (fieldCard in users[extraInfo].field){
-                    if (users[fieldCard] != undefined){
-                        if(users[fieldCard].tags != undefined){
-                            if (users[fieldCard].tags.includes("FieldGetCards")){
-                                users[extraInfo].playCard(fieldCard,"getCards");
-                            }
-                        }
-                    }
+          //check FieldGetCards
+          if(users[extraInfo].field != undefined){
+            for (fieldCard in users[extraInfo].field){
+              if (cards[fieldCard] != undefined){
+                if (cards[fieldCard].tags != undefined){
+                  if (cards[fieldCard].tags.includes("FieldGetCards")){
+                      users[extraInfo].playCard(fieldCard,"getCards");
+                  }
                 }
+              }
             }
+          }
         }
         else if(typeCheck == "removeCards"){
-            //check FieldRemoveCards
+          //check FieldRemoveCards
 
         }
         else if(typeCheck == "cardDestroyed"){
             //check FieldCardDestroyed
-            if(users[extraInfo].field != undefined){
-                for (fieldCard in users[extraInfo].field){
-                    if (users[fieldCard] != undefined){
-                        if(users[fieldCard].tags != undefined){
-                            if (users[fieldCard].tags.includes("FieldCardDestroyed")){
-                                users[extraInfo].playCard(fieldCard,"cardDestroyed");
-                            }
-                        }
-                    }
+          if(extraInfo[1] != "all"){
+            if(users[extraInfo[0]].field != undefined){
+              if (cards[extraInfo[1]] != undefined){
+                if (cards[extraInfo[1]].tags != undefined){
+                  if (cards[extraInfo[1]].tags.includes("FieldCardDestroyed")){
+                    users[extraInfo[0]].playCard(extraInfo[1],"cardDestroyed");
+                  }
                 }
+              }
             }
+          }
+          else{
+            //played for all users
+            for (people in users){
+              if(users[people].field != undefined){
+                for (fieldCard in users[people].field){
+                  if (cards[fieldCard] != undefined){
+                    if (cards[fieldCard].tags != undefined){
+                      if (cards[fieldCard].tags.includes("FieldCardDestroyed")){
+                          users[people].playCard(fieldCard,"cardDestroyed");
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
         else if(typeCheck == "gameEnded"){
-            //check FieldGameEnded
+          //check FieldGameEnded
+          for (people in users){
+            if(users[extraInfo].field != undefined){
+              for (fieldCard in users[extraInfo].field){
+                if (cards[fieldCard] != undefined){
+                  if (cards[fieldCard].tags != undefined){
+                    if (cards[fieldCard].tags.includes("FieldGameEnded")){
+                        users[extraInfo].playCard(fieldCard,"gameEnded");
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
         else{
-            
+            console.error(`no check of ${typeCheck} avalible`);
         }
     }
 
@@ -287,7 +316,7 @@ function findOpponent(parentName){
 
 //does everything to end game
 function gameEnded(){
-    this.checkField("gameEnded",null);
+    users["Player1"].checkField("gameEnded",null);
     gameRun = "Not";
     gameFinnished = "Yes";
     if (users["Player1"].score == users["Player2"].score){
@@ -1142,7 +1171,7 @@ cards = {
             
         }
       }),
-    "GOAL AFTER SIREN": new Card("Max Zempilas", ['living', 'blank white man'], ['Field'], function(functionality) {
+    "GOAL AFTER SIREN": new Card("Max Zempilas", ['living', 'blank white man','FieldGameEnded'], ['Field'], function(functionality) {
         switch(functionality) {
           case "gameEnded":
             users[this.parent].incrementPoints(50);
@@ -1628,7 +1657,7 @@ cards = {
             
         }
       }),
-    "NARWHALS ARE BADASS": new Card("Charles Begley", ['living', 'narwhal', 'Water'], ['Field'], function(functionality) {
+    "NARWHALS ARE BADASS": new Card("Charles Begley", ['living', 'narwhal', 'Water','FieldGameEnded'], ['Field'], function(functionality) {
         switch(functionality) {
           case "gameEnded":
             //check if narwhal
@@ -2932,8 +2961,8 @@ net.createServer(function(sock) {
         }
         if (str.substr(0,6) == "#chat "){
             console.log("[CHAT]: " + str.substr(6,str.length));
-            sendText(`chat ${users["Player1"],str.substr(6,str.length)}\n`);
-            sendText(`chat ${users["Player2"],str.substr(6,str.length)}\n`);
+            sendText(users["Player1"],`chat ${str.substr(6,str.length)}`);
+            sendText(users["Player2"],`chat ${str.substr(6,str.length)}`);
         }
         //end game
         else if (str.substr(0,7) == 'endGame'){
