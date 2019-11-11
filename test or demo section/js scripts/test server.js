@@ -78,6 +78,9 @@ function Player(name, ip, sock) {
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
             this.cards.splice((this.findCard(name)),1);
+            console.log(cards[name]);
+            console.log(name);
+            console.log(deck1);
             cards[name].ability(use);
             if (cards[name].functionality.includes("Field")){
                 this.field.push(name);
@@ -86,7 +89,6 @@ function Player(name, ip, sock) {
                 users[findOpponent(this.parent)].field.push(name);
             }
             else if (cards[name].functionality.includes("Play")){
-                cards[name].parent = "discard";
                 discardPile.push(name);
             }
             else{
@@ -175,6 +177,7 @@ function Player(name, ip, sock) {
             for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
             {
                 //draws the first card from the draw pile
+                console.log(deck1[0]+ "????????");
                 cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
                 this.cards.push(deck1[0]);
                 deck1.splice(0, 1);
@@ -298,9 +301,23 @@ function Player(name, ip, sock) {
             updateCards(this.cards);
             updateScore();
 
+            if (deck1.length == null){
+              gameRun = "ending";
+            }
+            else{
+              for (var playCardsFast = 0; playCardsFast<this.actionsInTurn;){
+                if (this.cards != undefined){
+                  this.playCard(this.cards[0],null);
+                }
+              }
+              if (this.TurnRun == "Yes"){
+                this.endTurn();
+              }
+            }
+            
             /*nice little funtion that helps with testing 
             if (deck1.length == null){
-              
+              gameRun = "ending";
             }
             else{
               this.playCard(this.cards[0],null);
@@ -360,9 +377,10 @@ function shuffleDeck() {
 
 //discards shuffle
 function refillDeck() {
+    var ranNum = Math.floor(Math.random() * discardPile.length);
     while (0<discardPile.length)
     {
-        var ranNum = Math.floor(Math.random() * discardPile.length);
+        ranNum = Math.floor(Math.random() * discardPile.length);
         fillDeck.push(discardPile[ranNum]);
         discardPile.splice(ranNum, 1);
     }
@@ -1263,7 +1281,7 @@ cards = {
     "HAPPY BUNNY": new Card("??", ['living', 'Rabbit', 'creature'], ['Field'], function(functionality) {
         switch (functionality) {
             default:
-                users[this.parents].incrementPoints(50);
+                users[this.parent].incrementPoints(50);
         }
       }),
     //Gives player 50 points
