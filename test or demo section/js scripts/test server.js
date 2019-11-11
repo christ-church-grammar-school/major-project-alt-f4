@@ -1867,7 +1867,7 @@ cards = {
         switch(functionality) {
           default:
             users[this.parent].removeCards("hand",null);
-            users[this.parent].getCrd(5);
+            users[this.parent].getCrd(6);
         }
       }),
     "ABSORB": new Card("Max Gunning", ['living'], ['Play'], function(functionality) {
@@ -2490,12 +2490,25 @@ cards = {
     "THE EQUILISER": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
+            var playerCardLenth = 0;
+            if(users[this.parent].cards.length == undefined){
+                var playerCardLenth = 0;
+              } 
+            else{
+                var playerCardLenth = users[this.parent].cards.length;
+            }
             for (people in users){
-              if (users[this.player].cards.length < users[people].cards.length){
-                users[people].removeCards((users[people].cards.length-users[this.player].cards.length),null);
+              if(users[people].cards.length == undefined){
+                var playerOpCardLenth = 0;
+              } 
+              else{
+                var playerOpCardLenth = users[people].cards.length;
               }
-              else if (users[this.player].cards.length > users[people].cards.length){
-                users[people].getCrd((users[this.player].cards.length-users[people].cards.length),null);
+              if (playerCardLenth < playerOpCardLenth){
+                users[people].removeCards((playerOpCardLenth-playerCardLenth),null);
+              }
+              else if (playerCardLenth > playerOpCardLenth){
+                users[people].getCrd((playerCardLenth-playerOpCardLenth),null);
               }
             }
         }
