@@ -1,13 +1,14 @@
 var net = require('net');
+var msg = require('./test cardobjects.js');
 
 const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf-8');
 var HOST = '';
 var PORT = 4000;
-var deck1 =["ghost print","pot of gold print", "piggy power print","pig man print","more I want more print","happy bunny print","2012 print","spareChange print","reg neanderthal from the future print",'reg cat got the yarn print','rebel print','potato of fun print','pluto print','nessie print',"its christmas print",'emoji print','derpasaurus rex print','cookie print','chezburger print','Discard pele'];
+var deck1 =["2012","A LOT OF HELP","ANGRY RABBIT","AROUND THE WORLD","BUNGEE!","CALM RABBIT","CARROT OF SURRENDER","CCGS BOY","CENTRELINK","CHEZBURGER","COOKIE MONSTER","COOKIE","COOKIE","COOKIE","COOLEST CARD EVER","CRAZY RABBIT","DEATH BY UNICORN","DEVIL'S PARTY","Discard pele","DRAGON NOT A REX","DUMB RABBIT","EMOJI","ERMAHGERD 50","EVERYTHING IS AWESOME","FIREBALL","FLYING COWS","GALACTUS BARFER OF CARDS","GALACTUS DEVOURER OF CARDS","GHOST","GLORIOUS BOUNTY","GOAL AFTER SIREN","GRASS WARLOCK","HAPPY BUNNY","HAPPY SNOWMAN","HELPING DA REXES","IT'S CHRISMAS","IT'S OVER 9000","JOOR WELCOME","JUST DO IT","KYLO RENS LIGHTSABER","LEGO BUILD","LEVEL THE PLAYING FIELD","MALYGOS","MICHAEL JORDAN CARD!","MORE I WANT MORE","MUD SLIDE","NARWHALS ARE BADASS","NECROMANCER","NESSIE","NINJA","PARTY RABBIT","PFUDOR","PIGGY POWER","PLUTO","PORTAL","Pot of gold","Potato of fun","Potato of fun","Potato of fun","Pringle man","REFILL YOUR MIGHTY HAND","CAT GOT THE YARN","COWBOY CAT WITH GOLDEN GUNS RIDING A UNICORN","EXTERMINATE","LUCK OF THE IRISH","NEADERTHAL FROM THE FUTURE","POT OF GREED","SACRIFICIAL LAMB","STOP BE HUMBLE","TIME LORD SCIENCE","REX WILL RULE","RICHIE RICH","SCROOGE MCDUCK","SKY DIVE","SMALL CHILD","SMALL CHILD","SPARE CHANGE","STICKMAN UPGRADED","SUPERNOVA","SWITCHEROO","TDOGGYREX","TERRIAN FALCON","THE CASH COW","THE EQUILISER","THE GREAT DIVIDE","THE NUKE","THERE CAN BE ONLY ONE","THEY'RE TAKING THE HOBBITS TO ISENGARD","TRIPLE BACON CHEESEBURGER","ULTIMATE CARDORNATOR","UPGRADE IT","VAMPIRE BAT","WINTER IS COMING","YSERA","ZEUS POTATO"];
 var discardPile = [];
 var fillDeck = [];
-var cards = [];
+var cards = msg;
 var playerCounter = 0;
 var spectatorCounter = 0;
 const users = {};
@@ -31,6 +32,7 @@ function Player(name, ip, sock) {
     this.order = name.replace("Player","");
     this.job = "Player";
     this.score = 0;
+    this.cool = 0;
     this.cards = [];
     this.field = [];
     this.TurnRun = "No";
@@ -48,11 +50,13 @@ function Player(name, ip, sock) {
             console.error('User already has that prefix!');
         }
     }
-    this.incrementPoints = function(amount) {//sc [your score] [their score]
+
+    this.incrementPoints = function(amount) {
         //increases the person's score by amount while adding any additional things to take into acount
         this.score += (amount * this.incrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
+        this.checkField("incrementPoints",amount);
     }
 
     this.decrementPoints = function(amount) {
@@ -60,7 +64,9 @@ function Player(name, ip, sock) {
         this.score -= (amount * this.decrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.decrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
+        this.checkField("decrementPoints",amount);
     }
+
     this.findCard = function(findCrd){
         for (handCards in this.cards){
             if (this.cards[handCards] == findCrd){
@@ -69,19 +75,29 @@ function Player(name, ip, sock) {
         }
         console.error("no card found");
     }
+    
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
             cards[name].ability(use);
-            discardPile.push(name);
+            if (cards[name].functionality.includes("Field")){
+                this.field.push(name);
+            }
+            else if (cards[name].functionality.includes("Play")){
+                discardPile.push(name);
+            }
+            else{
+                console.error(`No functionality of ${functionality} avalible`);
+            }
             this.cards.splice((this.findCard(name)),1);
             this.actionsInTurn--;
-            updateCards(this.cards);
+            updateCards()
             updateScore();
         }
         if(this.actionsInTurn<=0){
             this.endTurn();
         }
     }
+
     this.endTurn = function(){
         if(gameRun=="ending"){
             gameEnded();
@@ -90,6 +106,7 @@ function Player(name, ip, sock) {
             if (this.TurnRun == "Yes"){
                 //ends turn
                 this.TurnRun = "No";
+                this.checkField("endTurn",null);
                 this.actionsInTurn = 0;
                 if (Turn == playerCounter){Turn = 1;}
                 else{Turn ++;} 
@@ -99,8 +116,10 @@ function Player(name, ip, sock) {
             }
         }
     }
+
     this.removeCards = function(amount,special = null){ 
         if (amount == "hand"){
+            this.checkField("removeCards",this.cards.length);
             for (handCards in this.cards){
                 discardPile.push(handCards);
             }
@@ -115,6 +134,7 @@ function Player(name, ip, sock) {
                     var ranNum = Math.floor(Math.random() * this.cards.length);
                     discardPile.push(this.cards.splice(ranNum,1));
                     this.cards.splice(ranNum,1);
+                    this.checkField("removeCards",amount);
                 }
             }
         }
@@ -122,6 +142,28 @@ function Player(name, ip, sock) {
             //add extra else if's to only remove must plays,neggs,which cards
         }
     }
+
+    this.destroyCard = function(cardToDestroy){
+        //destroy card on feild
+        if (cardToDestroy == "fieldWipe"){
+            //add stuff to check for resistent cards
+            for (people in users){
+                for (fieldCards in users[people].field){
+                    discardPile.push(fieldCards);
+                }
+                users[people].field = [];
+                users[people].checkField("cardDestroyed","all");
+            }
+        }
+        else{
+            for (card in cardToDestroy){
+                this.field.splice(this.findCard(card),1);
+                this.checkField("cardDestroyed",card);
+                discardPile.push(card);
+            }
+        }
+    }
+
     this.getCrd = function(amount){
         if(deck1.length < amount){
             refillDeck();
@@ -129,23 +171,57 @@ function Player(name, ip, sock) {
         for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
         {
             //draws the first card from the draw pile
-            cards[deck1[0]].parent = this.name;
+            cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
             this.cards.push(deck1[0]);
             deck1.splice(0, 1);
+            this.checkField("getCards",[amount,this.name]);
             // updateCards(this.name,this.cards);//uc cards 
         }
     //add things for stuff when you get cards------||  e.g get points
     }
+
+    this.checkField = function(typeCheck,extraInfo){
+        if (typeCheck == "startTurn"){
+
+        }
+        else if(typeCheck == "endTurn"){
+
+        }
+        else if(typeCheck == "decrementPoints"){
+
+        }
+        else if(typeCheck == "incrementPoints"){
+
+        }
+        else if(typeCheck == "getCards"){
+            //extra info gives how many cards and name of player
+        }
+        else if(typeCheck == "removeCards"){
+
+        }
+        else if(typeCheck == "cardDestroyed"){
+            //remove passive effects e.g. cash cow
+        }
+        else if(typeCheck == "gameEnded"){
+            //add stuff like goal after siren
+        }
+        else{
+            
+        }
+    }
+
     this.startTurn = function(playingPLayer){
         if (this.TurnRun == "No"){
             //add things that activate at the start of a turn
             this.getCrd(1);
             this.actionsInTurn = this.cardsToPlay;
             this.TurnRun = "Yes";
+            this.checkField("startTurn",null);
             updateCards(this.cards);
         }
     }
 }
+
 /*targets other player*/
 function findOpponent(parentName){
     if (users[parentName].order == "1"){
@@ -155,22 +231,24 @@ function findOpponent(parentName){
         return "Player1";
     }
     else{
-
+        console.error("no opponent found");
     }
 }
 
 //does everything to end game
 function gameEnded(){
+    this.checkField("gameEnded",null);
     gameRun = "Not";
+    gameFinnished = "Yes";
     if (users["Player1"].score == users["Player2"].score){
-        sendText("all", "The game was a Tie");
+        console.log("The game was a Tie");
         //update score and print
     }
     else if(users["Player1"].score > users["Player2"].score){
-        sendText("all", "Player 1 wins!");
+        console.log("Player 1 wins!");
     }
     else if(users["Player1"].score < users["Player2"].score){
-        sendText("all", "Player 2 wins!");
+        console.log("Player 2 wins!");
     }
     else{
         console.error("No one won???");
@@ -191,6 +269,7 @@ function shuffleDeck() {
         fillDeck.splice(0, 1);
     }
 }
+
 //discards shuffle
 function refillDeck() {
     while (0<discardPile.length)
@@ -233,8 +312,8 @@ function updateScore(){
 }
 
 function updateCards(){
-    sendText(users["Player1"],`uc [${users["Player1"].cards.join()}] [${users["Player1"].field.join()}] [${users["Player2"].field.join()}] ${users["Player2"].cards.length}`);
-    sendText(users["Player2"],`uc [${users["Player2"].cards.join()}] [${users["Player2"].field.join()}] [${users["Player1"].field.join()}] ${users["Player1"].cards.length}`);
+    sendText(users["Player1"],`uc ${users["Player1"].cards.join()} ${users["Player1"].field.join()} ${users["Player2"].field.join()} ${users["Player2"].cards.length} ${discardPile[discardPile.length-1]}`);
+    sendText(users["Player2"],`uc ${users["Player2"].cards.join()} ${users["Player2"].field.join()} ${users["Player1"].field.join()} ${users["Player1"].cards.length} ${discardPile[discardPile.length-1]}`);
 }
 
 function sendText(player, msg){
@@ -246,130 +325,6 @@ function sendText(player, msg){
     else{
         player.sock.write(msg+"\n");
     }
-}
-
-function Card(author, tags, functionality, ability) {
-    this.author = author;
-    this.parent = 'deck';
-    this.ability = ability;
-    this.functionality = functionality;
-    this.tags = tags;
-}
-
-cards = {
-    'ghost print': new Card('Deck',[], [], function(functionality) {
-        sendText(users[this.parent], "Spooky");
-    }),
-    'pot of gold print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50);   
-                users[this.parent].getCrd(1);
-        }
-    }),
-    'piggy power print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(30);   
-                users[this.parent].getCrd(1);
-        }
-    }),
-    'pig man print': new Card('Deck',[],['action'],function(functionality){// dfkdjfklsdjfldskjflmvg jmoerkiujcgxhiec fix later if don't have 3 cards can't play
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(30);   
-                users[this.parent].removeCards(3);
-        }
-    }),
-    'more I want more print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].decrementPoints(20);   
-                users[this.parent].getCrd(4);
-        }
-    }),
-    'happy bunny print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    '2012 print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'spareChange print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(1); 
-        }
-    }),
-    'reg neanderthal from the future print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(100); 
-        }
-    }),
-    'reg cat got the yarn print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(25); 
-        }
-    }),
-    'rebel print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(51); 
-        }
-    }),
-    'potato of fun print': new Card('Deck',[],['action'],function(functionality){console.log("Look how much fun it is.")}),
-    'pluto print': new Card('Deck',[],['action'],function(functionality){
-        sendText(users[this.parent],"Not a planet anymore.")
-        sendText(users[this.parent],"No effect.")
-        sendText(users[this.parent],"Because life is tough.\n")
-    }),
-    'nessie print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(25); 
-        }
-    }),
-    "its christmas print": new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'emoji print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'derpasaurus rex print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(30); 
-        }
-    }),
-    'cookie print': new Card('Deck',[],['action'],function(functionality){
-        sendText(users[this.parent],"a cookie\n")
-    }),
-    'chezburger print': new Card('Deck',[],['action'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-        }
-    }),
-    'Discard pele': new Card('???',[],['Play'],function(functionality){
-        switch(functionality) {
-            default:
-                users[this.parent].incrementPoints(50); 
-                users[this.parent].removeCards("hand","none");
-        }
-    })
 }
 
 
@@ -390,6 +345,26 @@ net.createServer(function(sock) {
         users[`Player${playerCounter}`] = new Player(`Player${playerCounter}`, [sock.remoteAddress,sock.remotePort],sock);
         //gives rights to start
         users['Player1'].job = "host"; 
+        if (playerCounter==2){
+            if (gameFinnished != "Yes"){
+                if (gameRun != "running"){
+                    //game starts
+                    gameRun = "running";
+                    shuffleDeck()
+                    for (players in users){
+                        users[players].getCrd(5);
+                        updateCards(users[players].cards);
+                    }
+                    users[`Player${Turn}`].startTurn();
+                }
+                else{
+                    console.error("game already running.");
+                }
+            }
+            else{
+                console.error("game has finnished");
+            }
+        }
     }
     
     // Add a 'data' event handler to this instance of socket
@@ -402,42 +377,6 @@ net.createServer(function(sock) {
             console.log("[CHAT]: " + str.substr(6,str.length));
             sendText(`chat ${users["Player1"],str.substr(6,str.length)}\n`);
             sendText(`chat ${users["Player2"],str.substr(6,str.length)}\n`);
-        }
-        //start game
-        else if (str.substr(0,5) == 'start'){
-            if (gameFinnished == "No"){
-                if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
-                    if (gameRun != "running"){
-                        if (playerCounter>=2){
-                            if (users[findPlayer([sock.remoteAddress,sock.remotePort])].job == "host"){
-                                //game starts
-                                gameRun = "running";
-                                shuffleDeck()
-                                for (players in users){
-                                    users[players].getCrd(5);
-                                    updateCards(users[players].cards);
-                                }
-                                users[`Player${Turn}`].startTurn();
-                            }
-                            else{
-                                sock.write("you don't have the power to start the game."+"\n");
-                            }
-                        }
-                        else{
-                            sock.write("You need at least 2 players to start"+"\n");
-                        }
-                    }
-                    else{
-                        sock.write("game already running."+"\n");
-                    }
-                }
-                else{
-                    sock.write("You cannot participate in game"+"\n");
-                }
-            }
-            else{
-                sock.write("Exit and start a new Game to play again"+"\n");
-            }
         }
         //end game
         else if (str.substr(0,7) == 'endGame'){
@@ -477,6 +416,7 @@ net.createServer(function(sock) {
                 sock.log("Game is not running"+"\n");
             }
         }
+        //passes player turn
         else if (str.substr(0,4) == 'pass'){
             if (gameRun == "running"){
                 if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){

@@ -1,18 +1,216 @@
+var msg2 = require('./test server.js');
+function Player(name, ip, sock) {
+    this.name = name;
+    this.prefixes = [];
+    this.ip = ip;
+    this.sock = sock;
+    this.order = name.replace("Player", "");
+    this.job = "Player";
+    this.score = 0;
+    this.cards = [];
+    this.field = [];
+    this.TurnRun = "No";
+    this.cardsToPlay = 1;
+    this.actionsInTurn = 0;
+    this.scoreMultiplier = 1;
+    this.incrementMultiplier = 1;
+    this.decrementMultiplier = 1;
+    this.addtionalPoints = 0;
+
+    this.givePrefix = function (prefix) {
+        if (!this.prefixes.hasOwnProperty(prefix)) {
+            this.prefixes.push(prefix);
+        } else {
+            console.error('User already has that prefix!');
+        }
+    }
+    this.incrementPoints = function (amount) {//sc [your score] [their score]
+        //increases the person's score by amount while adding any additional things to take into acount
+        this.score += (amount * this.incrementMultiplier * this.scoreMultiplier *
+            this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
+        //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
+    }
+
+    this.decrementPoints = function (amount) {
+        //decreases the person's score by amount while adding any additional things to take into acount
+        this.score -= (amount * this.decrementMultiplier * this.scoreMultiplier *
+            this.scoreMultiplier * this.decrementMultiplier + this.addtionalPoints);
+        //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
+    }
+    this.findCard = function (findCrd) {
+        for (handCards in this.cards) {
+            if (this.cards[handCards] == findCrd) {
+                return handCards;
+            }
+        }
+        console.error("no card found");
+    }
+    this.playCard = function (name, use) {
+        if (this.actionsInTurn > 0) {
+            cards[name].ability(use);
+            discardPile.push(name);
+            this.cards.splice((this.findCard(name)), 1);
+            this.actionsInTurn--;
+            updateCards(;
+        }
+        if (this.actionsInTurn <= 0) {
+            this.endTurn();
+        }
+    }
+    this.endTurn = function () {
+        if (gameRun == "ending") {
+            gameEnded();
+        }
+        else {
+            if (this.TurnRun == "Yes") {
+                //ends turn
+                this.TurnRun = "No";
+                this.actionsInTurn = 0;
+                if (Turn == playerCounter) { Turn = 1; }
+                else { Turn++; }
+                if (gameRun == "running") {
+                    users[`Player${Turn}`].startTurn();
+                }
+            }
+        }
+    }
+    this.removeCards = function (amount, special = null) { // users[this.parent].removeCards)(1[, card]);
+        if (amount == "hand") {
+            for (handCards in this.cards) {
+                discardPile.push(handCards);
+            }
+            this.cards = [];
+            // updateCards(this.name,this.cards);
+        }
+        else if (special == null) {
+            if (this.cards.length < amount) {
+                console.error("amount of cards to remove to many");
+            }
+            else {
+                for (var cardsToRemove = 0; cardsToRemove < amount; cardsToRemove++) {
+                    var ranNum = Math.floor(Math.random() * this.cards.length);
+                    discardPile.push(this.cards.splice(ranNum, 1));
+                    this.cards.splice(ranNum, 1);
+                    // updateCards(this.name,this.cards);
+                }
+            }
+        }
+        else {
+            //add extra else if's to only remove must plays,neggs,which cards
+        }
+    }
+    this.getCrd = function (amount) {
+        if (deck1.length < amount) {
+            refillDeck();
+        }
+        for (numCardsGet = 0; numCardsGet < amount; numCardsGet++) {
+            //draws the first card from the draw pile
+            cards[deck1[0]].parent = this.name;
+            this.cards.push(deck1[0]);
+            deck1.splice(0, 1);
+            // updateCards(this.name,this.cards);//uc cards 
+        }
+        //add things for stuff when you get cards------||  e.g get points
+    }
+    this.startTurn = function (playingPLayer) {
+        if (this.TurnRun == "No") {
+            //add things that activate at the start of a turn
+            this.getCrd(1);
+            this.actionsInTurn = this.cardsToPlay;
+            this.TurnRun = "Yes";
+            updateCards();
+        }
+    }
+
+}
+//does everything to end game
+function gameEnded() {
+    gameRun = "Not";
+    if (users["Player1"].score == users["Player2"].score) {
+        sendText("all", "The game was a Tie");
+        //update score and print
+    }
+    else if (users["Player1"].score > users["Player2"].score) {
+        sendText("all", "Player 1 wins!");
+    }
+    else if (users["Player1"].score < users["Player2"].score) {
+        sendText("all", "Player 2 wins!");
+    }
+    else {
+        console.error("No one won???");
+    }
+}
+
+//deck shuffle
+function shuffleDeck() {
+    while (0 < deck1.length) {
+        var ranNum = Math.floor(Math.random() * deck1.length);
+        fillDeck.push(deck1[ranNum]);
+        deck1.splice(ranNum, 1);
+    }
+    while (0 < fillDeck.length) {
+        deck1.push(fillDeck[0]);
+        fillDeck.splice(0, 1);
+    }
+}
+//discards shuffle
+function refillDeck() {
+    while (0 < discardPile.length) {
+        var ranNum = Math.floor(Math.random() * discardPile.length);
+        fillDeck.push(discardPile[ranNum]);
+        discardPile.splice(ranNum, 1);
+    }
+    while (0 < fillDeck.length) {
+        deck1.push(fillDeck[0]);
+        fillDeck.splice(0, 1);
+    }
+}
+
+//finds which player said something
+function findPlayer(IP) {
+    for (p in users) {
+        if (users[p].ip[0] == IP[0] && users[p].ip[1] == IP[1]) {
+            return p;
+        }
+    }
+}
+
+function findTypePlayer(IP) {
+    for (People in users) {
+        if (users[People].ip[0] == IP[0] && users[People].ip[1] == IP[1]) {
+            return "Player";
+        }
+    }
+    for (people in spectator) {
+        if (spectator[people].ip[0] == IP[0] && spectator[people].ip[1] == IP[1]) {
+            return "Spectator";
+        }
+    }
+}
+
+function updateCards() {
+    sendText(users["Player1"], `uc cards [${users["Player1"].cards.join()}] [${users["Player1"].field.join()}] [${users["Player2"].field.join()}] ${users["Player2"].cards.length}`);
+    sendText(users["Player2"], `uc cards [${users["Player2"].cards.join()}] [${users["Player2"].field.join()}] [${users["Player1"].field.join()}] ${users["Player1"].cards.length}`);
+}
+
+function sendText(player, msg) {
+    if (player == "all") {
+        for (people in users) {
+            users[people].sock.write(msg + "\n");
+        }
+    }
+    else {
+        player.sock.write(msg + "\n");
+    }
+}
+
 function Card(author, tags, functionality, ability) {
     this.author = author;
-    this.parent = null;
+    this.parent = 'deck';
     this.ability = ability;
     this.functionality = functionality;
     this.tags = tags;
 }
-
-
-/* section for demonstration 
-    users[this.parent].incrementPoints(x); gives the player who has this card 50 points
-    users[this.parent].decrementPoints(x); takes 50 points from the player who has this card 
-    users[this.parent].getCrd(x); gives the player who has this card x more cards
-*/
-
 module.exports = {
 
     "3 HEADED GUARD DOG!": new Card("Mr Milton", ['living'], ['Play'], function(functionality) {
@@ -41,8 +239,8 @@ module.exports = {
     "A LOT OF HELP": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[0].incrementPoints(50);
-                users[1].incrementPoints(50);
+                users[this.parent].incrementPoints(50);
+                users[findOpponent(this.parent)].incrementPoints(50);
 
         }
       }),
@@ -64,16 +262,30 @@ module.exports = {
             
         }
       }),
-    "ANGRY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "ANGRY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "AROUND THE WORLD": new Card("Aidan Drangi", ['living', 'Water'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            if(users[this.parent].field.includes("STICKMAN UPGRADED")){
+              //doesn't get extra turn
+            }
+            else{
+              Turn--;
+            }
+            users[this.parent].incrementPoints(25);
         }
       }),
     "ASSASSIN DUDE": new Card("Oliver Mitteregger", ['living', 'Ninja', 'headwear'], ['Play'], function(functionality) {
@@ -196,8 +408,6 @@ module.exports = {
             
         }
     }),
-
-    //
     "BB8": new Card("Mr Milton", ['star wars'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
@@ -243,7 +453,7 @@ module.exports = {
     "BUNGEE!": new Card("Ms O'Neill", [], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.parent].getCrd(discardPile.pop(-1));
+                users[this.parent].cards.push(discardPile.pop());
         }
       }),
     "IT'S A BUTTER FLY!": new Card("Orlando Phillips", [], ['Play'], function(functionality) {
@@ -258,10 +468,18 @@ module.exports = {
             
         }
       }),
-    "CALM RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "CALM RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "CARMEN SANDIEGO": new Card("Ben Richardson", ['living', 'Water'], ['Play'], function(functionality) {
@@ -269,11 +487,12 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //remove opponents hand and attain 20 points
     "CARROT OF SURRENDER": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                //user[1].removeCards("hand",null);
+                users[findOpponent(this.parent)].removeCards("hand",null);
                 users[this.parent].incrementPoints(20);
         }
       }),
@@ -292,11 +511,13 @@ module.exports = {
     "CCGS BOY": new Card("Luke Simmons", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[1].decrementPoints(50);
+                users[findOpponent(this.parent)].decrementPoints(50);
         }
       }),
-    "CENTRELINK": new Card("Adam Di Tullio", [], ['Play'], function(functionality) {
+    "CENTRELINK": new Card("Adam Di Tullio", [], ['Field'], function(functionality) {
         switch(functionality) {
+          case "startTurn":
+              users[this.parent].incrementPoints(2);
           default:
             
         }
@@ -335,10 +556,18 @@ module.exports = {
     "COOKIE MONSTER": new Card("Adam Di Tullio", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var cookieInPlay = 1;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("cookie")){
+                  cookieInPlay++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25*cookieInPlay);
         }
       }),
-    "COOKIE": new Card("Adam Di Tullio", ['Useless'], ['Play'], function(functionality) {
+    "COOKIE": new Card("Adam Di Tullio", ['Useless',"cookie"], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -354,7 +583,7 @@ module.exports = {
     "COOLEST CARD EVER": new Card("Jordan Davies", ['living', 'Cool', ' Useless'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].cool +=50;
         }
       }),
     "COPY THE COPY CAT": new Card("Lachie Jones", [], ['Play'], function(functionality) {
@@ -375,18 +604,25 @@ module.exports = {
             
         }
       }),
-    "CRAZY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "CRAZY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
     }),
-
     "CREEPER!": new Card("Harry Trumble", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
             //play immediately
-            //user[this.parent].removeCards(4,null);
+            user[this.parent].removeCards(4,null);
         }
       }),
     "CUTE PENGUIN": new Card("Jordan Davies", ['living', 'Winter', '  Useless'], ['Play'], function(functionality) {
@@ -411,7 +647,7 @@ module.exports = {
     "DEATH BY UNICORN": new Card("Gilbert Porter", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[1].decrementPoints(50);
+                users[findOpponent(this.parent)].decrementPoints(50);
         }
       }),
     "DEATH STAR": new Card("Adam Di Tullio", ['star wars'], ['Play'], function(functionality) {
@@ -463,7 +699,7 @@ module.exports = {
         switch(functionality) {
             default:
                 users[this.parent].incrementPoints(20);
-                users[1].getCrd(5);
+                users[findOpponent(this.parent)].getCrd(5);
         }
       }),
     "Diamond sword": new Card("Lachie Jones", [], ['Play'], function(functionality) {
@@ -475,7 +711,8 @@ module.exports = {
     "Discard pele": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+                users[this.parent].incrementPoints(50);
+                users[this.parent].removeCards("hand", null);
         }
       }),
     "Donald trump": new Card("Ben Main", ['living', ' America'], ['Play'], function(functionality) {
@@ -505,7 +742,7 @@ module.exports = {
     "DOUBLE CARD USE": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.parent].
+                users[this.parent].actionsInTurn = 2;
         }
       }),
     "DR REX": new Card("Michael Calarese", ['rex', 'dinosaur', 'living', 'Medical'], ['Play'], function(functionality) {
@@ -524,7 +761,7 @@ module.exports = {
     "DRAGON NOT A REX": new Card("Michael Calarese", ['dinosaur', 'rex', 'living', 'dragon'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            users[1].decrementPoints(30);
+            users[findOpponent(this.parent)].decrementPoints(30);
           
         }
       }),
@@ -534,10 +771,18 @@ module.exports = {
             
         }
       }),
-    "DUMB RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "DUMB RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "EDGAR": new Card("Andre Nikolich", ['living'], ['Play'], function(functionality) {
@@ -575,14 +820,20 @@ module.exports = {
     "ERMAHGERD 50": new Card("Rishi Dhakshinamoorthy", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[0].incrementPoints(50);
-                users[1].incrementPoints(50);
+                users[this.parent].incrementPoints(50);
+                users[findOpponent(this.parent)].incrementPoints(50);
         }
       }),
-    "EVERYTHING IS AWESOME": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
+    "EVERYTHING IS AWESOME": new Card("Lachie Jones", ['living'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "destroyed":
+            for(people in users){
+              users[people].addtionalPoints -= 20;
+            }
           default:
-            
+            for(people in users){
+              users[people].addtionalPoints += 20;
+            }
         }
       }),
     "EXTINCTION": new Card("Lachie Grinbergs", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
@@ -624,7 +875,8 @@ module.exports = {
     "FIREBALL": new Card("Will Mardon", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+          users[findOpponent(this.parent)].removeCards("hand",null);
+          users[this.parent].decrementPoints(10);
         }
       }),
     "FLANDERS": new Card("Campbell Glendinning", ['living', 'simpsons'], ['Play'], function(functionality) {
@@ -633,10 +885,16 @@ module.exports = {
             
         }
       }),
-    "FLYING COWS": new Card("Greg Boeddinghaus", ['living', 'cow'], ['Play'], function(functionality) {
+    "FLYING COWS": new Card("Greg Boeddinghaus", ['living', 'cow'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "destroyed":
+            pointsToGetFromCowsFlying = 5;
+          case "startTurn":
+            pointsToGetFromCowsFlying *= 2;
+            users[this.parent].incrementPoints(pointsToGetFromCowsFlying);
           default:
-            
+            var pointsToGetFromCowsFlying = 5;
+            users[this.parent].incrementPoints(pointsToGetFromCowsFlying);
         }
       }),
     "FRAGGLE PUSS": new Card("Jamie Bougher", ['living', 'snagglepuss'], ['Play'], function(functionality) {
@@ -657,16 +915,21 @@ module.exports = {
             
         }
       }),
-    "GALACTUS BARFER OF CARDS": new Card("Lachie Jones", ['living', 'Marvel'], ['Play'], function(functionality) {
+    "GALACTUS BARFER OF CARDS": new Card("Lachie Jones", ['living', 'Marvel'], ['specialCounter',"Play"], function(functionality) {
         switch(functionality) {
+          case "counter":
           default:
-            
+            for (people in users){
+              users[people].getCrd(3);
+            }
         }
       }),
     "GALACTUS DEVOURER OF CARDS": new Card("Mr Milton", ['living', 'Marvel'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            for (people in users){
+              users[people].removeCards(3,null);
+            }
         }
       }),
     "GAME CHANGER": new Card("???", [], ['Play'], function(functionality) {
@@ -676,10 +939,10 @@ module.exports = {
         }
       }),
     //No effects
-    "GHOST": new Card("Ben Richardson", ['Useless'], ['Play'], function(functionality) {
+    "GHOST": new Card("Ben Richardson", ['Useless'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            //spooky
         }
     }),
     //pick up three cards from the deck
@@ -695,10 +958,12 @@ module.exports = {
             
         }
       }),
-    "GOAL AFTER SIREN": new Card("Max Zempilas", ['living', 'blank white man'], ['Play'], function(functionality) {
+    "GOAL AFTER SIREN": new Card("Max Zempilas", ['living', 'blank white man'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "gameEnded":
+            users[this.parent].incrementPoints(50);
           default:
-            
+
         }
       }),
     "GOD BLESS AMERICA": new Card("Ben Main", ['living', ' America'], ['Play'], function(functionality) {
@@ -722,7 +987,12 @@ module.exports = {
     "GRASS WARLOCK": new Card("Jack Day", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var cardsOnField = 0 ;
+            for (people in users){
+              cardsOnField += (users[people].field.length);
+            }
+            users[this.parent].incrementPoints(cardsOnField*10);
+            users[this.parent].removeCards("hand",null);
         }
       }),
     "GREAT PURGE": new Card("Mr Milton", ['living'], ['Play'], function(functionality) {
@@ -756,15 +1026,17 @@ module.exports = {
         }
     }),
     //get 50 points
-    "HAPPY BUNNY": new Card("??", ['living', 'Rabbit', 'creature'], ['Play'], function(functionality) {
+    "HAPPY BUNNY": new Card("??", ['living', 'Rabbit', 'creature'], ['Field'], function(functionality) {
         switch (functionality) {
             default:
                 users[this.parents].incrementPoints(50);
         }
       }),
     //Gives player 50 points
-    "HAPPY SNOWMAN": new Card("Jordan Davies", ['living', ' Winter'], ['Play'], function(functionality) {
+    "HAPPY SNOWMAN": new Card("Jordan Davies", ['living', ' Winter'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "startTurn":
+            users[this.parent].incrementPoints(10);
           default:
             users[this.parent].incrementPoints(50);
 
@@ -800,8 +1072,10 @@ module.exports = {
             
         }
       }),
-    "HELPING DA REXES": new Card("Micheal Calarese", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
+    "HELPING DA REXES": new Card("Micheal Calarese", ['dinosaur', 'rex', 'living'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "startTurn":
+            users[this.parent].incrementPoints(20);
           default:
             
         }
@@ -906,16 +1180,24 @@ module.exports = {
             
         }
       }),
-    "JOOR WELCOME": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
+    "JOOR WELCOME": new Card("Michael Calarese", ['living'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "startTurn":
+            if(TimeOnFieldJoorWelcome >= 3){
+              users[this.parent].destroyCard("JOOR WELCOME");
+            }
+            else{
+              users[this.parent].incrementPoints(50);
+              TimeOnFieldJoorWelcome++;
+            }
           default:
-            
+            var TimeOnFieldJoorWelcome = 0;
         }
       }),
     "JUST DO IT": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.player].getCrd(2);
+                users[this.parent].getCrd(2);
         }
       }),
     "KIDNAP THE COOKIE MONSTER": new Card("Cody Stump", ['living'], ['Play'], function(functionality) {
@@ -954,11 +1236,12 @@ module.exports = {
             
         }
     }),
+    //change for more than 2 palyers
     //takes 70 points off the other person (completely wrong with more than 2 people)
     "KYLO RENS LIGHTSABER": new Card("Jamie Bougher", ['living', 'star wars'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[1].decrementPoints(70);
+                users[findOpponent(this.parent)].decrementPoints(70);
         }
       }),
     "LEAGUE OF NINJAS": new Card("Charles Worthington-O'Leary", ['living', 'ninja', 'dragon', 'creature'], ['Play'], function(functionality) {
@@ -970,8 +1253,7 @@ module.exports = {
     "LEGO BUILD": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            //shuffle discard pile into deck
-            //refillDeck();
+            refillDeck();
         }
       }),
     "LET THERE BE REX": new Card("Micheal Calarese", ['dinosaur', 'rex', 'living'], ['Play'], function(functionality) {
@@ -983,7 +1265,9 @@ module.exports = {
     "LEVEL THE PLAYING FIELD": new Card("Jack Day", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            for (people in users){
+              users[people].score = users[this.parent].score;
+            }
         }
       }),
     "LIGHT VS DARK": new Card("Charles Begley", ['living', 'narwhal', 'Water', 'star wars'], ['Play'], function(functionality) {
@@ -1047,9 +1331,11 @@ module.exports = {
         }
       }),
     "MALYGOS": new Card("Rishi Dhakshinamoorthy", ['living', 'dragon', 'dragon boarder'], ['Play'], function(functionality) {
-        switch(functionality) {
-          default:
-            
+          switch(functionality) {
+            case "destroyed":
+                users[this.parent].addtionalPoints -= 20;
+            default:
+                users[this.parent].addtionalPoints += 20;
         }
       }),
     "MAN CHICKEN": new Card("Jack Day", ['living'], ['Play'], function(functionality) {
@@ -1093,7 +1379,7 @@ module.exports = {
         switch(functionality) {
           default:
             users[this.parent].incrementPoints(30);
-
+            users[this.parent].cool += 9001;
         }
       }),
     "MINE TURTLE": new Card("Jamie Bougher", ['living'], ['Play'], function(functionality) {
@@ -1117,8 +1403,8 @@ module.exports = {
     "MORE I WANT MORE": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.player].decrementPoints(20);
-                users[this.player].getCrd(4);
+                users[this.parent].decrementPoints(20);
+                users[this.parent].getCrd(4);
         }
       }),
     "MOST USELESS CARD EVER": new Card("Jordan Davies", [], ['Play'], function(functionality) {
@@ -1136,7 +1422,8 @@ module.exports = {
     "MUD SLIDE": new Card("Will Mardon", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].destroyCard("fieldWipe")
+            users[this.parent].decrementPoints(30);
         }
       }),
     "MURICA": new Card("Ben Main", ['living', ' America'], ['Play'], function(functionality) {
@@ -1157,18 +1444,21 @@ module.exports = {
             
         }
       }),
-    "NARWHALS ARE BADASS": new Card("Charles Begley", ['living', 'narwhal', 'Water'], ['Play'], function(functionality) {
+    "NARWHALS ARE BADASS": new Card("Charles Begley", ['living', 'narwhal', 'Water'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "gameEnded":
+            //check if narwhal
+            users[this.parent].incrementPoints(50);
           default:
-            
+      
         }
     }),
     //gives you 50 points and takes 50 points off another player (only works with 2 players)
     "NECROMANCER": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.player].incrementPoints(50);
-                users[1].decrementPoints(50);
+                users[this.parent].incrementPoints(50);
+                users[findOpponent(this.parent)].decrementPoints(50);
         }
       }),
     "NEIL DE GRASSE TYSON": new Card("Andy Jian", ['living'], ['Play'], function(functionality) {
@@ -1187,7 +1477,11 @@ module.exports = {
     "NINJA": new Card("Lachlan Henderson", ['living', 'ninja'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            for (people in users){
+              if (users[people].score < 50){
+                users[people].score = 50;
+              }
+            }
         }
       }),
     "NON-BELIEVER": new Card("Cameron Minchin", ['living'], ['Play'], function(functionality) {
@@ -1232,10 +1526,18 @@ module.exports = {
             
         }
       }),
-    "PARTY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "PARTY RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
     "PAUSE REWIND": new Card("Cameron Carr", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -1264,15 +1566,16 @@ module.exports = {
       }),
     "PIG MAN": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].removeCards(3,null);
+                users[this.parent].incrementPoints(30);
         }
       }),
     "PIGGY POWER": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.player].incrementPoints(30);
-                users[this.player].getCrd(1);
+                users[this.parent].incrementPoints(30);
+                users[this.parent].getCrd(1);
         }
       }),
     "PINAPPLE POWER": new Card("Ms Auld", ['living'], ['Play'], function(functionality) {
@@ -1310,16 +1613,17 @@ module.exports = {
         switch(functionality) {
           default:
             users[this.parent].incrementPoints(50);
-
         }
-      }),
+    }),
+    //get 50 points and an extra card
     "Pot of gold": new Card("Jordan Davies", ['Rainbow'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].incrementPoints(50);
+                users[this.parent].getCrd(1);
         }
       }),
-    "Potato of fun": new Card("Michael Calarese", ['living', ' Useless'], ['Play'], function(functionality) {
+    "Potato of fun": new Card("Michael Calarese", ['living', ' Useless','potato'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -1340,7 +1644,15 @@ module.exports = {
     "Pringle man": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var potatoInPlay;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("potato")){
+                  potatoInPlay++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(30*potatoInPlay);
         }
       }),
     "Professor mcgonagall": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
@@ -1349,7 +1661,7 @@ module.exports = {
             
         }
       }),
-    "Pugasaurus Rex": new Card("Andre Nikolich", ['living', 'dinosaur', 'cute', 'rex'], ['Play'], function(functionality) {
+    "Pugasaurus Rex": new Card("Andre Nikolich", ['living', 'dinosaur', 'cute', 'rex'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -1395,7 +1707,8 @@ module.exports = {
     "REFILL YOUR MIGHTY HAND": new Card("Mr Milton", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].removeCards("hand",null);
+            users[this.parent].getCrd(5);
         }
       }),
     "ABSORB": new Card("Max Gunning", ['living'], ['Play'], function(functionality) {
@@ -1457,8 +1770,8 @@ module.exports = {
     "COWBOY CAT WITH GOLDEN GUNS RIDING A UNICORN": new Card("Lachlan Murphy", ['living', 'Rainbow'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            users[0].incrementPoints(50);
-            users[1].decrementPoints(20);
+            users[this.parent].incrementPoints(50);
+            users[findOpponent(this.parent)].decrementPoints(20);
         }
       }),
     "COWS": new Card("Pat?", ['living'], ['Play'], function(functionality) {
@@ -1484,11 +1797,15 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //every player looses 1 card + 10 points
     "EXTERMINATE": new Card("Max Gunning", [], ['Play'], function(functionality) {
-        switch(functionality) {
-          default:
-            
+        switch (functionality) {
+            default:
+                for (people in users){
+                  users[people].decrementPoints(10);
+                  users[people].removeCards(1, null);
+                }
         }
       }),
     "FALCREM": new Card("Max Gunning", ['living'], ['Play'], function(functionality) {
@@ -1533,8 +1850,10 @@ module.exports = {
             
         }
       }),
-    "LUCK OF THE IRISH": new Card("Lachlan Murphy", ['living', 'Rainbow'], ['Play'], function(functionality) {
+    "LUCK OF THE IRISH": new Card("Lachlan Murphy", ['living', 'Rainbow'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "incrementPoints":
+            users[this.parent].incrementPoints(10);
           default:
             
         }
@@ -1566,14 +1885,21 @@ module.exports = {
       }),
     "POT OF GREED": new Card("Jasper Coombes-Watkins", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].getCrd(2);
+                users[this.parent].incrementPoints(20);
         }
       }),
     "SACRIFICIAL LAMB": new Card("Lachlan Murphy", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+          //change for more than 2 players
+            users[this.parent].score = 0;
+            users[findOpponent(this.parent)].score = 0;
+            users[this.parent].cards = [];
+            users[findOpponent(this.parent)].cards = [];
+            users[this.parent].field = [];
+            users[findOpponent(this.parent)].field = [];
         }
       }),
     "SAMARA": new Card("James Patrikeos", ['living'], ['Play'], function(functionality) {
@@ -1610,7 +1936,9 @@ module.exports = {
     "STOP BE HUMBLE": new Card("Lachlan Murphy", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            users[this.parent].incrementPoints(90);
+            if (users[this.parent].cool > 0){
+              users[this.parent].incrementPoints(90);
+            }
         }
       }),
     "SWIPER NO SWIPING": new Card("Lachlan Murphy", ['living'], ['Play'], function(functionality) {
@@ -1627,8 +1955,8 @@ module.exports = {
       }),
     "TIME LORD SCIENCE": new Card("Max Gunning", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].getCrd(this.parent.cards.length);
         }
       }),
     "TOILET HUMOUR": new Card("Zach Templeman", ['living', 'Water'], ['Play'], function(functionality) {
@@ -1646,7 +1974,16 @@ module.exports = {
     "UPSIDE DOWN": new Card("Cameron Minchin", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            /*while (0<deck1.length)
+            {
+                fillDeck.push(deck1[-1]);
+                deck1.splice(-1, 1);
+            }
+            while (0<fillDeck.length)
+            {
+                deck1.push(fillDeck[0]);
+                fillDeck.splice(0, 1);
+            }*/
         }
       }),
     "YOU TRICKED A POLAR BEAR": new Card("Flynn Dickson", ['living', ' Winter', 'blank white man'], ['Play'], function(functionality) {
@@ -1696,14 +2033,13 @@ module.exports = {
     "RICHIE RICH": new Card("Oliver Mitteregger", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            users[0].incrementPoints(30);
-            users[1].decrementPoints(10);
+            users[this.parent].incrementPoints(30);
+            users[findOpponent(this.parent)].decrementPoints(10);
         }
       }),
     "ROBIN HOOD": new Card("???", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
         }
       }),
     "ROBO SHREK": new Card("Oliver Mitteregger", ['living'], ['Play'], function(functionality) {
@@ -1723,11 +2059,14 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //gives you 10 points and takes 10 points away from everyone else (only works with 2 players)
     "SCROOGE MCDUCK": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+            //change for more than 2 players
+                users[this.parent].incrementPoints(10);
+                users[findOpponent(this.parent)].decrementPoints(10);
         }
       }),
     "SECRET AGENT": new Card("Paul Kikiros", ['living'], ['Play'], function(functionality) {
@@ -1747,11 +2086,15 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //steal a card from a player and get 25 points
+    //PROBABLY DOESN'T WORK
     "SKY DIVE": new Card("Lachlan Woodall", ['living', 'blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[findOpponent(this.parent)].removeCards(1,null);
+                users[this.parent].cards.push(discardPile.pop())
+                users[this.parent].incrementPoints(25);
         }
       }),
     "SLAUGHTERHOUSE": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
@@ -1779,7 +2122,7 @@ module.exports = {
         }
       }),
     //Gives player 10 points
-    "SMALL CHILD": new Card("Michael Calarese", ['living'], ['Play'], function(functionality) {
+    "SMALL CHILD": new Card("Michael Calarese", ['living','small child'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             users[this.parent].incrementPoints(10);
@@ -1815,7 +2158,7 @@ module.exports = {
             
         }
       }),
-    "SPACE JAMS": new Card("Mr Milton", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "SPACE JAMS": new Card("Mr Milton", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -1836,8 +2179,16 @@ module.exports = {
       }),
     "STICKMAN UPGRADED": new Card("Jack Day", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
+          case "startTurn":
+            if(TimeOnFieldStickManUpgraded >= 3){
+              users[this.parent].destroyCard("STICKMAN UPGRADED");
+            }
+            else{
+              Turn --;//lazy way<---
+              TimeOnFieldStickManUpgraded++;
+            }
           default:
-            
+            var TimeOnFieldStickManUpgraded = 0;
         }
       }),
     "STATEGIC ADVANTAGE": new Card("Jordan Davies", ['living', 'blank white man'], ['Play'], function(functionality) {
@@ -1858,10 +2209,27 @@ module.exports = {
             
         }
       }),
-    "SUPERNOVA": new Card("Harry Trumble", [], ['Play'], function(functionality) {
+    "SUPERNOVA": new Card("Harry Trumble", ['uncounterable'], ['Field'], function(functionality) {
         switch(functionality) {
-          default:
-            
+          case "startTurn":
+            if(TimeOnFieldSuperNova >= 3){
+              users[this.parent].destroyCard("fieldWipe");
+              for (people in users){
+                if(users[people].score >= 0){
+                  users[people].decrementPoints(30);
+                }
+                else{
+                  users[people].incrementPoints(30);
+                }
+                users[people].removeCards("hand",null);
+                users[people].getCrd(1);
+              }
+            }
+            else{
+              TimeOnFieldSuperNova++;
+            }
+            default:
+          var TimeOnFieldSuperNova = 0;
         }
       }),
     "SUSPICIOUS MONKEY": new Card("Cameron Carr", ['living'], ['Play'], function(functionality) {
@@ -1879,7 +2247,12 @@ module.exports = {
     "SWITCHEROO": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            if (users[findOpponent(this.parent)].score < 0){
+              users[findOpponent(this.parent)].score *= -1;
+            }
+            else if(users[findOpponent(this.parent)].score > 0){
+              users[findOpponent(this.parent)].score *= -1;
+            }
         }
       }),
     "TAGGLEPUSS": new Card("Jamie Bougher", ['living', 'snagglepuss'], ['Play'], function(functionality) {
@@ -1892,11 +2265,13 @@ module.exports = {
     "TDOGGYREX": new Card("Michael Calarese", ['rex', 'dinosaur', 'Cool'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            users[this.parent].incrementPoints(20);
+                users[this.parent].incrementPoints(20);
+                users[this.parent].cool++;
         }
       }),
-    "TEA ATTACK": new Card("Will Taylor", ['living', 'blank white man'], ['Play'], function(functionality) {
+    "TEA ATTACK": new Card("Will Taylor", ['living', 'blank white man'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "getCards":
           default:
             
         }
@@ -1909,8 +2284,9 @@ module.exports = {
       }),
     "TERRIAN FALCON": new Card("Tommy Andrews", [], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[findOpponent(this.parent)].removeCards(3);
+                users[findOpponent(this.parent)].incrementPoints(20);
         }
       }),
     "THA COOL CARD": new Card("Lachie Jones", ['living', 'Cool'], ['Play'], function(functionality) {
@@ -1931,10 +2307,18 @@ module.exports = {
             
         }
       }),
-    "THE CASH COW": new Card("Josh Gilbert", ['living', 'cow'], ['Play'], function(functionality) {
+    "THE CASH COW": new Card("Josh Gilbert", ['living', 'cow'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "destroyed":
+            for(people in users){
+              users[people].incrementMultiplier /= 2;
+              users[people].decrementMultiplier /= 2;
+            }
           default:
-            
+            for(people in users){
+              users[people].incrementMultiplier *= 2;
+              users[people].decrementMultiplier *= 2;
+            }
         }
       }),
     "THE COLLECTOR": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
@@ -1946,7 +2330,14 @@ module.exports = {
     "THE EQUILISER": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            for (people in users){
+              if (users[this.player].cards.length < users[people].cards.length){
+                users[people].removeCards((users[people].cards.length-users[this.player].cards.length),null);
+              }
+              else if (users[this.player].cards.length > users[people].cards.length){
+                users[people].getCrd((users[this.player].cards.length-users[people].cards.length),null);
+              }
+            }
         }
       }),
     "THE FACE": new Card("Tom Heyning", [], ['Play'], function(functionality) {
@@ -1954,17 +2345,21 @@ module.exports = {
           default:
             
         }
-      }),
+    }),
+    //Divides everyones score by 10 (only works with 2 players)
     "THE GREAT DIVIDE": new Card("Jordan Davies", ['blank white man'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                for (user in users) {
+                    users[this.parent].score /= 10;
+                    users[findOpponent(this.parent)].score /= 10;
+                }
         }
       }),
     "THE NUKE": new Card("Tristan Porter", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            users[this.parent].destroyCard("fieldWipe");
         }
       }),
     "THE RING OF POWER": new Card("Oscar Lewis", [], ['Play'], function(functionality) {
@@ -1994,13 +2389,13 @@ module.exports = {
     "THERE CAN ONLY BE ONE COUNTER": new Card("Coen Heyning", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+           
         }
       }),
     "THERE CAN BE ONLY ONE": new Card("Josh Gilbert", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
-          default:
-            
+            default:
+                users[this.parent].removeCards(users[this.parent].card.length - 1, null);
         }
       }),
     //Gives player 20 points
@@ -2046,10 +2441,16 @@ module.exports = {
             
         }
       }),
-    "TRIPLE BACON CHEESEBURGER": new Card("Mr Milton", [], ['Play'], function(functionality) {
+    "TRIPLE BACON CHEESEBURGER": new Card("Mr Milton", [], ['Field'], function(functionality) {
         switch(functionality) {
+          case "destroyed":
+            for(people in users){
+              users[people].cardsToPlay = 1;
+            }
           default:
-            
+            for(people in users){
+              users[people].cardsToPlay = 3;
+            }
         }
       }),
     "TROLL": new Card("Andrew Lawrance", [], ['Play'], function(functionality) {
@@ -2076,7 +2477,7 @@ module.exports = {
             
         }
       }),
-    "TURTLE BUNNY": new Card("Jordan Davies", ['living', 'Rabbit'], ['Play'], function(functionality) {
+    "TURTLE BUNNY": new Card("Jordan Davies", ['living', 'Rabbit'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
             
@@ -2085,7 +2486,11 @@ module.exports = {
     "ULTIMATE CARDORNATOR": new Card("Josh Spirek", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+            //change for more than 2
+            for (crds in users[findOpponent[this.parent]].cards){
+              users[this.parent].cards.push(crds);
+            }
+            users[findOpponent[this.parent]].cards = [];
         }
       }),
     "ULTIMMATE PIKA": new Card("Zach Templeman", ['living'], ['Play'], function(functionality) {
@@ -2112,24 +2517,41 @@ module.exports = {
             
         }
       }),
-    "UNICORN RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit', 'Rainbow'], ['Play'], function(functionality) {
+    "UNICORN RABBIT": new Card("Lachlan Murphy", ['living', 'Rabbit', 'Rainbow'], ['Field'], function(functionality) {
         switch(functionality) {
           default:
-            
+            var rabbsOnField = 0;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("Rabbit")){
+                  rabbsOnField++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
-    "UPGRADE IT": new Card("Lachie Jones", ['Rainbow'], ['Play'], function(functionality) {
+    "UPGRADE IT": new Card("Lachie Jones", ['Rainbow'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "startTurn":
+            if (users[`Player${Turn}`].actionsInTurn >= 2){
+              //do nothing 
+            }
+            else{
+              users[`Player${Turn}`].actionsInTurn = 2;
+            }
+            //lazy way to do the get card
+            users[`Player${Turn}`].getCrd(1);
           default:
-            
+
         }
       }),
     //Takes 30 points from opponent gives player 20 points (only works 2 players)
     "VAMPIRE BAT": new Card("Tristan Porter", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-          users[0].incrementPoints(20);
-          users[1].decrementPoints(30);
+          users[this.parent].incrementPoints(20);
+          users[findOpponent(this.parent)].decrementPoints(30);
         }
       }),
     "WAAAHMBULANCE": new Card("Lachie Henderson", ['living', 'Medical'], ['Play'], function(functionality) {
@@ -2166,8 +2588,9 @@ module.exports = {
     "WINTER IS COMING": new Card("Ms O'Neill", ['living', ' Winter'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-          users[0].getCrd(2);
-          users[1].getCrd(2);
+          for (people in users){
+            users[people].getCrd(2);
+          }
         }
       }),
     //Gives person who played 50 points
@@ -2195,22 +2618,33 @@ module.exports = {
             
         }
       }),
-    "YSERA": new Card("Rishi Dhashinamoorthy", ['living', 'dragon', 'dragon boarder'], ['Play'], function(functionality) {
+      // game breaking
+    "YSERA": new Card("Rishi Dhashinamoorthy", ['living', 'dragon', 'dragon boarder'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "incrementPoints":
+            users[this.parent].getCrd(Math.floor(users[this.parent].score-prevPoints));
           default:
-            
+            var prevPoints = users[this.parent].score;
         }
       }),
     "ZEUS POTATO": new Card("Tam Seton-Browne", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-                users[this.parent].incrementPoints(50);
+            var potatoInPlay;
+            for (person in users){
+              for (fieldCard in users[person].field){
+                if (fieldCard.tags.includes("potato")){
+                  potatoInPlay++;
+                }
+              }
+            }
+            users[this.parent].incrementPoints(50*(potatoInPlay+1));
         }
       }),
     "ZEUS": new Card("Ben Richardson", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            user[this.parent].
+            //zap zap
         }
       }),
     "ZOMBIE APOCALYPSE": new Card("Oscar Lewis", ['living'], ['Play'], function(functionality) {
@@ -2220,4 +2654,3 @@ module.exports = {
         }
       })
 };
-
