@@ -167,36 +167,34 @@ function Player(name, ip, sock) {
     }
 
     this.getCrd = function(amount){
-        if(deck1.length < amount){
-            refillDeck();
+        if (amount != undefined){
+            if(deck1.length < amount){
+                refillDeck();
+            }
+            for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
+            {
+                //draws the first card from the draw pile
+                cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
+                this.cards.push(deck1[0]);
+                deck1.splice(0, 1);
+                this.checkField("getCards",[amount,this.name]);
+                // updateCards(this.name,this.cards);//uc cards 
+            }
         }
-        for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
-        {
-            //draws the first card from the draw pile
-            cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
-            this.cards.push(deck1[0]);
-            deck1.splice(0, 1);
-            this.checkField("getCards",[amount,this.name]);
-            // updateCards(this.name,this.cards);//uc cards 
-        }
-    //add things for stuff when you get cards------||  e.g get points
     }
 
     this.checkField = function(typeCheck,extraInfo){
         if (typeCheck == "startTurn"){
             //check FieldStartTurn
-            console.log(extraInfo);
-            console.log(users[extraInfo].field);
             if(users[extraInfo].field != undefined){
                 for (fieldCard in users[extraInfo].field){
-                    console.log(fieldCard);
-                    console.log(users[fieldCard].tags);
-                    if(users[fieldCard].tags != undefined){
-                        if (users[fieldCard].tags.includes("FieldStartTurn")){
-                            users[extraInfo].playCard(fieldCard,"startTurn");
+                    if (users[fieldCard] != undefined){
+                        if(users[fieldCard].tags != undefined){
+                            if (users[fieldCard].tags.includes("FieldStartTurn")){
+                                users[extraInfo].playCard(fieldCard,"startTurn");
+                            }
                         }
                     }
-                
                 }
             }
         }
@@ -333,8 +331,8 @@ function updateScore(){
 }
 
 function updateCards(){
-    sendText(users["Player1"],`uc ${users["Player1"].cards.join()} ${users["Player1"].field.join()} ${users["Player2"].field.join()} ${users["Player2"].cards.length} ${discardPile[discardPile.length-1]}`);
-    sendText(users["Player2"],`uc ${users["Player2"].cards.join()} ${users["Player2"].field.join()} ${users["Player1"].field.join()} ${users["Player1"].cards.length} ${discardPile[discardPile.length-1]}`);
+    sendText(users["Player1"],`uc ${users["Player1"].cards.join()}|${users["Player1"].field.join()}|${users["Player2"].field.join()}|${users["Player2"].cards.length}|${discardPile[discardPile.length-1]}`);
+    sendText(users["Player2"],`uc ${users["Player2"].cards.join()}|${users["Player2"].field.join()}|${users["Player1"].field.join()}|${users["Player1"].cards.length}|${discardPile[discardPile.length-1]}`);
 }
 
 function sendText(player, msg){
