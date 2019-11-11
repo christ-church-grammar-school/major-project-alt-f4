@@ -297,6 +297,15 @@ function Player(name, ip, sock) {
             this.checkField("startTurn",this.name);
             updateCards(this.cards);
             updateScore();
+
+            /*nice little funtion that helps with testing 
+            if (deck1.length == null){
+              
+            }
+            else{
+              this.playCard(this.cards[0],null);
+            }
+            */
         }
     }
 }
@@ -413,6 +422,7 @@ function Card(author, tags, functionality, ability) {
     this.functionality = functionality;
     this.tags = tags;
 }
+// if you want to go to top of the cards type in serch "topCards"
 cards = {
 
     "3 HEADED GUARD DOG!": new Card("Mr Milton", ['living'], ['Play'], function(functionality) {
@@ -469,11 +479,13 @@ cards = {
           default:
             var rabbsOnField = 0;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("Rabbit")){
-                    rabbsOnField++;
+                      rabbsOnField++;
                     }
+                  }
                 }
               }
             }
@@ -677,11 +689,13 @@ cards = {
           default:
             var rabbsOnField = 0;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("Rabbit")){
-                    rabbsOnField++;
+                      rabbsOnField++;
                     }
+                  }
                 }
               }
             }
@@ -765,11 +779,13 @@ cards = {
           default:
             var cookieInPlay = 1;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("cookie")){
-                    cookieInPlay++;
+                      cookieInPlay++;
                     }
+                  }
                 }
               }
             }
@@ -818,11 +834,13 @@ cards = {
           default:
             var rabbsOnField = 0;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("Rabbit")){
-                    rabbsOnField++;
+                      rabbsOnField++;
                     }
+                  }
                 }
               }
             }
@@ -987,11 +1005,13 @@ cards = {
           default:
             var rabbsOnField = 0;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("Rabbit")){
-                    rabbsOnField++;
+                      rabbsOnField++;
                     }
+                  }
                 }
               }
             }
@@ -1202,7 +1222,8 @@ cards = {
           default:
             var cardsOnField = 0 ;
             for (people in users){
-              cardsOnField += (users[people].field.length);
+              if (users[people].field != null){}
+                cardsOnField += (users[people].field.length);
             }
             users[this.parent].incrementPoints(cardsOnField*10);
             users[this.parent].removeCards("hand",null);
@@ -1744,11 +1765,13 @@ cards = {
           default:
             var rabbsOnField = 0;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("Rabbit")){
-                    rabbsOnField++;
+                      rabbsOnField++;
                     }
+                  }
                 }
               }
             }
@@ -1861,11 +1884,13 @@ cards = {
           default:
             var potatoInPlay;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("potato")){
-                    potatoInPlay++;
+                      potatoInPlay++;
                     }
+                  }
                 }
               }
             }
@@ -2173,7 +2198,9 @@ cards = {
     "TIME LORD SCIENCE": new Card("Max Gunning", [], ['Play'], function(functionality) {
         switch(functionality) {
             default:
+              if (this.parent.cards != undefined){
                 users[this.parent].getCrd(this.parent.cards.length);
+              }
         }
       }),
     "TOILET HUMOUR": new Card("Zach Templeman", ['living', 'Water'], ['Play'], function(functionality) {
@@ -2644,7 +2671,9 @@ cards = {
     "THERE CAN BE ONLY ONE": new Card("Josh Gilbert", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.parent].removeCards(users[this.parent].card.length - 1, null);
+              if (users[this.parent].cards != null){
+                users[this.parent].removeCards(users[this.parent].cards.length - 1, null);
+              }
         }
       }),
     //Gives player 20 points
@@ -2771,11 +2800,13 @@ cards = {
           default:
             var rabbsOnField = 0;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
                     if (fieldCard.tags.includes("Rabbit")){
-                    rabbsOnField++;
+                      rabbsOnField++;
                     }
+                  }
                 }
               }
             }
@@ -2883,11 +2914,13 @@ cards = {
           default:
             var potatoInPlay = 0;
             for (person in users){
-              for (fieldCard in users[person].field){
-                if(users[extraInfo].field != undefined){
-                    if (fieldCard.tags.includes("potato")){
-                    potatoInPlay++;
-                    }
+              if(users[person].field != undefined){
+                for (fieldCard in users[person].field){
+                  if(fieldCard.tags != undefined){
+                      if (fieldCard.tags.includes("potato")){
+                      potatoInPlay++;
+                      }
+                  }
                 }
               }
             }
@@ -2999,12 +3032,12 @@ net.createServer(function(sock) {
                 }
             }
             else{
-                sock.log("Game is not running"+"\n");
+                sock.write("Game is not running \n");
             }
         }
         //passes player turn
         else if (str.substr(0,4) == 'pass'){
-            if (gameRun == "running"){
+            if (gameRun == "running"|| gameRun == "ending"){
                 if (findTypePlayer([sock.remoteAddress,sock.remotePort])=="Player"){
                     if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
                         users[findPlayer([sock.remoteAddress,sock.remotePort])].endTurn();
@@ -3015,7 +3048,7 @@ net.createServer(function(sock) {
                 }
             }
             else{
-                sock.log("Game is not running"+"\n");
+                sock.write("Game is not running"+"\n");
             }
         }
         else {
