@@ -51,7 +51,7 @@ function Player(name, ip, sock) {
             discardPile.push(name);
             this.cards.splice((this.findCard(name)), 1);
             this.actionsInTurn--;
-            updateCards(;
+            updateCards();
         }
         if (this.actionsInTurn <= 0) {
             this.endTurn();
@@ -514,8 +514,9 @@ module.exports = {
                 users[findOpponent(this.parent)].decrementPoints(50);
         }
       }),
-    "CENTRELINK": new Card("Adam Di Tullio", [], ['Field'], function(functionality) {
+    "CENTRELINK": new Card("Adam Di Tullio", ['FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
+          case "Worked":
           case "startTurn":
               users[this.parent].incrementPoints(2);
           default:
@@ -559,8 +560,10 @@ module.exports = {
             var cookieInPlay = 1;
             for (person in users){
               for (fieldCard in users[person].field){
-                if (fieldCard.tags.includes("cookie")){
-                  cookieInPlay++;
+                if(users[extraInfo].field != undefined){
+                  if (fieldCard.tags.includes("cookie")){
+                    cookieInPlay++;
+                  }
                 }
               }
             }
@@ -885,7 +888,7 @@ module.exports = {
             
         }
       }),
-    "FLYING COWS": new Card("Greg Boeddinghaus", ['living', 'cow'], ['Field'], function(functionality) {
+    "FLYING COWS": new Card("Greg Boeddinghaus", ['living', 'cow','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "destroyed":
             pointsToGetFromCowsFlying = 5;
@@ -1033,7 +1036,7 @@ module.exports = {
         }
       }),
     //Gives player 50 points
-    "HAPPY SNOWMAN": new Card("Jordan Davies", ['living', ' Winter'], ['Field'], function(functionality) {
+    "HAPPY SNOWMAN": new Card("Jordan Davies", ['living', ' Winter','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "startTurn":
             users[this.parent].incrementPoints(10);
@@ -1072,7 +1075,7 @@ module.exports = {
             
         }
       }),
-    "HELPING DA REXES": new Card("Micheal Calarese", ['dinosaur', 'rex', 'living'], ['Field'], function(functionality) {
+    "HELPING DA REXES": new Card("Micheal Calarese", ['dinosaur', 'rex', 'living','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "startTurn":
             users[this.parent].incrementPoints(20);
@@ -1180,7 +1183,7 @@ module.exports = {
             
         }
       }),
-    "JOOR WELCOME": new Card("Michael Calarese", ['living'], ['Field'], function(functionality) {
+    "JOOR WELCOME": new Card("Michael Calarese", ['living','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "startTurn":
             if(TimeOnFieldJoorWelcome >= 3){
@@ -1850,7 +1853,7 @@ module.exports = {
             
         }
       }),
-    "LUCK OF THE IRISH": new Card("Lachlan Murphy", ['living', 'Rainbow'], ['Field'], function(functionality) {
+    "LUCK OF THE IRISH": new Card("Lachlan Murphy", ['living', 'Rainbow','FieldIncrementPoints'], ['Field'], function(functionality) {
         switch(functionality) {
           case "incrementPoints":
             users[this.parent].incrementPoints(10);
@@ -2177,7 +2180,7 @@ module.exports = {
             
         }
       }),
-    "STICKMAN UPGRADED": new Card("Jack Day", ['living'], ['Play'], function(functionality) {
+    "STICKMAN UPGRADED": new Card("Jack Day", ['living','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "startTurn":
             if(TimeOnFieldStickManUpgraded >= 3){
@@ -2209,7 +2212,7 @@ module.exports = {
             
         }
       }),
-    "SUPERNOVA": new Card("Harry Trumble", ['uncounterable'], ['Field'], function(functionality) {
+    "SUPERNOVA": new Card("Harry Trumble", ['uncounterable','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "startTurn":
             if(TimeOnFieldSuperNova >= 3){
@@ -2269,11 +2272,12 @@ module.exports = {
                 users[this.parent].cool++;
         }
       }),
-    "TEA ATTACK": new Card("Will Taylor", ['living', 'blank white man'], ['Field'], function(functionality) {
+    "TEA ATTACK": new Card("Will Taylor", ['living', 'blank white man','FieldGetCards'], ['FieldOp'], function(functionality) {
         switch(functionality) {
           case "getCards":
+            users[this.parent].decrementPoints(10);
           default:
-            
+
         }
       }),
     "TEAM UP": new Card("???", [], ['Play'], function(functionality) {
@@ -2531,7 +2535,7 @@ module.exports = {
             users[this.parent].incrementPoints(25+(25*rabbsOnField));
         }
       }),
-    "UPGRADE IT": new Card("Lachie Jones", ['Rainbow'], ['Field'], function(functionality) {
+    "UPGRADE IT": new Card("Lachie Jones", ['Rainbow','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "startTurn":
             if (users[`Player${Turn}`].actionsInTurn >= 2){
@@ -2619,7 +2623,7 @@ module.exports = {
         }
       }),
       // game breaking
-    "YSERA": new Card("Rishi Dhashinamoorthy", ['living', 'dragon', 'dragon boarder'], ['Field'], function(functionality) {
+    "YSERA": new Card("Rishi Dhashinamoorthy", ['living', 'dragon', 'dragon boarder','FieldIncrementPoints'], ['Field'], function(functionality) {
         switch(functionality) {
           case "incrementPoints":
             users[this.parent].getCrd(Math.floor(users[this.parent].score-prevPoints));
