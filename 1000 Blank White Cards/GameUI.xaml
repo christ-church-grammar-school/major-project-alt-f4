@@ -23,11 +23,12 @@
             <TextBox x:Name="TypeText" FontSize="6" HorizontalAlignment="Left" Height="23" Margin="0,247,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" KeyDown="textPush"/>
             <Button Content="Skip Turn" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="75" Height="20"/>
             <Border HorizontalAlignment="Left" Margin="590,15,0,0" Height="55" Width="100" BorderThickness="3" BorderBrush="Black">
-                <TextBlock Background="White" TextWrapping="Wrap" Text="Score:
+                <TextBlock x:Name="scoreBox" Background="White" TextWrapping="Wrap" Text="Score:
                        You: 0
                        Player 2: 0" VerticalAlignment="Top"/>
 
             </Border>
+            <Button x:Name="Connect" Content="Connect" HorizontalAlignment="Left" Margin="458,201,0,0" VerticalAlignment="Top" Width="74" Click="connect"/>
         </Grid>
     </Viewbox>
 </Page>
