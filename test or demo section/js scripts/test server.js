@@ -78,9 +78,6 @@ function Player(name, ip, sock) {
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
             this.cards.splice((this.findCard(name)),1);
-            console.log(cards[name]);
-            console.log(name+ " name");
-            console.log(deck1+ "  deck1");
             cards[name].ability(use);
             if (cards[name].functionality.includes("Field")){
                 this.field.push(name);
@@ -178,7 +175,6 @@ function Player(name, ip, sock) {
             for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
             {
                 //draws the first card from the draw pile
-                console.log(deck1[0]+ "????????");
                 cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
                 this.cards.push(deck1[0]);
                 deck1.splice(0, 1);
@@ -302,6 +298,9 @@ function Player(name, ip, sock) {
             updateCards(this.cards);
             updateScore();
 
+            
+            
+            /*nice little funtion that helps with testing 
             if (deck1.length == null){
               gameRun = "ending";
             }
@@ -312,17 +311,8 @@ function Player(name, ip, sock) {
                 }
               }
               if (this.TurnRun == "Yes"){
-                console.log("passed");
                 this.endTurn();
               }
-            }
-            
-            /*nice little funtion that helps with testing 
-            if (deck1.length == null){
-              gameRun = "ending";
-            }
-            else{
-              this.playCard(this.cards[0],null);
             }
             */
         }
@@ -383,7 +373,6 @@ function refillDeck() {
     var cardsInDis = discardPile.length;
     while (0<cardsInDis)
     {
-        console.log(fillDeck)
         ranNum = Math.floor(Math.random() * cardsInDis);
         fillDeck.push(discardPile[ranNum]);
         discardPile.splice(ranNum, 1);
