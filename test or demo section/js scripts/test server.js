@@ -79,8 +79,8 @@ function Player(name, ip, sock) {
         if (this.actionsInTurn>0){
             this.cards.splice((this.findCard(name)),1);
             console.log(cards[name]);
-            console.log(name);
-            console.log(deck1);
+            console.log(name+ " name");
+            console.log(deck1+ "  deck1");
             cards[name].ability(use);
             if (cards[name].functionality.includes("Field")){
                 this.field.push(name);
@@ -132,7 +132,8 @@ function Player(name, ip, sock) {
         }
         else if (special == null){
             if (this.cards.length<amount){
-                console.error("amount of cards to remove to many");
+                this.cards = [];
+                this.checkField("removeCards",this.name);
             }
             else{
                 for (var cardsToRemove = 0 ; cardsToRemove < amount;cardsToRemove++ ){
@@ -306,11 +307,12 @@ function Player(name, ip, sock) {
             }
             else{
               for (var playCardsFast = 0; playCardsFast<this.actionsInTurn;){
-                if (this.cards != undefined){
+                if (this.cards[0] != undefined){
                   this.playCard(this.cards[0],null);
                 }
               }
               if (this.TurnRun == "Yes"){
+                console.log("passed");
                 this.endTurn();
               }
             }
@@ -378,11 +380,14 @@ function shuffleDeck() {
 //discards shuffle
 function refillDeck() {
     var ranNum = Math.floor(Math.random() * discardPile.length);
-    while (0<discardPile.length)
+    var cardsInDis = discardPile.length;
+    while (0<cardsInDis)
     {
-        ranNum = Math.floor(Math.random() * discardPile.length);
+        console.log(fillDeck)
+        ranNum = Math.floor(Math.random() * cardsInDis);
         fillDeck.push(discardPile[ranNum]);
         discardPile.splice(ranNum, 1);
+        cardsInDis--;
     }
     while (0<fillDeck.length)
     {
