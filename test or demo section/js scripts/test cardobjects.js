@@ -829,7 +829,7 @@ module.exports = {
       }),
     "EVERYTHING IS AWESOME": new Card("Lachie Jones", ['living'], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             for(people in users){
               users[people].addtionalPoints -= 20;
             }
@@ -890,7 +890,7 @@ module.exports = {
       }),
     "FLYING COWS": new Card("Greg Boeddinghaus", ['living', 'cow','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             pointsToGetFromCowsFlying = 5;
           case "startTurn":
             pointsToGetFromCowsFlying *= 2;
@@ -1335,7 +1335,7 @@ module.exports = {
       }),
     "MALYGOS": new Card("Rishi Dhakshinamoorthy", ['living', 'dragon', 'dragon boarder'], ['Play'], function(functionality) {
           switch(functionality) {
-            case "destroyed":
+            case "cardDestroyed":
                 users[this.parent].addtionalPoints -= 20;
             default:
                 users[this.parent].addtionalPoints += 20;
@@ -2313,7 +2313,7 @@ module.exports = {
       }),
     "THE CASH COW": new Card("Josh Gilbert", ['living', 'cow'], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             for(people in users){
               users[people].incrementMultiplier /= 2;
               users[people].decrementMultiplier /= 2;
@@ -2447,7 +2447,7 @@ module.exports = {
       }),
     "TRIPLE BACON CHEESEBURGER": new Card("Mr Milton", [], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             for(people in users){
               users[people].cardsToPlay = 1;
             }
@@ -2491,10 +2491,10 @@ module.exports = {
         switch(functionality) {
           default:
             //change for more than 2
-            for (crds in users[findOpponent[this.parent]].cards){
+            for (crds in users[findOpponent(this.parent)].cards){
               users[this.parent].cards.push(crds);
             }
-            users[findOpponent[this.parent]].cards = [];
+            users[findOpponent(this.parent)].cards = [];
         }
       }),
     "ULTIMMATE PIKA": new Card("Zach Templeman", ['living'], ['Play'], function(functionality) {

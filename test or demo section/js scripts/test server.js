@@ -55,7 +55,7 @@ function Player(name, ip, sock) {
         this.score += (amount * this.incrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
-        this.checkField("incrementPoints",amount);
+        this.checkField("incrementPoints",this.name);
     }
 
     this.decrementPoints = function(amount) {
@@ -63,7 +63,7 @@ function Player(name, ip, sock) {
         this.score -= (amount * this.decrementMultiplier * this.scoreMultiplier * 
         this.scoreMultiplier * this.decrementMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
-        this.checkField("decrementPoints",amount);
+        this.checkField("decrementPoints",this.name);
     }
 
     this.findCard = function(findCrd){
@@ -77,6 +77,7 @@ function Player(name, ip, sock) {
     
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
+            this.cards.splice((this.findCard(name)),1);
             cards[name].ability(use);
             if (cards[name].functionality.includes("Field")){
                 this.field.push(name);
@@ -85,12 +86,12 @@ function Player(name, ip, sock) {
                 users[findOpponent(this.parent)].field.push(name);
             }
             else if (cards[name].functionality.includes("Play")){
+                cards[name].parent = "discard";
                 discardPile.push(name);
             }
             else{
                 console.error(`No functionality of ${functionality} avalible`);
             }
-            this.cards.splice((this.findCard(name)),1);
             this.actionsInTurn--;
             updateCards()
             updateScore();
@@ -108,7 +109,7 @@ function Player(name, ip, sock) {
             if (this.TurnRun == "Yes"){
                 //ends turn
                 this.TurnRun = "No";
-                this.checkField("endTurn",null);
+                this.checkField("endTurn",this.name);
                 this.actionsInTurn = 0;
                 if (Turn == playerCounter){Turn = 1;}
                 else{Turn ++;} 
@@ -121,7 +122,7 @@ function Player(name, ip, sock) {
 
     this.removeCards = function(amount,special = null){ 
         if (amount == "hand"){
-            this.checkField("removeCards",this.cards.length);
+            this.checkField("removeCards",this.name);
             for (handCards in this.cards){
                 discardPile.push(handCards);
             }
@@ -136,7 +137,7 @@ function Player(name, ip, sock) {
                     var ranNum = Math.floor(Math.random() * this.cards.length);
                     discardPile.push(this.cards.splice(ranNum,1));
                     this.cards.splice(ranNum,1);
-                    this.checkField("removeCards",amount);
+                    this.checkField("removeCards",this.name);
                 }
             }
         }
@@ -152,15 +153,15 @@ function Player(name, ip, sock) {
             for (people in users){
                 for (fieldCards in users[people].field){
                     discardPile.push(fieldCards);
+                    users[people].checkField("cardDestroyed",this.name);
                 }
                 users[people].field = [];
-                users[people].checkField("cardDestroyed","all");
             }
         }
         else{
             for (card in cardToDestroy){
                 this.field.splice(this.findCard(card),1);
-                this.checkField("cardDestroyed",card);
+                this.checkField("cardDestroyed",this.name);
                 discardPile.push(card);
             }
         }
@@ -177,7 +178,7 @@ function Player(name, ip, sock) {
                 cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
                 this.cards.push(deck1[0]);
                 deck1.splice(0, 1);
-                this.checkField("getCards",[amount,this.name]);
+                this.checkField("getCards",this.name);
                 // updateCards(this.name,this.cards);//uc cards 
             }
         }
@@ -198,7 +199,6 @@ function Player(name, ip, sock) {
                 }
             }
         }
-    
         else if(typeCheck == "endTurn"){
             //check FieldEndTurn
         }
@@ -207,18 +207,49 @@ function Player(name, ip, sock) {
         }
         else if(typeCheck == "incrementPoints"){
             //check FieldIncrementPoints
+            if(users[extraInfo].field != undefined){
+                for (fieldCard in users[extraInfo].field){
+                    if (users[fieldCard] != undefined){
+                        if(users[fieldCard].tags != undefined){
+                            if (users[fieldCard].tags.includes("FieldIncrementPoints")){
+                                users[extraInfo].playCard(fieldCard,"incrementPoints");
+                            }
+                        }
+                    }
+                }
+            }
         }
         else if(typeCheck == "getCards"){
-            //extra info gives how many cards and name of player
             //check FieldGetCards
+            if(users[extraInfo].field != undefined){
+                for (fieldCard in users[extraInfo].field){
+                    if (users[fieldCard] != undefined){
+                        if(users[fieldCard].tags != undefined){
+                            if (users[fieldCard].tags.includes("FieldGetCards")){
+                                users[extraInfo].playCard(fieldCard,"getCards");
+                            }
+                        }
+                    }
+                }
+            }
         }
         else if(typeCheck == "removeCards"){
             //check FieldRemoveCards
 
         }
         else if(typeCheck == "cardDestroyed"){
-            //remove passive effects e.g. cash cow
             //check FieldCardDestroyed
+            if(users[extraInfo].field != undefined){
+                for (fieldCard in users[extraInfo].field){
+                    if (users[fieldCard] != undefined){
+                        if(users[fieldCard].tags != undefined){
+                            if (users[fieldCard].tags.includes("FieldCardDestroyed")){
+                                users[extraInfo].playCard(fieldCard,"cardDestroyed");
+                            }
+                        }
+                    }
+                }
+            }
         }
         else if(typeCheck == "gameEnded"){
             //check FieldGameEnded
@@ -977,9 +1008,9 @@ cards = {
                 users[findOpponent(this.parent)].incrementPoints(50);
         }
       }),
-    "EVERYTHING IS AWESOME": new Card("Lachie Jones", ['living'], ['Field'], function(functionality) {
+    "EVERYTHING IS AWESOME": new Card("Lachie Jones", ['living','cardDestroyed'], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             for(people in users){
               users[people].addtionalPoints -= 20;
             }
@@ -1038,9 +1069,9 @@ cards = {
             
         }
       }),
-    "FLYING COWS": new Card("Greg Boeddinghaus", ['living', 'cow','FieldStartTurn'], ['Field'], function(functionality) {
+    "FLYING COWS": new Card("Greg Boeddinghaus", ['living', 'cow','FieldStartTurn','cardDestroyed'], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             pointsToGetFromCowsFlying = 5;
           case "startTurn":
             pointsToGetFromCowsFlying *= 2;
@@ -1483,9 +1514,9 @@ cards = {
             
         }
       }),
-    "MALYGOS": new Card("Rishi Dhakshinamoorthy", ['living', 'dragon', 'dragon boarder'], ['Play'], function(functionality) {
+    "MALYGOS": new Card("Rishi Dhakshinamoorthy", ['living', 'dragon', 'dragon boarder','cardDestroyed'], ['Field'], function(functionality) {
           switch(functionality) {
-            case "destroyed":
+            case "cardDestroyed":
                 users[this.parent].addtionalPoints -= 20;
             default:
                 users[this.parent].addtionalPoints += 20;
@@ -2007,7 +2038,7 @@ cards = {
             
         }
       }),
-    "LUCK OF THE IRISH": new Card("Lachlan Murphy", ['living', 'Rainbow','FieldIncrementPoints'], ['Field'], function(functionality) {
+    "LUCK OF THE IRISH": new Card("Lachlan Murphy", ['living', 'Rainbow','FieldIncrementPointsAny'], ['Field'], function(functionality) {
         switch(functionality) {
           case "incrementPoints":
             users[this.parent].incrementPoints(10);
@@ -2429,8 +2460,26 @@ cards = {
     "TEA ATTACK": new Card("Will Taylor", ['living', 'blank white man','FieldGetCards'], ['FieldOp'], function(functionality) {
         switch(functionality) {
           case "getCards":
-            users[this.parent].decrementPoints(10);
+            if(users[this.parent].cards.length != undefined){
+                var NewCards = users[this.parent].cards.length;
+            }
+            else{
+                var NewCards = 1;
+            }
+            users[this.parent].decrementPoints(10*(NewCards-cardsInThisParentHand));
+            if(users[this.parent].cards.length != undefined){
+                cardsInThisParentHand = users[this.parent].cards.length;
+            }
+            else{
+                cardsInThisParentHand = 1;
+            }
           default:
+            if(users[this.parent].cards.length != undefined){
+                var cardsInThisParentHand = users[this.parent].cards.length;
+            }
+            else{
+                var cardsInThisParentHand = 1;
+            }
 
         }
       }),
@@ -2465,9 +2514,9 @@ cards = {
             
         }
       }),
-    "THE CASH COW": new Card("Josh Gilbert", ['living', 'cow'], ['Field'], function(functionality) {
+    "THE CASH COW": new Card("Josh Gilbert", ['living', 'cow','cardDestroyed'], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             for(people in users){
               users[people].incrementMultiplier /= 2;
               users[people].decrementMultiplier /= 2;
@@ -2612,9 +2661,9 @@ cards = {
             
         }
       }),
-    "TRIPLE BACON CHEESEBURGER": new Card("Mr Milton", [], ['Field'], function(functionality) {
+    "TRIPLE BACON CHEESEBURGER": new Card("Mr Milton", ['cardDestroyed'], ['Field'], function(functionality) {
         switch(functionality) {
-          case "destroyed":
+          case "cardDestroyed":
             for(people in users){
               users[people].cardsToPlay = 1;
             }
@@ -2658,10 +2707,10 @@ cards = {
         switch(functionality) {
           default:
             //change for more than 2
-            for (crds in users[findOpponent[this.parent]].cards){
+            for (crds in users[findOpponent(this.parent)].cards){
               users[this.parent].cards.push(crds);
             }
-            users[findOpponent[this.parent]].cards = [];
+            users[findOpponent(this.parent)].cards = [];
         }
       }),
     "ULTIMMATE PIKA": new Card("Zach Templeman", ['living'], ['Play'], function(functionality) {
