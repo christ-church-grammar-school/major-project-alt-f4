@@ -192,13 +192,15 @@ function Player(name, ip, sock) {
                     console.log(fieldCard);
                     console.log(users[fieldCard].tags);
                     if(users[fieldCard].tags != undefined){
-                    if (users[fieldCard].tags.includes("FieldStartTurn")){
-                    users[extraInfo].playCard(fieldCard,"startTurn");
+                        if (users[fieldCard].tags.includes("FieldStartTurn")){
+                            users[extraInfo].playCard(fieldCard,"startTurn");
+                        }
                     }
                 
                 }
             }
         }
+    
         else if(typeCheck == "endTurn"){
             //check FieldEndTurn
         }
@@ -2176,7 +2178,7 @@ cards = {
     "REVERSE": new Card("???", [], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+        
         }
       }),
     //Gives player 50 points
@@ -2312,7 +2314,7 @@ cards = {
     "SONIC SPEED": new Card("Tristan Porter", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            
+        
         }
       }),
     "SPACE JAMS": new Card("Mr Milton", ['living', 'Rabbit'], ['Field'], function(functionality) {
@@ -2790,7 +2792,7 @@ cards = {
     "ZEUS POTATO": new Card("Tam Seton-Browne", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            var potatoInPlay;
+            var potatoInPlay = 0;
             for (person in users){
               for (fieldCard in users[person].field){
                 if(users[extraInfo].field != undefined){
@@ -2800,7 +2802,12 @@ cards = {
                 }
               }
             }
-            users[this.parent].incrementPoints(50*(potatoInPlay+1));
+            if (potatoInPlay != 0){
+                users[this.parent].incrementPoints(50*(potatoInPlay+1));
+            }
+            else{
+                users[this.parent].incrementPoints(50);
+            }
         }
       }),
     "ZEUS": new Card("Ben Richardson", ['living'], ['Play'], function(functionality) {
