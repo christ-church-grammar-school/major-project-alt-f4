@@ -158,7 +158,7 @@ function Player(name, ip, sock) {
         if (cardToDestroy == "fieldWipe"){
             //add stuff to check for resistent cards
             for (people in users){
-                console.log("cardDestroyed all");
+                // console.log("cardDestroyed all");
                 for (fieldCards in this.field){
                     discardPile.push(this.field[fieldCards]);
                 }
@@ -176,6 +176,8 @@ function Player(name, ip, sock) {
     }
 
     this.getCrd = function(amount){
+        // console.log(deck1);
+        // console.log(discardPile);
         if (amount != undefined){
             if(deck1.length < amount){
                 refillDeck();
@@ -185,14 +187,17 @@ function Player(name, ip, sock) {
                 //draws the first card from the draw pile
                 if (cards[deck1[0]] != undefined){
                   cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
+                  this.cards.push(deck1[0]);
+                  deck1.splice(0, 1);
+                  this.checkField("getCards",this.name);
+                  // updateCards(this.name,this.cards);//uc cards 
                 }
                 else{
                   console.log(`card on top of draw is undefined as ${deck1[0]} of ${deck1} is not in cards as ${cards[deck1[0]]} = undefined`)
+                  deck1.splice(0,1);
+                  numCardsGet--;
                 }
-                this.cards.push(deck1[0]);
-                deck1.splice(0, 1);
-                this.checkField("getCards",this.name);
-                // updateCards(this.name,this.cards);//uc cards 
+                
             }
         }
     }
@@ -380,29 +385,27 @@ function shuffleDeck() {
     // console.log(`Shuffle funciton after shuffle${fillDeck}`);
     while (0<fillDeck.length)
     {
-        deck1.push(fillDeck[0]);
-        fillDeck.splice(0, 1);
+      if (fillDeck[0] == undefined||fillDeck[0] == ''){ 
+          fillDeck.splice(0,1);
+      }
+      else{
+          deck1.push(fillDeck[0]);
+          fillDeck.splice(0, 1);
+      }
     }
 }
 
 //discards shuffle
 function refillDeck() {
     // console.log(discardPile);
-    var ranNum = Math.floor(Math.random() * discardPile.length);
     var cardsInDis = discardPile.length;
     while (0<cardsInDis)
     {
-        ranNum = Math.floor(Math.random() * cardsInDis);
-        fillDeck.push(discardPile[ranNum]);
-        discardPile.splice(ranNum, 1);
+        deck1.push(discardPile[0]);
+        discardPile.splice(0,1);
         cardsInDis--;
     }
-    // console.log(`refillDeck funciton after refil ${fillDeck}`);
-    while (0<fillDeck.length)
-    {
-        deck1.push(fillDeck[0]);
-        fillDeck.splice(0, 1);
-    }
+    shuffleDeck();
 }
 
 //finds which player said something
