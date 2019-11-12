@@ -78,7 +78,12 @@ function Player(name, ip, sock) {
     this.playCard = function(name, use) {
         if (this.actionsInTurn>0){
             this.cards.splice((this.findCard(name)),1);
-            cards[name].ability(use);
+            if (cards[name] != undefined){
+              cards[name].ability(use);
+            }
+            else{
+              console.log(`no card of ${name} found in ${cards} so ${cards[name]} = undefined`);
+            }
             if (cards[name].functionality.includes("Field")){
                 this.field.push(name);
             }
@@ -122,10 +127,12 @@ function Player(name, ip, sock) {
     this.removeCards = function(amount,special = null){ 
         if (amount == "hand"){
             this.checkField("removeCards",this.name);
-            for (handCards in this.cards){
-                discardPile.push(handCards);
+            if (this.cards != undefined){
+              for (handCards in this.cards){
+                  discardPile.push(`${this.cards[handCards]}`);
+              }
+              this.cards = [];
             }
-            this.cards = [];
         }
         else if (special == null){
             if (this.cards.length<amount){
@@ -135,7 +142,7 @@ function Player(name, ip, sock) {
             else{
                 for (var cardsToRemove = 0 ; cardsToRemove < amount;cardsToRemove++ ){
                     var ranNum = Math.floor(Math.random() * this.cards.length);
-                    discardPile.push(this.cards.splice(ranNum,1));
+                    discardPile.push(`${this.cards.splice(ranNum,1)}`);
                     this.cards.splice(ranNum,1);
                     this.checkField("removeCards",this.name);
                 }
@@ -151,8 +158,9 @@ function Player(name, ip, sock) {
         if (cardToDestroy == "fieldWipe"){
             //add stuff to check for resistent cards
             for (people in users){
-                for (fieldCards in users[people].field){
-                    discardPile.push(fieldCards);
+                // console.log("cardDestroyed all");
+                for (fieldCards in this.field){
+                    discardPile.push(this.field[fieldCards]);
                 }
                 users[people].field = [];
                 users[people].checkField("cardDestroyed",[this.name,"all"]);
@@ -162,12 +170,14 @@ function Player(name, ip, sock) {
             for (card in cardToDestroy){
                 this.field.splice(this.findCard(card),1);
                 this.checkField("cardDestroyed",[this.name,card]);
-                discardPile.push(card);// change if tag == return to hand or other special
+                discardPile.push(`${this.cards[card]}`);// change if tag == return to hand or other special
             }
         }
     }
 
     this.getCrd = function(amount){
+        // console.log(deck1);
+        // console.log(discardPile);
         if (amount != undefined){
             if(deck1.length < amount){
                 refillDeck();
@@ -175,11 +185,19 @@ function Player(name, ip, sock) {
             for (numCardsGet = 0;numCardsGet<amount;numCardsGet++)
             {
                 //draws the first card from the draw pile
-                cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
-                this.cards.push(deck1[0]);
-                deck1.splice(0, 1);
-                this.checkField("getCards",this.name);
-                // updateCards(this.name,this.cards);//uc cards 
+                if (cards[deck1[0]] != undefined){
+                  cards[deck1[0]].parent = this.name;// if this line errors the most likely case is that cards[deck1[0]] == undefined, so you need to add the right name into deck1 or cards
+                  this.cards.push(deck1[0]);
+                  deck1.splice(0, 1);
+                  this.checkField("getCards",this.name);
+                  // updateCards(this.name,this.cards);//uc cards 
+                }
+                else{
+                  console.log(`card on top of draw is undefined as ${deck1[0]} of ${deck1} is not in cards as ${cards[deck1[0]]} = undefined`)
+                  deck1.splice(0,1);
+                  numCardsGet--;
+                }
+                
             }
         }
     }
@@ -306,8 +324,11 @@ function Player(name, ip, sock) {
             }
             else{
               for (var playCardsFast = 0; playCardsFast<this.actionsInTurn;){
-                if (this.cards[0] != undefined){
+                if ((this.cards[0] != undefined)&&(this.cards[0] != 0)){
                   this.playCard(this.cards[0],null);
+                }
+                else{
+                  this.actionsInTurn--;
                 }
               }
               if (this.TurnRun == "Yes"){
@@ -354,35 +375,37 @@ function gameEnded(){
 
 //deck shuffle
 function shuffleDeck() {
+    // console.log(deck1);
     while (0<deck1.length)
-    {
+    { 
         var ranNum = Math.floor(Math.random() * deck1.length);
         fillDeck.push(deck1[ranNum]);
         deck1.splice(ranNum, 1);
     }
+    // console.log(`Shuffle funciton after shuffle${fillDeck}`);
     while (0<fillDeck.length)
     {
-        deck1.push(fillDeck[0]);
-        fillDeck.splice(0, 1);
+      if (fillDeck[0] == undefined||fillDeck[0] == ''){ 
+          fillDeck.splice(0,1);
+      }
+      else{
+          deck1.push(fillDeck[0]);
+          fillDeck.splice(0, 1);
+      }
     }
 }
 
 //discards shuffle
 function refillDeck() {
-    var ranNum = Math.floor(Math.random() * discardPile.length);
+    // console.log(discardPile);
     var cardsInDis = discardPile.length;
     while (0<cardsInDis)
     {
-        ranNum = Math.floor(Math.random() * cardsInDis);
-        fillDeck.push(discardPile[ranNum]);
-        discardPile.splice(ranNum, 1);
+        deck1.push(discardPile[0]);
+        discardPile.splice(0,1);
         cardsInDis--;
     }
-    while (0<fillDeck.length)
-    {
-        deck1.push(fillDeck[0]);
-        fillDeck.splice(0, 1);
-    }
+    shuffleDeck();
 }
 
 //finds which player said something
