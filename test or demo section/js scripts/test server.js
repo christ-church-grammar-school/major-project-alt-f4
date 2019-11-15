@@ -41,6 +41,7 @@ function Player(name, ip, sock) {
     this.incrementMultiplier = 1;
     this.decrementMultiplier = 1;
     this.addtionalPoints = 0;
+    this.extraTurn = 0;
 
     this.givePrefix = function(prefix) {
         if (!this.prefixes.hasOwnProperty(prefix)) {
@@ -109,6 +110,13 @@ function Player(name, ip, sock) {
         if(gameRun=="ending"){
             gameEnded();
         } 
+        else if(this.extraTurn > 0){
+          this.extraTurn--;
+          this.TurnRun = "No";
+          this.checkField("endTurn",this.name);
+          this.actionsInTurn = 0;
+          this.startTurn();
+        }
         else{
             if (this.TurnRun == "Yes"){
                 //ends turn
@@ -117,9 +125,7 @@ function Player(name, ip, sock) {
                 this.actionsInTurn = 0;
                 if (Turn == playerCounter){Turn = 1;}
                 else{Turn ++;} 
-                if (gameRun == "running"){
-                    users[`Player${Turn}`].startTurn();
-                }
+                users[`Player${Turn}`].startTurn();                }
             }
         }
     }
@@ -530,12 +536,7 @@ cards = {
     "AROUND THE WORLD": new Card("Aidan Drangi", ['living', 'Water'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            if(users[this.parent].field.includes("STICKMAN UPGRADED")){
-              //doesn't get extra turn
-            }
-            else{
-              Turn--;
-            }
+            users[this.parent].extraTurn++;
             users[this.parent].incrementPoints(25);
         }
       }),
@@ -2463,7 +2464,7 @@ cards = {
               users[this.parent].destroyCard("STICKMAN UPGRADED");
             }
             else{
-              Turn --;//lazy way<---
+              users[this.parent].extraTurn++;
               TimeOnFieldStickManUpgraded++;
             }
           default:
@@ -2628,7 +2629,6 @@ cards = {
     "THE EQUILISER": new Card("Lachie Jones", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            var playerCardLenth = 0;
             if(users[this.parent].cards.length == undefined){
                 var playerCardLenth = 0;
               } 
@@ -2636,17 +2636,21 @@ cards = {
                 var playerCardLenth = users[this.parent].cards.length;
             }
             for (people in users){
+              var playerOpCardLenth = 0;
               if(users[people].cards.length == undefined){
-                var playerOpCardLenth = 0;
+                playerOpCardLenth = 0;
               } 
               else{
-                var playerOpCardLenth = users[people].cards.length;
+                playerOpCardLenth = users[people].cards.length;
               }
               if (playerCardLenth < playerOpCardLenth){
+                console.log(`equiliser check: ${playerCardLenth} < ${playerOpCardLenth} and when subtracted == ${(playerOpCardLenth-playerCardLenth)}`);
                 users[people].removeCards((playerOpCardLenth-playerCardLenth),null);
               }
               else if (playerCardLenth > playerOpCardLenth){
-                users[people].getCrd((playerCardLenth-playerOpCardLenth),null);
+                
+                console.log(`equiliser check: ${playerCardLenth} > ${playerOpCardLenth} and when subtracted == ${(playerCardLenth-playerOpCardLenth)}`);
+                users[people].getCrd((playerCardLenth-playerOpCardLenth));
               }
             }
         }
