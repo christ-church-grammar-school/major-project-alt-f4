@@ -125,7 +125,7 @@ function Player(name, ip, sock) {
                 this.actionsInTurn = 0;
                 if (Turn == playerCounter){Turn = 1;}
                 else{Turn ++;} 
-                users[`Player${Turn}`].startTurn();                }
+                users[`Player${Turn}`].startTurn(); 
             }
         }
     }
