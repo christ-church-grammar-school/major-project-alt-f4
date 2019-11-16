@@ -4,7 +4,7 @@ const { StringDecoder } = require('string_decoder');
 const decoder = new StringDecoder('utf-8');
 var HOST = '';
 var PORT = 4000;
-var deck1 = ["2012","A LOT OF HELP","ANGRY RABBIT","AROUND THE WORLD","BUNGEE!","CALM RABBIT","CARROT OF SURRENDER","CCGS BOY","CENTRELINK","CHEZBURGER","COOKIE MONSTER","COOKIE","COOKIE","COOKIE","COOLEST CARD EVER","CRAZY RABBIT","DEATH BY UNICORN","DEVIL'S PARTY","Discard pele","DRAGON NOT A REX","DUMB RABBIT","EMOJI","ERMAHGERD 50","EVERYTHING IS AWESOME","FIREBALL","FLYING COWS","GALACTUS BARFER OF CARDS","GALACTUS DEVOURER OF CARDS","GHOST","GLORIOUS BOUNTY","GOAL AFTER SIREN","GRASS WARLOCK","HAPPY BUNNY","HAPPY SNOWMAN","HELPING DA REXES","IT'S CHRISMAS","IT'S OVER 9000","JOOR WELCOME","JUST DO IT","KYLO RENS LIGHTSABER","LEGO BUILD","LEVEL THE PLAYING FIELD","MALYGOS","MICHAEL JORDAN CARD!","MORE I WANT MORE","MUD SLIDE","NARWHALS ARE BADASS","NECROMANCER","NESSIE","NINJA","PARTY RABBIT","PFUDOR","PIGGY POWER","PLUTO","PORTAL","Pot of gold","Potato of fun","Potato of fun","Potato of fun","Pringle man","REFILL YOUR MIGHTY HAND","CAT GOT THE YARN","COWBOY CAT WITH GOLDEN GUNS RIDING A UNICORN","LUCK OF THE IRISH","NEADERTHAL FROM THE FUTURE","POT OF GREED","SACRIFICIAL LAMB","STOP BE HUMBLE","TIME LORD SCIENCE","REX WILL RULE","RICHIE RICH","SCROOGE MCDUCK","SKY DIVE","SMALL CHILD","SMALL CHILD","SPARE CHANGE","STICKMAN UPGRADED","SUPERNOVA","SWITCHEROO","TDOGGYREX","TERRIAN FALCON","THE CASH COW","THE EQUILISER","THE GREAT DIVIDE","THE NUKE","THERE CAN BE ONLY ONE","THEY'RE TAKING THE HOBBITS TO ISENGARD","TRIPLE BACON CHEESEBURGER","ULTIMATE CARDORNATOR","UPGRADE IT","VAMPIRE BAT","WINTER IS COMING","YSERA","ZEUS POTATO"];
+var deck1 = ["2012","A LOT OF HELP","ANGRY RABBIT","AROUND THE WORLD","BUNGEE!","CALM RABBIT","CARROT OF SURRENDER","CCGS BOY","CENTRELINK","CHEZBURGER","COOKIE MONSTER","COOKIE","COOKIE","COOKIE","COOLEST CARD EVER","CRAZY RABBIT","DEATH BY UNICORN","DEVIL'S PARTY","Discard pele","DRAGON NOT A REX","DUMB RABBIT","EMOJI","ERMAHGERD 50","EVERYTHING IS AWESOME","FIREBALL","FLYING COWS","GALACTUS BARFER OF CARDS","GALACTUS DEVOURER OF CARDS","GHOST","GLORIOUS BOUNTY","GOAL AFTER SIREN","GRASS WARLOCK","HAPPY BUNNY","HAPPY SNOWMAN","HELPING DA REXES","IT'S CHRISMAS","IT'S OVER 9000","JOOR WELCOME","JUST DO IT","KYLO RENS LIGHTSABER","LEGO BUILD","LEVEL THE PLAYING FIELD","MALYGOS","MICHAEL JORDAN CARD!","MORE I WANT MORE","MUD SLIDE","NARWHALS ARE BADASS","NECROMANCER","NESSIE","NINJA","PARTY RABBIT","PFUDOR","PIGGY POWER","PLUTO","PORTAL","Pot of gold","Potato of fun","Potato of fun","Potato of fun","Pringle man","REFILL YOUR MIGHTY HAND","CAT GOT THE YARN","COWBOY CAT WITH GOLDEN GUNS RIDING A UNICORN","LUCK OF THE IRISH","NEADERTHAL FROM THE FUTURE","POT OF GREED","SACRIFICIAL LAMB","STOP BE HUMBLE","TIME LORD SCIENCE","REX WILL RULE","RICHIE RICH","SCROOGE MCDUCK","SKY DIVE","SMALL CHILD","SPARE CHANGE","STICKMAN UPGRADED","SUPERNOVA","SWITCHEROO","TDOGGYREX","TERRIAN FALCON","THE CASH COW","THE EQUILISER","THE GREAT DIVIDE","THE NUKE","THERE CAN BE ONLY ONE","THEY'RE TAKING THE HOBBITS TO ISENGARD","TRIPLE BACON CHEESEBURGER","ULTIMATE CARDORNATOR","UNICORN RABBIT","UPGRADE IT","VAMPIRE BAT","WINTER IS COMING","YSERA","ZEUS POTATO"];
 var discardPile = [];
 var fillDeck = [];
 var cards = [];
@@ -54,7 +54,7 @@ function Player(name, ip, sock) {
     this.incrementPoints = function(amount) {
         //increases the person's score by amount while adding any additional things to take into acount
         this.score += (amount * this.incrementMultiplier * this.scoreMultiplier * 
-        this.scoreMultiplier * this.incrementMultiplier + this.addtionalPoints);
+        this.scoreMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
         this.checkField("incrementPoints",this.name);
     }
@@ -62,7 +62,7 @@ function Player(name, ip, sock) {
     this.decrementPoints = function(amount) {
         //decreases the person's score by amount while adding any additional things to take into acount
         this.score -= (amount * this.decrementMultiplier * this.scoreMultiplier * 
-        this.scoreMultiplier * this.decrementMultiplier + this.addtionalPoints);
+        this.scoreMultiplier + this.addtionalPoints);
         //add thing for when score is increased like get cards and make sure it does not repeat with getcrds
         this.checkField("decrementPoints",this.name);
     }
@@ -163,8 +163,8 @@ function Player(name, ip, sock) {
         //destroy card on feild
         if (cardToDestroy == "fieldWipe"){
             //add stuff to check for resistent cards
+            //may be potential problem
             for (people in users){
-                // console.log("cardDestroyed all");
                 for (fieldCards in this.field){
                     discardPile.push(this.field[fieldCards]);
                 }
@@ -182,8 +182,8 @@ function Player(name, ip, sock) {
     }
 
     this.getCrd = function(amount){
-        // console.log(deck1);
-        // console.log(discardPile);
+        //console.log(deck1);
+        //console.log(discardPile);
         if (amount != undefined){
             if(deck1.length < amount){
                 refillDeck();
@@ -196,10 +196,11 @@ function Player(name, ip, sock) {
                   this.cards.push(deck1[0]);
                   deck1.splice(0, 1);
                   this.checkField("getCards",this.name);
-                  // updateCards(this.name,this.cards);//uc cards 
+                  updateCards(this.name,this.cards);//uc cards 
                 }
                 else{
-                  console.log(`card on top of draw is undefined as ${deck1[0]} of ${deck1} is not in cards as ${cards[deck1[0]]} = undefined`)
+                  console.log(`card on top of draw is undefined as ${deck1[0]} of ${deck1} is not in cards as ${cards[deck1[0]]} = undefined`);
+                  //might be problems
                   deck1.splice(0,1);
                   numCardsGet--;
                 }
@@ -214,8 +215,8 @@ function Player(name, ip, sock) {
           if(users[extraInfo].field != undefined){
             for (fieldCard in users[extraInfo].field){
               if (cards[fieldCard] != undefined){
-                if (cards[fieldCard].tags != undefined){
-                  if (cards[fieldCard].tags.includes("FieldStartTurn")){
+                if (cards[users[person].field[fieldCard]].tags != undefined){
+                  if (cards[users[person].field[fieldCard]].tags.includes("FieldStartTurn")){
                       users[extraInfo].playCard(fieldCard,"startTurn");
                   }
                 }
@@ -231,25 +232,28 @@ function Player(name, ip, sock) {
         }
         else if(typeCheck == "incrementPoints"){
           //check FieldIncrementPoints
-        if(users[extraInfo].field != undefined){
-            for (fieldCard in users[extraInfo].field){
-              if (cards[fieldCard] != undefined){
-                if (cards[fieldCard].tags != undefined){
-                  if (cards[fieldCard].tags.includes("FieldIncrementPoints")){
-                      users[extraInfo].playCard(fieldCard,"incrementPoints");
+          //console.log(users[extraInfo].field);
+          if(users[extraInfo].field != undefined){
+              for (fieldCard in users[extraInfo].field){
+                if (cards[fieldCard] != undefined){
+                  if (cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("FieldIncrementPoints")){
+                        //console.log(`Increment points activates: ${fieldCard}`);
+                        //console.log(`THE CARDS TAGS: ${fieldCard.tags}`);
+                        users[extraInfo].playCard(fieldCard,"incrementPoints");
+                    }
                   }
                 }
               }
             }
           }
-        }
         else if(typeCheck == "getCards"){
           //check FieldGetCards
           if(users[extraInfo].field != undefined){
             for (fieldCard in users[extraInfo].field){
               if (cards[fieldCard] != undefined){
-                if (cards[fieldCard].tags != undefined){
-                  if (cards[fieldCard].tags.includes("FieldGetCards")){
+                if (cards[users[person].field[fieldCard]].tags != undefined){
+                  if (cards[users[person].field[fieldCard]].tags.includes("FieldGetCards")){
                       users[extraInfo].playCard(fieldCard,"getCards");
                   }
                 }
@@ -280,8 +284,8 @@ function Player(name, ip, sock) {
               if(users[people].field != undefined){
                 for (fieldCard in users[people].field){
                   if (cards[fieldCard] != undefined){
-                    if (cards[fieldCard].tags != undefined){
-                      if (cards[fieldCard].tags.includes("FieldCardDestroyed")){
+                    if (cards[users[person].field[fieldCard]].tags != undefined){
+                      if (cards[users[person].field[fieldCard]].tags.includes("FieldCardDestroyed")){
                           users[people].playCard(fieldCard,"cardDestroyed");
                       }
                     }
@@ -297,8 +301,8 @@ function Player(name, ip, sock) {
             if(users[extraInfo].field != undefined){
               for (fieldCard in users[extraInfo].field){
                 if (cards[fieldCard] != undefined){
-                  if (cards[fieldCard].tags != undefined){
-                    if (cards[fieldCard].tags.includes("FieldGameEnded")){
+                  if (cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("FieldGameEnded")){
                         users[extraInfo].playCard(fieldCard,"gameEnded");
                     }
                   }
@@ -381,14 +385,15 @@ function gameEnded(){
 
 //deck shuffle
 function shuffleDeck() {
-    // console.log(deck1);
+    //may be problem
+     //console.log(deck1);
     while (0<deck1.length)
     { 
         var ranNum = Math.floor(Math.random() * deck1.length);
         fillDeck.push(deck1[ranNum]);
         deck1.splice(ranNum, 1);
     }
-    // console.log(`Shuffle funciton after shuffle${fillDeck}`);
+     //console.log(`Shuffle funciton after shuffle${fillDeck}`);
     while (0<fillDeck.length)
     {
       if (fillDeck[0] == undefined||fillDeck[0] == ''){ 
@@ -403,7 +408,7 @@ function shuffleDeck() {
 
 //discards shuffle
 function refillDeck() {
-    // console.log(discardPile);
+     //console.log(discardPile);
     var cardsInDis = discardPile.length;
     while (0<cardsInDis)
     {
@@ -522,8 +527,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("Rabbit")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("Rabbit")){
                       rabbsOnField++;
                     }
                   }
@@ -705,7 +710,10 @@ cards = {
     "BUNGEE!": new Card("Ms O'Neill", [], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-                users[this.parent].cards.push(discardPile.pop());
+                //needs to be reworked
+                if (discardPile != undefined){
+                  users[this.parent].cards.push(discardPile.pop());
+                }
         }
       }),
     "IT'S A BUTTER FLY!": new Card("Orlando Phillips", [], ['Play'], function(functionality) {
@@ -727,8 +735,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("Rabbit")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("Rabbit")){
                       rabbsOnField++;
                     }
                   }
@@ -817,8 +825,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("cookie")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("cookie")){
                       cookieInPlay++;
                     }
                   }
@@ -872,8 +880,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("Rabbit")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("Rabbit")){
                       rabbsOnField++;
                     }
                   }
@@ -1043,8 +1051,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("Rabbit")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("Rabbit")){
                       rabbsOnField++;
                     }
                   }
@@ -1097,11 +1105,11 @@ cards = {
         switch(functionality) {
           case "cardDestroyed":
             for(people in users){
-              users[people].addtionalPoints -= 20;
+              users[people].addtionalPoints -= 30;
             }
           default:
             for(people in users){
-              users[people].addtionalPoints += 20;
+              users[people].addtionalPoints += 30;
             }
         }
       }),
@@ -1258,8 +1266,9 @@ cards = {
           default:
             var cardsOnField = 0 ;
             for (people in users){
-              if (users[people].field != null){}
+              if (users[people].field != null){
                 cardsOnField += (users[people].field.length);
+              }
             }
             users[this.parent].incrementPoints(cardsOnField*10);
             users[this.parent].removeCards("hand",null);
@@ -1803,8 +1812,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("Rabbit")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("Rabbit")){
                       rabbsOnField++;
                     }
                   }
@@ -1918,12 +1927,12 @@ cards = {
     "Pringle man": new Card("Jordan Davies", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
           default:
-            var potatoInPlay;
+            var potatoInPlay = 0;
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("potato")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("potato")){
                       potatoInPlay++;
                     }
                   }
@@ -2235,7 +2244,7 @@ cards = {
         switch(functionality) {
             default:
               if (this.parent.cards != undefined){
-                users[this.parent].getCrd(this.parent.cards.length);
+                users[this.parent].getCrd(users[this.parent].cards.length);
               }
         }
       }),
@@ -2465,6 +2474,7 @@ cards = {
             }
             else{
               users[this.parent].extraTurn++;
+              //console.log(`Stick man upgraded incresed turns by ${users[this.parent].extraTurn}`);
               TimeOnFieldStickManUpgraded++;
             }
           default:
@@ -2610,8 +2620,10 @@ cards = {
         switch(functionality) {
           case "cardDestroyed":
             for(people in users){
+              //console.log(`cash cow check before destroy: ${users[people].incrementMultiplier} multiplyer to score `);
               users[people].incrementMultiplier /= 2;
               users[people].decrementMultiplier /= 2;
+              //console.log(`cash cow check after destroy: ${users[people].incrementMultiplier} multiplyer to score `);
             }
           default:
             for(people in users){
@@ -2644,12 +2656,12 @@ cards = {
                 playerOpCardLenth = users[people].cards.length;
               }
               if (playerCardLenth < playerOpCardLenth){
-                console.log(`equiliser check: ${playerCardLenth} < ${playerOpCardLenth} and when subtracted == ${(playerOpCardLenth-playerCardLenth)}`);
+                //console.log(`equiliser check: ${playerCardLenth} < ${playerOpCardLenth} and when subtracted == ${(playerOpCardLenth-playerCardLenth)}`);
                 users[people].removeCards((playerOpCardLenth-playerCardLenth),null);
               }
               else if (playerCardLenth > playerOpCardLenth){
                 
-                console.log(`equiliser check: ${playerCardLenth} > ${playerOpCardLenth} and when subtracted == ${(playerCardLenth-playerOpCardLenth)}`);
+                //console.log(`equiliser check: ${playerCardLenth} > ${playerOpCardLenth} and when subtracted == ${(playerCardLenth-playerOpCardLenth)}`);
                 users[people].getCrd((playerCardLenth-playerOpCardLenth));
               }
             }
@@ -2710,9 +2722,11 @@ cards = {
     "THERE CAN BE ONLY ONE": new Card("Josh Gilbert", ['living'], ['Play'], function(functionality) {
         switch(functionality) {
             default:
-              if (users[this.parent].cards != null){
-                users[this.parent].removeCards(users[this.parent].cards.length - 1, null);
-              }
+            for (people in users){
+                if (users[people].cards != null){
+                  users[people].removeCards(users[people].cards.length - 1, null);
+                }
+            }
         }
       }),
     //Gives player 20 points
@@ -2841,8 +2855,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                    if (fieldCard.tags.includes("Rabbit")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                    if (cards[users[person].field[fieldCard]].tags.includes("Rabbit")){
                       rabbsOnField++;
                     }
                   }
@@ -2855,11 +2869,12 @@ cards = {
     "UPGRADE IT": new Card("Lachie Jones", ['Rainbow','FieldStartTurn'], ['Field'], function(functionality) {
         switch(functionality) {
           case "startTurn":
+            //console.log(`Upgrade it activated`);
             if (users[`Player${Turn}`].actionsInTurn >= 2){
               //do nothing 
             }
             else{
-              users[`Player${Turn}`].actionsInTurn = 2;
+              users[`Player${Turn}`].actionsInTurn =  2;
             }
             //lazy way to do the get card
             users[`Player${Turn}`].getCrd(1);
@@ -2943,6 +2958,7 @@ cards = {
     "YSERA": new Card("Rishi Dhashinamoorthy", ['living', 'dragon', 'dragon boarder','FieldIncrementPoints'], ['Field'], function(functionality) {
         switch(functionality) {
           case "incrementPoints":
+            //console.log(`From ${prevPoints} to ${users[this.parent].score} there was ${Math.floor(users[this.parent].score-prevPoints)} lots of 20 points`);
             users[this.parent].getCrd(Math.floor(users[this.parent].score-prevPoints));
           default:
             var prevPoints = users[this.parent].score;
@@ -2955,8 +2971,8 @@ cards = {
             for (person in users){
               if(users[person].field != undefined){
                 for (fieldCard in users[person].field){
-                  if(fieldCard.tags != undefined){
-                      if (fieldCard.tags.includes("potato")){
+                  if(cards[users[person].field[fieldCard]].tags != undefined){
+                      if (cards[users[person].field[fieldCard]].tags.includes("potato")){
                       potatoInPlay++;
                       }
                   }
@@ -3073,6 +3089,22 @@ net.createServer(function(sock) {
             else{
                 sock.write("Game is not running \n");
             }
+        }
+        //LAZY PLAY cards
+        else if (str.substr(0,1) == 'L'){
+          if (gameRun == "running"|| gameRun == "ending"){
+                  if (users[findPlayer([sock.remoteAddress,sock.remotePort])].TurnRun == "Yes"){
+                      if (users[findPlayer([sock.remoteAddress,sock.remotePort])].cards[str.substr(1,str.length)-1] != undefined) {
+                          users[findPlayer([sock.remoteAddress,sock.remotePort])].playCard(users[findPlayer([sock.remoteAddress,sock.remotePort])].cards[str.substr(1,str.length)-1],"general");
+                      }
+                      else {
+                          console.error(`No card of name ${str.substr(2,str.length)} available! in ${users[findPlayer([sock.remoteAddress,sock.remotePort])].cards}`);
+                      }
+                  } 
+                  else{
+                      sock.write("Wait for your turn"+"\n");
+                  }
+          }
         }
         //passes player turn
         else if (str.substr(0,4) == 'pass'){
